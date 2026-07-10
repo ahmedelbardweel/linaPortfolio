@@ -1,0 +1,93 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Reel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class ReelController extends Controller
+{
+    public function index()
+    {
+        $reels = Reel::orderBy('order')->get();
+        return view('admin.reels.index', compact('reels'));
+    }
+
+    public function create()
+    {
+        return view('admin.reels.create');
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'title'       => 'required',
+            'video'       => 'required|mimetypes:video/mp4,video/quicktime,video/x-msvideo|max:102400',
+            'thumbnail'   => 'nullable|image',
+            'description' => 'nullable',
+        ]);
+
+        $data['video_path'] = $request->file('video')->store('reels', 'public');
+
+        if ($request->hasFile('thumbnail')) {
+            $data['thumbnail'] = $request->file('thumbnail')->store('reels', 'public');
+        }
+
+        Reel::create($data);
+
+        return redirect()->route('admin.reels.index')->with('success', 'Reel created successfully.');
+    }
+
+    public function edit(Reel $reel)
+    {
+        return view('admin.reels.edit', compact('reel'));
+    }
+
+    public function update(Request $request, Reel $reel)
+    {
+        $data = $request->validate([
+            'title'       => 'required',
+            'video'       => 'nullable|mimetypes:video/mp4,video/quicktime,video/x-msvideo|max:102400',
+            'thumbnail'   => 'nullable|image',
+            'description' => 'nullable',
+        ]);
+
+        if ($request->hasFile('video')) {
+            Storage::disk('public')->delete($reel->video_path);
+            $data['video_path'] = $request->file('video')->store('reels', 'public');
+        }
+
+        if ($request->hasFile('thumbnail')) {
+            if ($reel->thumbnail) {
+                Storage::disk('public')->delete($reel->thumbnail);
+            }
+            $data['thumbnail'] = $request->file('thumbnail')->store('reels', 'public');
+        }
+
+        $reel->update($data);
+
+        return redirect()->route('admin.reels.index')->with('success', 'Reel updated successfully.');
+    }
+
+    public function destroy(Reel $reel)
+    {
+        Storage::disk('public')->delete($reel->video_path);
+
+        if ($reel->thumbnail) {
+            Storage::disk('public')->delete($reel->thumbnail);
+        }
+
+        $reel->delete();
+
+        return redirect()->route('admin.reels.index')->with('success', 'Reel deleted successfully.');
+    }
+
+    public function toggle(Reel $reel)
+    {
+        $reel->update(['is_active' => !$reel->is_active]);
+
+        return back()->with('success', 'Reel status updated successfully.');
+    }
+}

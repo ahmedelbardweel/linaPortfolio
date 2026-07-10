@@ -1,0 +1,1 @@
+@include('admin.tips.form')
