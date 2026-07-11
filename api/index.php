@@ -1,7 +1,5 @@
 <?php
 
-define('LARAVEL_START', microtime(true));
-
 // ─── Vercel: create writable dirs in /tmp ────────────────────────────────────
 $tmpStorage = '/tmp/storage';
 $dirs = [
