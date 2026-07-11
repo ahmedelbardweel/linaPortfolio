@@ -10,6 +10,8 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/playfair-display/files/playfair-display-latin-700-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|playfair-display:400,700&display=swap"
         rel="stylesheet" />
 
