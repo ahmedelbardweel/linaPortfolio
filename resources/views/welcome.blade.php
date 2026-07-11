@@ -2303,6 +2303,7 @@
             }
         </script>
 
+        <main>
         @php $h = $hero ?? null; @endphp
         <!-- ===== HERO SECTION (New Design) ===== -->
         <section id="hero-section" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
@@ -2757,6 +2758,8 @@
                 </div>
             </div>
         </section>
+
+        </main>
 
         <!-- ===== FOOTER ===== -->
         <footer class="w-full border-t border-[#e3e3e0] dark:border-[#3E3E3A]" style="scroll-snap-align:start">

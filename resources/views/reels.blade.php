@@ -25,8 +25,8 @@
     </style>
 </head>
 <body>
-
-<div class="reels-feed" style="height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-ms-overflow-style:none;background:#000">
+<main>
+<div class="reels-feed" style="height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-ms-overflow-style:none;background:#000">
 
 <div class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 h-12" style="background:linear-gradient(rgba(0,0,0,.6),transparent)">
     <a href="/" data-translate-key="← Back" class="text-white/70 hover:text-white text-xs uppercase tracking-wider transition-colors">{{ __('← Back') }}</a>
@@ -263,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.reel-slide').forEach((el) => observer.observe(el));
 });
 </script>
+</main>
 
 </body>
 </html>
