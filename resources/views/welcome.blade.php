@@ -16,26 +16,8 @@
         rel="stylesheet" />
 
     <!-- Styles / Scripts -->
-    @if (file_exists(public_path('build/manifest.json')))
-        @php
-            $m = json_decode(file_get_contents(public_path('build/manifest.json')), true);
-            $cssFile = $m['resources/css/app.css']['file'] ?? null;
-            $jsFile = $m['resources/js/app.js']['file'] ?? null;
-        @endphp
-        @if ($cssFile)
-            <link rel="preload" as="style" href="{{ asset('build/' . $cssFile) }}" onload="this.onload=null;this.rel='stylesheet'" />
-            <noscript><link rel="stylesheet" href="{{ asset('build/' . $cssFile) }}" /></noscript>
-        @endif
-        @if ($jsFile)
-            <link rel="modulepreload" href="{{ asset('build/' . $jsFile) }}" />
-            <script type="module" src="{{ asset('build/' . $jsFile) }}"></script>
-        @endif
-    @elseif (file_exists(public_path('hot')))
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @else
-        <style>
-            /*! tailwindcss v3 | Minimal fallback */
-        </style>
     @endif
 </head>
 
