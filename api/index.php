@@ -20,5 +20,9 @@ foreach ($dirs as $dir) {
 $_ENV['APP_STORAGE'] = $tmpStorage;
 putenv("APP_STORAGE=$tmpStorage");
 
+// ─── Enable debug to see errors ────────────────────────────────────────────────
+$_ENV['APP_DEBUG'] = 'true';
+putenv('APP_DEBUG=true');
+
 // ─── Boot the application ─────────────────────────────────────────────────────
 require __DIR__ . '/../public/index.php';
