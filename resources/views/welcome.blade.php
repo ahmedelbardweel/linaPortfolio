@@ -2240,31 +2240,35 @@
             </div>
         </nav>
 
-        <div id="mobileMenu" class="mobile-menu fixed top-14 left-0 right-0 z-40 hidden flex-col items-center gap-5 px-6 pb-8 pt-6 border-b border-[#e3e3e0] dark:border-[#3E3E3A] text-sm"
+        <div id="mobileMenu" class="mobile-menu fixed top-14 left-0 right-0 z-40 hidden flex-col px-6 pb-8 pt-4 border-b border-[#e3e3e0] dark:border-[#3E3E3A] text-[15px]"
             style="background:rgba(253,253,252,.98);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transform:translateY(-100%);transition:transform .3s ease">
-            <a href="#hero-section" data-translate-key="Hero" class="text-[#1b1b18] dark:text-[#EDEDEC] font-medium" onclick="closeMobileMenu()">{{ __("Hero") }}</a>
-            <a href="#about" data-translate-key="About Me" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("About Me") }}</a>
-            <a href="#portfolio" data-translate-key="Portfolio" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("Portfolio") }}</a>
-            <a href="#stories" data-translate-key="Stories" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("Stories") }}</a>
-            <a href="/reels" data-translate-key="Reels" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("Reels") }}</a>
-            <a href="#tips" data-translate-key="Tips & Insights" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("Tips & Insights") }}</a>
-            <div class="w-full h-px bg-[#e3e3e0] dark:bg-[#3E3E3A]"></div>
-            <div class="flex items-center gap-4">
-                <button onclick="toggleDark()"
-                    class="w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all"
-                    title="Toggle theme">
-                    <svg class="dark:hidden block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                    <svg class="hidden dark:block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                </button>
-                <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
-                    onclick="event.preventDefault(); switchLanguage(document.documentElement.lang === 'ar' ? 'en' : 'ar'); closeMobileMenu();"
-                    class="lang-btn w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all text-xs font-semibold">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</a>
-                <a href="/login" data-translate-key="Login" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("Login") }}</a>
-                <a href="/register" data-translate-key="Register" class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white bg-[#c42802] dark:bg-[#FF4433]" onclick="closeMobileMenu()">{{ __("Register") }}</a>
+            <a href="#hero-section" data-translate-key="Hero" class="block w-full py-3 px-4 rounded-lg text-[#1b1b18] dark:text-[#EDEDEC] font-medium hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Hero") }}</a>
+            <a href="#about" data-translate-key="About Me" class="block w-full py-3 px-4 rounded-lg text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("About Me") }}</a>
+            <a href="#portfolio" data-translate-key="Portfolio" class="block w-full py-3 px-4 rounded-lg text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Portfolio") }}</a>
+            <a href="#stories" data-translate-key="Stories" class="block w-full py-3 px-4 rounded-lg text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Stories") }}</a>
+            <a href="/reels" data-translate-key="Reels" class="block w-full py-3 px-4 rounded-lg text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Reels") }}</a>
+            <a href="#tips" data-translate-key="Tips & Insights" class="block w-full py-3 px-4 rounded-lg text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Tips & Insights") }}</a>
+            <div class="w-full h-px bg-[#e3e3e0] dark:bg-[#3E3E3A] my-4"></div>
+            <div class="flex items-center justify-between px-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleDark()"
+                        class="w-9 h-9 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all"
+                        title="Toggle theme">
+                        <svg class="dark:hidden block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                        <svg class="hidden dark:block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </button>
+                    <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
+                        onclick="event.preventDefault(); switchLanguage(document.documentElement.lang === 'ar' ? 'en' : 'ar'); closeMobileMenu();"
+                        class="lang-btn w-9 h-9 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all text-xs font-semibold">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</a>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a href="/login" data-translate-key="Login" class="px-4 py-2 rounded-lg text-sm text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Login") }}</a>
+                    <a href="/register" data-translate-key="Register" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" onclick="closeMobileMenu()">{{ __("Register") }}</a>
+                </div>
             </div>
         </div>
 
