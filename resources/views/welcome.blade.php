@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ __("Lina - Interior Design & Decoration") }}</title>
+    <meta name="description" content="{{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|playfair-display:400,700"
+    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|playfair-display:400,700&display=swap"
         rel="stylesheet" />
 
     <!-- Styles / Scripts -->
