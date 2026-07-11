@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"
-    class="">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) ?: 'en' }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="utf-8">
@@ -2223,7 +2222,7 @@
                     <a href="/login" data-translate-key="Login"
                         class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("Login") }}</a>
                     <a href="/register" data-translate-key="Register"
-                        class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white hover:opacity-90 transition-opacity shadow-[0_0_0_1px_rgba(26,26,0,0.08)] bg-[#f53003] dark:bg-[#FF4433]">{{ __("Register") }}</a>
+                        class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white hover:opacity-90 transition-opacity shadow-[0_0_0_1px_rgba(26,26,0,0.08)] bg-[#c42802] dark:bg-[#FF4433]">{{ __("Register") }}</a>
                 </div>
             </div>
         </nav>
@@ -2701,28 +2700,28 @@
                             {{ __("Interior design & decoration studio crafting elegant, functional spaces that tell your unique story.") }}
                         </p>
                         <div class="flex items-center gap-3 mt-5">
-                            <a href="#"
+                            <a href="#" aria-label="Instagram"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                                     <path
                                         d="M7.8 2H16.2C19.4 2 22 4.6 22 7.8V16.2C22 19.4 19.4 22 16.2 22H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2ZM7.6 4C5.6 4 4 5.6 4 7.6V16.4C4 18.4 5.6 20 7.6 20H16.4C18.4 20 20 18.4 20 16.4V7.6C20 5.6 18.4 4 16.4 4H7.6ZM17.3 5.5C17.9 5.5 18.3 5.9 18.3 6.5C18.3 7.1 17.9 7.5 17.3 7.5C16.7 7.5 16.3 7.1 16.3 6.5C16.3 5.9 16.7 5.5 17.3 5.5ZM12 7C15.3 7 18 9.7 18 13C18 16.3 15.3 19 12 19C8.7 19 6 16.3 6 13C6 9.7 8.7 7 12 7ZM12 9C9.8 9 8 10.8 8 13C8 15.2 9.8 17 12 17C14.2 17 16 15.2 16 13C16 10.8 14.2 9 12 9Z" />
                                 </svg>
                             </a>
-                            <a href="#"
+                            <a href="#" aria-label="Facebook"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                                     <path
                                         d="M22 12C22 6.5 17.5 2 12 2S2 6.5 2 12C2 17 5.5 21.1 10.1 21.9V14.9H7.7V12H10.1V9.8C10.1 7.3 11.7 5.9 14 5.9C15.1 5.9 16.2 6.1 16.2 6.1V8.6H15C13.8 8.6 13.4 9.4 13.4 10.2V12H16.1L15.6 14.9H13.5V22C18.5 21.1 22 17 22 12Z" />
                                 </svg>
                             </a>
-                            <a href="#"
+                            <a href="#" aria-label="Twitter"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                                     <path
                                         d="M23.5 6.2c-.8.4-1.7.6-2.6.7.9-.6 1.7-1.4 2.1-2.5-.9.5-1.8.9-2.8 1.1-.8-.9-2-1.5-3.3-1.5-2.5 0-4.5 2-4.5 4.5 0 .4 0 .7.1 1.1C7.8 9.3 4.7 7.6 2.6 5.1c-.4.7-.6 1.4-.6 2.3 0 1.6.8 2.9 2 3.7-.7 0-1.4-.2-2-.6v.1c0 2.2 1.6 4 3.6 4.4-.4.1-.8.2-1.2.2-.3 0-.6 0-.9-.1.6 1.8 2.2 3.1 4.2 3.1-1.5 1.2-3.5 1.9-5.6 1.9-.4 0-.7 0-1-.1 2 1.3 4.4 2 6.9 2 8.3 0 12.8-6.9 12.8-12.8 0-.2 0-.4 0-.6.9-.6 1.7-1.4 2.3-2.3z" />
                                 </svg>
                             </a>
-                            <a href="#"
+                            <a href="#" aria-label="LinkedIn"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                                     <path
