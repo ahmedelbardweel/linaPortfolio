@@ -9,20 +9,24 @@
     <title>@yield('title', 'Admin') - {{ config('app.name', 'Lina') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-600-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2">
+    <style>@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-600-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2) format('woff2')}</style>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-950 dark:text-gray-200">
+<body class="font-sans antialiased bg-[#FDFDFC] dark:bg-[#0a0a0a] dark:text-[#EDEDEC]">
 
     <div class="flex h-screen overflow-hidden">
 
         {{-- Sidebar --}}
-        <aside class="fixed inset-y-0 left-0 z-30 w-64 bg-gray-900 dark:bg-gray-950 text-white flex flex-col transition-transform -translate-x-full lg:translate-x-0 lg:static lg:inset-auto">
+        <aside class="fixed inset-y-0 left-0 z-30 w-64 bg-[#1b1b18] dark:bg-[#0a0a0a] text-[#EDEDEC] flex flex-col transition-transform -translate-x-full lg:translate-x-0 lg:static lg:inset-auto">
             {{-- Brand --}}
-            <div class="h-16 flex items-center px-6 border-b border-gray-700 dark:border-gray-800">
+            <div class="h-16 flex items-center px-6 border-b border-[#3E3E3A]">
                 <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold tracking-wide">
-                    <span class="text-indigo-400">Lina</span> <span data-translate-key="Admin">{{ __("Admin") }}</span>
+                    <span class="text-[#c42802]">Lina</span> <span data-translate-key="Admin">{{ __("Admin") }}</span>
                 </a>
             </div>
 
@@ -58,10 +62,10 @@
             </nav>
 
             {{-- Logout --}}
-            <div class="p-3 border-t border-gray-700 dark:border-gray-800">
+            <div class="p-3 border-t border-[#3E3E3A]">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+                    <button type="submit" class="flex items-center gap-3 w-full px-3 py-2 text-sm text-[#A1A09A] hover:text-[#EDEDEC] hover:bg-[#2a2a28] rounded-lg transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                         <span data-translate-key="Logout">{{ __("Logout") }}</span>
                     </button>
@@ -76,8 +80,8 @@
         <div class="flex-1 flex flex-col min-w-0">
 
             {{-- Top Bar --}}
-            <header class="h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6 lg:px-8">
-                <button id="sidebar-toggle" class="lg:hidden text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none">
+            <header class="h-16 bg-[#FDFDFC] dark:bg-[#0a0a0a] border-b border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-between px-6 lg:px-8">
+                <button id="sidebar-toggle" class="lg:hidden text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
 
@@ -85,28 +89,28 @@
 
                 {{-- Toggle buttons --}}
                 <div class="flex items-center gap-2 mr-4">
-                    <button onclick="toggleDark()" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" title="Toggle theme">
+                    <button onclick="toggleDark()" class="w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all" title="Toggle theme">
                         <svg class="dark:hidden block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
                         <svg class="hidden dark:block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     </button>
-                    <button onclick="toggleLang()" class="lang-btn w-8 h-8 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-xs font-semibold" title="Toggle language">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</button>
+                    <button onclick="toggleLang()" class="lang-btn w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all text-xs font-semibold" title="Toggle language">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</button>
                 </div>
 
                 {{-- User Dropdown --}}
                 <div x-data="{ open: false }" class="relative">
-                    <button @click="open = !open" class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none">
+                    <button @click="open = !open" class="flex items-center gap-2 text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] focus:outline-none">
                         <span class="hidden sm:inline">{{ Auth::user()->name }}</span>
-                        <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white text-sm font-semibold">
+                        <div class="w-8 h-8 rounded-full bg-[#c42802] flex items-center justify-center text-white text-sm font-semibold">
                             {{ substr(Auth::user()->name, 0, 1) }}
                         </div>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
 
-                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50" style="display: none;">
-                        <a href="{{ route('profile.edit') }}" data-translate-key="Profile" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __("Profile") }}</a>
+                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#161615] rounded-lg shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] py-1 z-50" style="display: none;">
+                        <a href="{{ route('profile.edit') }}" data-translate-key="Profile" class="block px-4 py-2 text-sm text-[#1b1b18] dark:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">{{ __("Profile") }}</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" data-translate-key="Logout" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __("Logout") }}</button>
+                            <button type="submit" data-translate-key="Logout" class="w-full text-left px-4 py-2 text-sm text-[#1b1b18] dark:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">{{ __("Logout") }}</button>
                         </form>
                     </div>
                 </div>

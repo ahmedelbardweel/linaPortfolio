@@ -4,8 +4,8 @@
 
 @section('content')
     <div class="mb-8">
-        <h1 class="text-2xl font-bold text-gray-900">Welcome back, {{ Auth::user()->name }}!</h1>
-        <p class="mt-1 text-sm text-gray-500">Here's an overview of your site content.</p>
+        <h1 class="text-2xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]">Welcome back, {{ Auth::user()->name }}!</h1>
+        <p class="mt-1 text-sm text-[#706f6c]">Here's an overview of your site content.</p>
     </div>
 
     @php
@@ -24,11 +24,11 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         @foreach ($stats as $stat)
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="bg-white dark:bg-[#161615] rounded-xl shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-500">{{ $stat['label'] }}</p>
-                        <p class="mt-1 text-3xl font-bold text-gray-900">{{ $stat['count'] }}</p>
+                        <p class="text-sm font-medium text-[#706f6c]">{{ $stat['label'] }}</p>
+                        <p class="mt-1 text-3xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]">{{ $stat['count'] }}</p>
                     </div>
                     <div class="w-12 h-12 {{ $stat['color'] }} rounded-lg flex items-center justify-center">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

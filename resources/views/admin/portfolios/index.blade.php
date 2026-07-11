@@ -4,31 +4,31 @@
 
 @section('content')
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-gray-900">Portfolio</h1>
-        <a href="{{ route('admin.portfolios.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors">
+        <h1 class="text-2xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]">Portfolio</h1>
+        <a href="{{ route('admin.portfolios.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-[#c42802] hover:bg-[#f53003] text-white text-sm font-medium rounded-lg transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             Add New
         </a>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="bg-white dark:bg-[#161615] rounded-xl shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
-                    <tr class="bg-gray-50 border-b border-gray-200">
-                        <th class="text-left px-4 py-3 font-medium text-gray-500 w-12">#</th>
-                        <th class="text-left px-4 py-3 font-medium text-gray-500">Image</th>
-                        <th class="text-left px-4 py-3 font-medium text-gray-500">Title</th>
-                        <th class="text-left px-4 py-3 font-medium text-gray-500">Gradient</th>
-                        <th class="text-left px-4 py-3 font-medium text-gray-500 w-20">Order</th>
-                        <th class="text-left px-4 py-3 font-medium text-gray-500 w-24">Status</th>
-                        <th class="text-right px-4 py-3 font-medium text-gray-500 w-36">Actions</th>
+                    <tr class="bg-[#f0f0ef] dark:bg-[#2a2a28] border-b border-[#e3e3e0] dark:border-[#3E3E3A]">
+                        <th class="text-left px-4 py-3 font-medium text-[#706f6c] w-12">#</th>
+                        <th class="text-left px-4 py-3 font-medium text-[#706f6c]">Image</th>
+                        <th class="text-left px-4 py-3 font-medium text-[#706f6c]">Title</th>
+                        <th class="text-left px-4 py-3 font-medium text-[#706f6c]">Gradient</th>
+                        <th class="text-left px-4 py-3 font-medium text-[#706f6c] w-20">Order</th>
+                        <th class="text-left px-4 py-3 font-medium text-[#706f6c] w-24">Status</th>
+                        <th class="text-right px-4 py-3 font-medium text-[#706f6c] w-36">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @forelse ($portfolios as $portfolio)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-3 text-gray-500">{{ $portfolio->id }}</td>
+                        <tr class="hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">
+                            <td class="px-4 py-3 text-[#706f6c]">{{ $portfolio->id }}</td>
                             <td class="px-4 py-3">
                                 @if ($portfolio->image_path)
                                     <img src="{{ asset('storage/' . $portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="w-12 h-12 rounded-lg object-cover">
@@ -38,27 +38,27 @@
                                     </div>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 font-medium text-gray-900">{{ $portfolio->title }}</td>
+                            <td class="px-4 py-3 font-medium text-[#1b1b18] dark:text-[#EDEDEC]">{{ $portfolio->title }}</td>
                             <td class="px-4 py-3">
                                 @if ($portfolio->gradient)
                                     <div class="w-8 h-8 rounded" style="background: {{ $portfolio->gradient }}"></div>
                                 @else
-                                    <span class="text-gray-400 text-xs">—</span>
+                                    <span class="text-[#706f6c] text-xs">—</span>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 text-gray-500">{{ $portfolio->order }}</td>
+                            <td class="px-4 py-3 text-[#706f6c]">{{ $portfolio->order }}</td>
                             <td class="px-4 py-3">
                                 <form method="POST" action="{{ route('admin.portfolios.toggle', $portfolio) }}">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium {{ $portfolio->is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
-                                        <span class="w-1.5 h-1.5 rounded-full {{ $portfolio->is_active ? 'bg-green-500' : 'bg-gray-400' }}"></span>
+                                    <button type="submit" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium {{ $portfolio->is_active ? 'bg-green-100 text-green-700' : 'bg-[#e3e3e0] dark:bg-[#3E3E3A] text-[#706f6c]' }}">
+                                        <span class="w-1.5 h-1.5 rounded-full {{ $portfolio->is_active ? 'bg-green-500' : 'bg-[#706f6c]' }}"></span>
                                         {{ $portfolio->is_active ? 'Active' : 'Inactive' }}
                                     </button>
                                 </form>
                             </td>
                             <td class="px-4 py-3 text-right">
-                                <a href="{{ route('admin.portfolios.edit', $portfolio) }}" class="inline-flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 mr-3">
+                                <a href="{{ route('admin.portfolios.edit', $portfolio) }}" class="inline-flex items-center gap-1 text-sm text-[#c42802] hover:text-[#f53003] mr-3">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     Edit
                                 </a>
@@ -77,7 +77,7 @@
                             <td colspan="7" class="px-4 py-12 text-center text-gray-500">
                                 <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 <p class="text-sm">No portfolio items yet.</p>
-                                <a href="{{ route('admin.portfolios.create') }}" class="mt-2 inline-block text-sm text-indigo-600 hover:text-indigo-800">Add your first portfolio item</a>
+                                <a href="{{ route('admin.portfolios.create') }}" class="mt-2 inline-block text-sm text-[#c42802] hover:text-[#f53003]">Add your first portfolio item</a>
                             </td>
                         </tr>
                     @endforelse
