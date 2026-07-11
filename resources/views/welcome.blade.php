@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
     <title>{{ __("Lina - Interior Design & Decoration") }}</title>
     <meta name="description" content="{{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}">
@@ -2170,21 +2170,25 @@
 
 <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] m-0" style="overflow:hidden">
     <div class="snap-container"
-        style="overflow-y:scroll;scroll-snap-type:y mandatory;height:100vh;scrollbar-width:none;-ms-overflow-style:none">
+        style="overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-ms-overflow-style:none">
         <style>
             html.dark nav {
                 background: rgba(10, 10, 10, .85) !important;
             }
-
+            html.dark .mobile-menu {
+                background: rgba(10, 10, 10, .98) !important;
+            }
             .snap-container::-webkit-scrollbar {
                 display: none
             }
+            .snap-container { height: 100vh; height: 100dvh; scroll-padding-top: 56px; }
+            .snap-section { min-height: 100vh; min-height: 100dvh; }
         </style>
         <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 border-b border-[#e3e3e0] dark:border-[#3E3E3A]"
             style="background:rgba(253,253,252,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)">
-            <div class="flex items-center gap-9 w-full max-w-6xl px-0 lg:px-8">
+            <div class="flex items-center gap-4 w-full max-w-6xl px-0 lg:px-8">
                 <a href="#hero-section"
-                    class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
+                    class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] mr-auto">
                     <span
                         class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold"
                         style="font-family:Georgia,serif;border-radius:3px">L</span>
@@ -2204,7 +2208,7 @@
                     <a href="#tips" data-translate-key="Tips & Insights"
                         class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("Tips & Insights") }}</a>
                 </div>
-                <div class="flex items-center gap-3 text-sm">
+                <div class="hidden md:flex items-center gap-3 text-sm">
                     <button onclick="toggleDark()"
                         class="w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all"
                         title="Toggle theme">
@@ -2225,12 +2229,79 @@
                     <a href="/register" data-translate-key="Register"
                         class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white hover:opacity-90 transition-opacity shadow-[0_0_0_1px_rgba(26,26,0,0.08)] bg-[#c42802] dark:bg-[#FF4433]">{{ __("Register") }}</a>
                 </div>
+                <button onclick="toggleMobileMenu()" class="md:hidden flex items-center justify-center w-8 h-8 rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-all" aria-label="Toggle menu">
+                    <svg id="menuIconOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg id="menuIconClose" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
         </nav>
 
+        <div id="mobileMenu" class="mobile-menu fixed top-14 left-0 right-0 z-40 hidden flex-col items-center gap-5 px-6 pb-8 pt-6 border-b border-[#e3e3e0] dark:border-[#3E3E3A] text-sm"
+            style="background:rgba(253,253,252,.98);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transform:translateY(-100%);transition:transform .3s ease">
+            <a href="#hero-section" data-translate-key="Hero" class="text-[#1b1b18] dark:text-[#EDEDEC] font-medium" onclick="closeMobileMenu()">{{ __("Hero") }}</a>
+            <a href="#about" data-translate-key="About Me" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("About Me") }}</a>
+            <a href="#portfolio" data-translate-key="Portfolio" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("Portfolio") }}</a>
+            <a href="#stories" data-translate-key="Stories" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("Stories") }}</a>
+            <a href="/reels" data-translate-key="Reels" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("Reels") }}</a>
+            <a href="#tips" data-translate-key="Tips & Insights" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("Tips & Insights") }}</a>
+            <div class="w-full h-px bg-[#e3e3e0] dark:bg-[#3E3E3A]"></div>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleDark()"
+                    class="w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all"
+                    title="Toggle theme">
+                    <svg class="dark:hidden block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg class="hidden dark:block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </button>
+                <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
+                    onclick="event.preventDefault(); switchLanguage(document.documentElement.lang === 'ar' ? 'en' : 'ar'); closeMobileMenu();"
+                    class="lang-btn w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all text-xs font-semibold">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</a>
+                <a href="/login" data-translate-key="Login" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]" onclick="closeMobileMenu()">{{ __("Login") }}</a>
+                <a href="/register" data-translate-key="Register" class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white bg-[#c42802] dark:bg-[#FF4433]" onclick="closeMobileMenu()">{{ __("Register") }}</a>
+            </div>
+        </div>
+
+        <script>
+            function toggleMobileMenu() {
+                const menu = document.getElementById('mobileMenu');
+                const openIcon = document.getElementById('menuIconOpen');
+                const closeIcon = document.getElementById('menuIconClose');
+                const isOpen = menu.style.transform === 'translateY(0%)';
+                if (isOpen) {
+                    menu.style.transform = 'translateY(-100%)';
+                    setTimeout(() => { menu.classList.add('hidden'); }, 300);
+                    openIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                } else {
+                    menu.classList.remove('hidden');
+                    requestAnimationFrame(() => {
+                        menu.style.transform = 'translateY(0%)';
+                    });
+                    openIcon.classList.add('hidden');
+                    closeIcon.classList.remove('hidden');
+                }
+            }
+            function closeMobileMenu() {
+                const menu = document.getElementById('mobileMenu');
+                const openIcon = document.getElementById('menuIconOpen');
+                const closeIcon = document.getElementById('menuIconClose');
+                menu.style.transform = 'translateY(-100%)';
+                setTimeout(() => { menu.classList.add('hidden'); }, 300);
+                openIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        </script>
+
         @php $h = $hero ?? null; @endphp
         <!-- ===== HERO SECTION (New Design) ===== -->
-        <section id="hero-section" class="min-h-screen flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
+        <section id="hero-section" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
             style="scroll-snap-align:start">
             <div
                 class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-10 py-16 lg:py-20 relative">
@@ -2241,12 +2312,12 @@
                         {{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}
                     </p>
                     <h1 data-translate-html="Interior<br>Design"
-                        class="font-['Playfair_Display',serif] text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] text-[#000] dark:text-[#EDEDEC] tracking-tight">
+                        class="font-['Playfair_Display',serif] text-4xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] text-[#000] dark:text-[#EDEDEC] tracking-tight">
                         {!! __("Interior<br>Design") !!}
                     </h1>
                 </div>
                 <!-- Center Image -->
-                <div class="relative w-[380px] max-w-full h-[320px] shrink-0 -mt-5 z-[1]">
+                <div class="relative w-[280px] sm:w-[380px] max-w-full h-[220px] sm:h-[320px] shrink-0 -mt-5 z-[1]">
                     <div class="w-full h-full rounded-sm overflow-hidden"
                         style="background:{{ $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
@@ -2299,11 +2370,11 @@
         </section>
 
         <!-- ===== ABOUT ME ===== -->
-        <section id="about" class="min-h-screen flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
+        <section id="about" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
             style="scroll-snap-align:start">
-            <div class="max-w-4xl mx-auto px-6 lg:px-10 w-full py-16 lg:py-20">
+            <div class="max-w-4xl mx-auto px-6 lg:px-10 w-full py-12 md:py-20">
                 <h1 data-translate-html="About<br>Me"
-                    class="font-['Playfair_Display',serif] text-5xl md:text-7xl lg:text-8xl font-bold text-[#111111] dark:text-[#EDEDEC] leading-[1] mb-12">
+                    class="font-['Playfair_Display',serif] text-4xl md:text-7xl lg:text-8xl font-bold text-[#111111] dark:text-[#EDEDEC] leading-[1] mb-8 md:mb-12">
                     {!! __("About<br>Me") !!}
                 </h1>
 
@@ -2353,7 +2424,7 @@
 
         <!-- ===== PORTFOLIO ===== -->
         <section id="portfolio"
-            class="w-full max-w-6xl mx-auto px-6 lg:px-10 py-14 min-h-screen flex flex-col justify-center"
+            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-center"
             style="scroll-snap-align:start">
             <div class="mb-10">
                 <h2 data-translate-key="Portfolio"
@@ -2363,7 +2434,7 @@
                     class="text-[#706f6c] dark:text-[#A1A09A] text-sm mt-1.5">
                     {{ __("Makeover projects and interior designs by Lina") }}</p>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;">
+            <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px">
                 <div
                     class="rounded-xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
                     <div class="aspect-[4/3] relative flex items-center justify-center"
@@ -2429,7 +2500,7 @@
 
         <!-- ===== STORIES ===== -->
         <section id="stories"
-            class="w-full max-w-6xl mx-auto px-6 lg:px-10 py-14 min-h-screen flex flex-col justify-center"
+            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-center"
             style="scroll-snap-align:start">
             <div class="mb-10">
                 <h2 data-translate-key="Stories"
@@ -2630,7 +2701,7 @@
 
         <!-- ===== TIPS & INSIGHTS ===== -->
         <section id="tips"
-            class="w-full max-w-6xl mx-auto px-6 lg:px-10 py-14 min-h-screen flex flex-col justify-center"
+            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-center"
             style="scroll-snap-align:start">
             <div class="mb-10">
                 <h2 data-translate-key="Tips & Insights"
@@ -2640,7 +2711,7 @@
                     class="text-[#706f6c] dark:text-[#A1A09A] text-sm mt-1.5">
                     {{ __("Short design ideas and inspiration") }}</p>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px">
                 <div
                     class="rounded-xl p-6 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
                     <span data-translate-key="Lighting"
