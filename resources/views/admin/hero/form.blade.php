@@ -14,6 +14,30 @@
             @isset($hero) @method('PUT') @endisset
 
             <div>
+                <label for="title" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Title</label>
+                <input type="text" id="title" name="title" value="{{ old('title', $hero->title ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                @error('title') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label for="description" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Description</label>
+                <textarea id="description" name="description" rows="3" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">{{ old('description', $hero->description ?? '') }}</textarea>
+                @error('description') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label for="right_label" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Right Label</label>
+                <input type="text" id="right_label" name="right_label" value="{{ old('right_label', $hero->right_label ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                @error('right_label') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label for="right_subtitle" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Right Subtitle</label>
+                <input type="text" id="right_subtitle" name="right_subtitle" value="{{ old('right_subtitle', $hero->right_subtitle ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                @error('right_subtitle') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
                 <label for="main_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Main Image (center)</label>
                 <input type="file" id="main_image" name="main_image" class="w-full text-sm">
                 @if (isset($hero) && $hero->main_image)
