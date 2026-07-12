@@ -36,7 +36,11 @@
             {{-- Type --}}
             <div>
                 <label for="type" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Type</label>
-                <input type="text" id="type" name="type" value="{{ old('type', $story->type ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm" placeholder="e.g. default, featured, highlight">
+                <select id="type" name="type" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                    <option value="visual" {{ old('type', $story->type ?? '') == 'visual' ? 'selected' : '' }}>Visual</option>
+                    <option value="text" {{ old('type', $story->type ?? '') == 'text' ? 'selected' : '' }}>Text</option>
+                    <option value="mixed" {{ old('type', $story->type ?? '') == 'mixed' ? 'selected' : '' }}>Mixed</option>
+                </select>
                 @error('type')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
