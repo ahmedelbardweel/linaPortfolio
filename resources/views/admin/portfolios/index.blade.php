@@ -33,7 +33,7 @@
                                 @if ($portfolio->image_path)
                                     <img src="{{ asset('storage/' . $portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="w-12 h-12 rounded-lg object-cover">
                                 @else
-                                    <div class="w-12 h-12 rounded-lg bg-gray-200 flex items-center justify-center text-gray-400">
+                                    <div class="w-12 h-12 rounded-lg bg-[#e3e3e0] dark:bg-[#3E3E3A] flex items-center justify-center text-[#706f6c]">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                     </div>
                                 @endif
@@ -74,8 +74,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-4 py-12 text-center text-gray-500">
-                                <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <td colspan="7" class="px-4 py-12 text-center text-[#706f6c]">
+                                <svg class="w-12 h-12 mx-auto text-[#706f6c] mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 <p class="text-sm">No portfolio items yet.</p>
                                 <a href="{{ route('admin.portfolios.create') }}" class="mt-2 inline-block text-sm text-[#c42802] hover:text-[#f53003]">Add your first portfolio item</a>
                             </td>

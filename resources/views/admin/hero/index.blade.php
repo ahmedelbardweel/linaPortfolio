@@ -30,7 +30,7 @@
                         @if ($hero->main_image)
                             <img src="{{ asset('storage/' . $hero->main_image) }}" class="w-16 h-12 object-cover rounded">
                         @else
-                            <span class="text-gray-400">—</span>
+                            <span class="text-[#706f6c]">—</span>
                         @endif
                     </td>
                     <td class="px-4 py-3 font-medium text-[#1b1b18] dark:text-[#EDEDEC]">{{ $hero->title }}</td>
@@ -53,7 +53,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="5" class="px-4 py-10 text-center text-gray-400">No hero sections yet.</td></tr>
+                <tr><td colspan="5" class="px-4 py-10 text-center text-[#706f6c]">No hero sections yet.</td></tr>
                 @endforelse
             </tbody>
         </table>
