@@ -10,22 +10,8 @@
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2">
     <style>@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-600-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2) format('woff2')}</style>
-    @if (file_exists(public_path('hot')))
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @elseif (file_exists(public_path('build/manifest.json')))
-        @php
-            $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
-            $base = asset('build');
-            $css = isset($manifest['resources/css/app.css']) ? $base . '/' . $manifest['resources/css/app.css']['file'] : '';
-            $js = isset($manifest['resources/js/app.js']) ? $base . '/' . $manifest['resources/js/app.js']['file'] : '';
-        @endphp
-        @if ($css)
-            <link rel="stylesheet" href="{{ $css }}" media="print" onload="this.media='all'">
-            <noscript><link rel="stylesheet" href="{{ $css }}"></noscript>
-        @endif
-        @if ($js)
-            <script type="module" src="{{ $js }}" defer></script>
-        @endif
     @endif
     <style>
         *, :before, :after { box-sizing: border-box; margin: 0; padding: 0; }
