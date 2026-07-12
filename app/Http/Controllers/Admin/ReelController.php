@@ -26,7 +26,7 @@ class ReelController extends Controller
     {
         $data = $request->validate([
             'title'       => 'required',
-            'video'       => 'required|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:4096',
+            'video'       => 'required|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3072',
             'thumbnail'   => 'nullable|image|max:10240',
             'description' => 'nullable',
         ]);
@@ -56,7 +56,7 @@ class ReelController extends Controller
     {
         $data = $request->validate([
             'title'       => 'required',
-            'video'       => 'nullable|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:204800',
+            'video'       => 'nullable|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3072',
             'thumbnail'   => 'nullable|image|max:10240',
             'description' => 'nullable',
         ]);

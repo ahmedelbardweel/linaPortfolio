@@ -173,10 +173,17 @@
             document.querySelectorAll('form[enctype="multipart/form-data"]').forEach(function (form) {
                 form.addEventListener('submit', function (e) {
                     var hasFile = false;
+                    var totalSize = 0;
                     form.querySelectorAll('input[type="file"]').forEach(function (input) {
-                        if (input.files.length > 0) hasFile = true;
+                        if (input.files.length > 0) {
+                            hasFile = true;
+                            totalSize += input.files[0].size;
+                        }
                     });
                     if (!hasFile) return;
+
+                    // Bypass AJAX for large files (Vercel hobby limit ~4.5MB, multipart overhead)
+                    if (totalSize > 3 * 1024 * 1024) return;
 
                     e.preventDefault();
                     var data = new FormData(form);
@@ -215,8 +222,13 @@
                                 var first = Object.values(err.errors || {})[0];
                                 if (first) msg = first[0] || msg;
                                 else if (err.message) msg = err.message;
-                            } catch (_) {}
+                            } catch (_) {
+                                if (xhr.responseText && xhr.responseText.length < 500) {
+                                    msg = xhr.responseText;
+                                }
+                            }
                             alert(msg);
+                            console.error('Upload error:', xhr.status, xhr.responseText);
                         }
                     };
 
