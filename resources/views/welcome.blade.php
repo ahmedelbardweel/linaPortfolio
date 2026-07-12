@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) ?: 'en' }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
+    @php $h = $hero ?? null; @endphp
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
@@ -15,6 +16,9 @@
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2">
+    @if ($h && $h->main_image_url && !str_starts_with($h->main_image_url, 'data:'))
+        <link rel="preload" as="image" href="{{ $h->main_image_url }}">
+    @endif
     <style>
         @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-600-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2) format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/playfair-display/files/playfair-display-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/playfair-display/files/playfair-display-latin-700-normal.woff2) format('woff2')}
     </style>
@@ -161,7 +165,6 @@
         </script>
 
         <main>
-        @php $h = $hero ?? null; @endphp
         <!-- ===== HERO SECTION (New Design) ===== -->
         <section id="hero-section" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
             style="scroll-snap-align:start">
@@ -183,7 +186,7 @@
                     <div class="w-full h-full rounded-sm overflow-hidden"
                         style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
-                            <img src="{{ $h->main_image_url }}" alt="Hero"
+                            <img src="{{ $h->main_image_url }}" alt="Hero" fetchpriority="high"
                                 class="w-full h-full object-cover">
                         @else
                             <svg class="w-full h-full text-[#1b1b18]/15 dark:text-white/10 p-8" viewBox="0 0 100 120"

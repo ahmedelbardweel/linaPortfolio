@@ -11,11 +11,15 @@ class HeroSection extends Model
 
     public function getMainImageUrlAttribute(): string
     {
-        return $this->main_image_data ?: ($this->main_image ? asset('storage/' . $this->main_image) : '');
+        if ($this->main_image) return asset('storage/' . $this->main_image);
+        if ($this->main_image_data) return $this->main_image_data;
+        return '';
     }
 
     public function getRightImageUrlAttribute(): string
     {
-        return $this->right_image_data ?: ($this->right_image ? asset('storage/' . $this->right_image) : '');
+        if ($this->right_image) return asset('storage/' . $this->right_image);
+        if ($this->right_image_data) return $this->right_image_data;
+        return '';
     }
 }
