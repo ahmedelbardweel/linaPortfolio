@@ -21,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
             }
             config(['filesystems.disks.public.root' => $tmpStorage]);
             config(['filesystems.disks.public.url' => '/storage']);
+
+            // Use cookie sessions for cross-instance compatibility
+            config(['session.driver' => 'cookie']);
         }
     }
 }

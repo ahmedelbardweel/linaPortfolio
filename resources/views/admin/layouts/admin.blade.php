@@ -205,8 +205,8 @@
 
                     var fd = new FormData(form);
 
-                    // File <= 3MB → submit directly via AJAX
-                    if (file.size <= 3 * 1024 * 1024) {
+                    // File <= 3.4MB → submit directly via AJAX (fits Vercel hobby limit with multipart overhead)
+                    if (file.size <= 3.4 * 1024 * 1024) {
                         submitForm(fd);
                         return;
                     }

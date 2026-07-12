@@ -32,7 +32,7 @@ class ReelController extends Controller
         if ($request->input('_direct_upload')) {
             $rules['video_path'] = 'required|url';
         } else {
-            $rules['video'] = 'required|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3072';
+            $rules['video'] = 'required|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3500';
         }
 
         $data = $request->validate($rules);
@@ -72,7 +72,7 @@ class ReelController extends Controller
         if ($request->input('_direct_upload')) {
             $rules['video_path'] = 'nullable|url';
         } else {
-            $rules['video'] = 'nullable|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3072';
+            $rules['video'] = 'nullable|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3500';
         }
 
         $data = $request->validate($rules);
