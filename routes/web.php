@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\ProfileController;
 use App\Models\HeroSection;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     $hero = HeroSection::where('is_active', true)->latest()->first();
@@ -58,6 +59,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
 });
+
+Route::get('storage/{path}', function (string $path) {
+    abort_if(!Storage::disk('public')->exists($path), 404);
+    return response()->file(storage_path('app/public/' . $path));
+})->where('path', '.*')->name('storage.serve');
 
 Route::get('/lang/{locale}', function (string $locale) {
     if (in_array($locale, ['en', 'ar'])) {
