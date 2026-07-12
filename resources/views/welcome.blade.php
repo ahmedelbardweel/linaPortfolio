@@ -43,6 +43,10 @@
             }
             .snap-container { height: 100vh; height: 100dvh; scroll-padding-top: 56px; }
             .snap-section { min-height: 100vh; min-height: 100dvh; }
+            @media (max-width: 768px) {
+                .snap-section { min-height: auto !important; padding-top: 64px; }
+                .snap-container { scroll-snap-type: none !important; }
+            }
         </style>
         <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 border-b border-[#e3e3e0] dark:border-[#3E3E3A]"
             style="background:rgba(253,253,252,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)">
