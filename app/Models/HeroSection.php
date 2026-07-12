@@ -11,7 +11,7 @@ class HeroSection extends Model
 
     public function getMainImageUrlAttribute(): string
     {
-        if ($this->main_image_data) return $this->main_image_data;
+        if ($this->main_image_data) return url('img/hero/' . $this->id . '/main');
         if ($this->main_image) return asset('storage/' . $this->main_image);
         return '';
     }

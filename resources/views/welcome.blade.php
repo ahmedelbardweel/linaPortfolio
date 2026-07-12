@@ -16,7 +16,7 @@
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2">
-    @if ($h && $h->main_image_url && !str_starts_with($h->main_image_url, 'data:'))
+    @if ($h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
         <link rel="preload" as="image" href="{{ $h->main_image_url }}">
     @endif
     <style>
@@ -25,7 +25,18 @@
 
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @php
+            use Illuminate\Support\Facades\Vite;
+            $cssUrl = Vite::asset('resources/css/app.css');
+            $jsUrl = Vite::asset('resources/js/app.js');
+        @endphp
+        @if ($cssUrl)
+            <link rel="stylesheet" href="{{ $cssUrl }}" media="print" onload="this.media='all'">
+            <noscript><link rel="stylesheet" href="{{ $cssUrl }}"></noscript>
+        @endif
+        @if ($jsUrl)
+            <script type="module" src="{{ $jsUrl }}" defer></script>
+        @endif
     @endif
 </head>
 
