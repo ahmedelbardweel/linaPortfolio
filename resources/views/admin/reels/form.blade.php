@@ -51,11 +51,11 @@
             {{-- Thumbnail --}}
             <div>
                 <label for="thumbnail" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Thumbnail</label>
-                @isset($reel->thumbnail)
+                @if (isset($reel) && ($reel->thumbnail_data || $reel->thumbnail))
                     <div class="mb-2">
-                        <img src="{{ asset('storage/' . $reel->thumbnail) }}" alt="Current thumbnail" class="w-24 h-24 rounded-lg object-cover">
+                        <img src="{{ $reel->thumbnail_url }}" alt="Current thumbnail" class="w-24 h-24 rounded-lg object-cover">
                     </div>
-                @endisset
+                @endif
                 <input type="file" id="thumbnail" name="thumbnail" accept="image/*" class="w-full text-sm text-[#706f6c] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] file:text-[#c42802] hover:file:bg-[#fdf0ed]">
                 @error('thumbnail')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

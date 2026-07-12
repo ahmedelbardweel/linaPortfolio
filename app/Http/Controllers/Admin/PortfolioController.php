@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
+use App\Traits\HandlesImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PortfolioController extends Controller
 {
+    use HandlesImages;
     public function index()
     {
         $portfolios = Portfolio::orderBy('order')->get();
@@ -29,7 +31,9 @@ class PortfolioController extends Controller
             'gradient'    => 'nullable',
         ]);
 
-        $data['image_path'] = $request->file('image')->store('portfolios', 'public');
+        $result = $this->storeImage($request->file('image'), 'public');
+        $data['image_path'] = $result['path'];
+        $data['image_data'] = $result['data'];
 
         Portfolio::create($data);
 
@@ -52,7 +56,9 @@ class PortfolioController extends Controller
 
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($portfolio->image_path);
-            $data['image_path'] = $request->file('image')->store('portfolios', 'public');
+            $result = $this->storeImage($request->file('image'), 'public');
+            $data['image_path'] = $result['path'];
+            $data['image_data'] = $result['data'];
         }
 
         $portfolio->update($data);

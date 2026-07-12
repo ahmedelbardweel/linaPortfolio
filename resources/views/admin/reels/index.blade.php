@@ -29,8 +29,8 @@
                         <tr class="hover:bg-[#f0f0ef] dark:bg-[#2a2a28]">
                             <td class="px-4 py-3 text-[#706f6c]">{{ $reel->id }}</td>
                             <td class="px-4 py-3">
-                                @if ($reel->thumbnail)
-                                    <img src="{{ asset('storage/' . $reel->thumbnail) }}" alt="{{ $reel->title }}" class="w-12 h-12 rounded-lg object-cover">
+                                @if ($reel->thumbnail_data || $reel->thumbnail)
+                                    <img src="{{ $reel->thumbnail_url }}" alt="{{ $reel->title }}" class="w-12 h-12 rounded-lg object-cover">
                                 @else
                                     <div class="w-12 h-12 rounded-lg bg-gray-200 flex items-center justify-center text-[#706f6c]">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>

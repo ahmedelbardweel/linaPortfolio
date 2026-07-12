@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HeroSection;
+use App\Traits\HandlesImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class HeroSectionController extends Controller
 {
+    use HandlesImages;
     public function index()
     {
         $heroSections = HeroSection::latest()->get();
@@ -28,10 +30,14 @@ class HeroSectionController extends Controller
         ]);
 
         if ($request->hasFile('main_image')) {
-            $data['main_image'] = $request->file('main_image')->store('hero', 'public');
+            $result = $this->storeImage($request->file('main_image'), 'public');
+            $data['main_image'] = $result['path'];
+            $data['main_image_data'] = $result['data'];
         }
         if ($request->hasFile('right_image')) {
-            $data['right_image'] = $request->file('right_image')->store('hero', 'public');
+            $result = $this->storeImage($request->file('right_image'), 'public');
+            $data['right_image'] = $result['path'];
+            $data['right_image_data'] = $result['data'];
         }
 
         $data['title'] = 'Hero';
@@ -56,12 +62,16 @@ class HeroSectionController extends Controller
 
         if ($request->hasFile('main_image')) {
             if ($hero->main_image) Storage::disk('public')->delete($hero->main_image);
-            $data['main_image'] = $request->file('main_image')->store('hero', 'public');
+            $result = $this->storeImage($request->file('main_image'), 'public');
+            $data['main_image'] = $result['path'];
+            $data['main_image_data'] = $result['data'];
         }
 
         if ($request->hasFile('right_image')) {
             if ($hero->right_image) Storage::disk('public')->delete($hero->right_image);
-            $data['right_image'] = $request->file('right_image')->store('hero', 'public');
+            $result = $this->storeImage($request->file('right_image'), 'public');
+            $data['right_image'] = $result['path'];
+            $data['right_image_data'] = $result['data'];
         }
 
         $hero->update($data);

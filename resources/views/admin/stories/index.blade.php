@@ -30,8 +30,8 @@
                         <tr class="hover:bg-[#f0f0ef] dark:bg-[#2a2a28]">
                             <td class="px-4 py-3 text-[#706f6c]">{{ $story->id }}</td>
                             <td class="px-4 py-3">
-                                @if ($story->image_path)
-                                    <img src="{{ asset('storage/' . $story->image_path) }}" alt="{{ $story->title }}" class="w-12 h-12 rounded-lg object-cover">
+                                @if ($story->image_data || $story->image_path)
+                                    <img src="{{ $story->image_url }}" alt="{{ $story->title }}" class="w-12 h-12 rounded-lg object-cover">
                                 @else
                                     <div class="w-12 h-12 rounded-lg bg-gray-200 flex items-center justify-center text-[#706f6c]">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>

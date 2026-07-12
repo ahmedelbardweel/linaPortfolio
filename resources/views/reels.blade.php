@@ -60,8 +60,8 @@
                 <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}">
                     <source src="{{ asset('storage/' . $reel->video_path) }}" type="video/mp4">
                 </video>
-                @if ($reel->thumbnail)
-                <img src="{{ asset('storage/' . $reel->thumbnail) }}" alt="" class="absolute inset-0 w-full h-full object-cover" style="display:none">
+                @if ($reel->thumbnail_data || $reel->thumbnail)
+                <img src="{{ $reel->thumbnail_url }}" alt="" class="absolute inset-0 w-full h-full object-cover" style="display:none">
                 @endif
                 <div class="absolute bottom-0 left-0 right-0 p-4 z-10" style="background:linear-gradient(transparent,rgba(0,0,0,.7))">
                     <div class="flex items-center gap-2 mb-1">

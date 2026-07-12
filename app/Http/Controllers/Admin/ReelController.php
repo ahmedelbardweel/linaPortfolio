@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Reel;
+use App\Traits\HandlesImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ReelController extends Controller
 {
+    use HandlesImages;
     public function index()
     {
         $reels = Reel::orderBy('order')->get();
@@ -32,7 +34,9 @@ class ReelController extends Controller
         $data['video_path'] = $request->file('video')->store('reels', 'public');
 
         if ($request->hasFile('thumbnail')) {
-            $data['thumbnail'] = $request->file('thumbnail')->store('reels', 'public');
+            $result = $this->storeImage($request->file('thumbnail'), 'public');
+            $data['thumbnail'] = $result['path'];
+            $data['thumbnail_data'] = $result['data'];
         }
 
         Reel::create($data);
@@ -63,7 +67,9 @@ class ReelController extends Controller
             if ($reel->thumbnail) {
                 Storage::disk('public')->delete($reel->thumbnail);
             }
-            $data['thumbnail'] = $request->file('thumbnail')->store('reels', 'public');
+            $result = $this->storeImage($request->file('thumbnail'), 'public');
+            $data['thumbnail'] = $result['path'];
+            $data['thumbnail_data'] = $result['data'];
         }
 
         $reel->update($data);

@@ -27,8 +27,8 @@
                 <tr class="border-b border-[#e3e3e0] dark:border-[#3E3E3A] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">
                     <td class="px-4 py-3 text-[#706f6c]">{{ $loop->iteration }}</td>
                     <td class="px-4 py-3">
-                        @if ($hero->main_image)
-                            <img src="{{ asset('storage/' . $hero->main_image) }}" class="w-16 h-12 object-cover rounded">
+                        @if ($hero->main_image_data || $hero->main_image)
+                            <img src="{{ $hero->main_image_url }}" class="w-16 h-12 object-cover rounded">
                         @else
                             <span class="text-[#706f6c]">—</span>
                         @endif

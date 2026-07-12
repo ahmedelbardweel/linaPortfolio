@@ -58,11 +58,11 @@
             {{-- Image --}}
             <div>
                 <label for="image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Image</label>
-                @isset($story->image_path)
+                @if (isset($story) && ($story->image_data || $story->image_path))
                     <div class="mb-2">
-                        <img src="{{ asset('storage/' . $story->image_path) }}" alt="Current image" class="w-24 h-24 rounded-lg object-cover">
+                        <img src="{{ $story->image_url }}" alt="Current image" class="w-24 h-24 rounded-lg object-cover">
                     </div>
-                @endisset
+                @endif
                 <input type="file" id="image" name="image" accept="image/*" class="w-full text-sm text-[#706f6c] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] file:text-[#c42802] hover:file:bg-[#fdf0ed]">
                 @error('image')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

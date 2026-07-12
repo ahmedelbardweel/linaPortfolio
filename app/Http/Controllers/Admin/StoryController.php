@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Story;
+use App\Traits\HandlesImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class StoryController extends Controller
 {
+    use HandlesImages;
     public function index()
     {
         $stories = Story::orderBy('order')->get();
@@ -31,7 +33,9 @@ class StoryController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('stories', 'public');
+            $result = $this->storeImage($request->file('image'), 'public');
+            $data['image_path'] = $result['path'];
+            $data['image_data'] = $result['data'];
         }
 
         Story::create($data);
@@ -58,7 +62,9 @@ class StoryController extends Controller
             if ($story->image_path) {
                 Storage::disk('public')->delete($story->image_path);
             }
-            $data['image_path'] = $request->file('image')->store('stories', 'public');
+            $result = $this->storeImage($request->file('image'), 'public');
+            $data['image_path'] = $result['path'];
+            $data['image_data'] = $result['data'];
         }
 
         $story->update($data);

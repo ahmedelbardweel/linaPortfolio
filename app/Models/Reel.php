@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reel extends Model
 {
-    protected $fillable = ['title', 'description', 'video_path', 'thumbnail', 'order', 'is_active'];
+    protected $fillable = ['title', 'description', 'video_path', 'thumbnail', 'thumbnail_data', 'order', 'is_active'];
     protected $casts = ['is_active' => 'boolean'];
+
+    public function getThumbnailUrlAttribute(): string
+    {
+        return $this->thumbnail_data ?: ($this->thumbnail ? asset('storage/' . $this->thumbnail) : '');
+    }
 }

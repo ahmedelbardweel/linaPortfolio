@@ -16,8 +16,8 @@
             <div>
                 <label for="main_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Main Image (center)</label>
                 <input type="file" id="main_image" name="main_image" class="w-full text-sm">
-                @if (isset($hero) && $hero->main_image)
-                    <img src="{{ asset('storage/' . $hero->main_image) }}" class="mt-2 h-32 rounded object-cover">
+                @if (isset($hero) && ($hero->main_image_data || $hero->main_image))
+                    <img src="{{ $hero->main_image_url }}" class="mt-2 h-32 rounded object-cover">
                 @endif
                 @error('main_image') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
@@ -25,8 +25,8 @@
             <div>
                 <label for="right_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Right Image</label>
                 <input type="file" id="right_image" name="right_image" class="w-full text-sm">
-                @if (isset($hero) && $hero->right_image)
-                    <img src="{{ asset('storage/' . $hero->right_image) }}" class="mt-2 h-32 rounded object-cover">
+                @if (isset($hero) && ($hero->right_image_data || $hero->right_image))
+                    <img src="{{ $hero->right_image_url }}" class="mt-2 h-32 rounded object-cover">
                 @endif
                 @error('right_image') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
