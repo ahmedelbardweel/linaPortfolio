@@ -24,14 +24,24 @@ class ReelController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $rules = [
             'title'       => 'required',
-            'video'       => 'required|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3072',
-            'thumbnail'   => 'nullable|image|max:10240',
             'description' => 'nullable',
-        ]);
+        ];
 
-        $data['video_path'] = $request->file('video')->store('reels', 'public');
+        if ($request->input('_direct_upload')) {
+            $rules['video_path'] = 'required|url';
+        } else {
+            $rules['video'] = 'required|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3072';
+        }
+
+        $data = $request->validate($rules);
+
+        if ($request->input('_direct_upload')) {
+            $data['video_path'] = $request->input('video_path');
+        } else {
+            $data['video_path'] = $request->file('video')->store('reels', 'public');
+        }
 
         if ($request->hasFile('thumbnail')) {
             $result = $this->storeImage($request->file('thumbnail'), 'public');
@@ -54,14 +64,24 @@ class ReelController extends Controller
 
     public function update(Request $request, Reel $reel)
     {
-        $data = $request->validate([
+        $rules = [
             'title'       => 'required',
-            'video'       => 'nullable|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3072',
-            'thumbnail'   => 'nullable|image|max:10240',
             'description' => 'nullable',
-        ]);
+        ];
 
-        if ($request->hasFile('video')) {
+        if ($request->input('_direct_upload')) {
+            $rules['video_path'] = 'nullable|url';
+        } else {
+            $rules['video'] = 'nullable|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3072';
+        }
+
+        $data = $request->validate($rules);
+
+        if ($request->input('_direct_upload')) {
+            if ($request->input('video_path')) {
+                $data['video_path'] = $request->input('video_path');
+            }
+        } elseif ($request->hasFile('video')) {
             Storage::disk('public')->delete($reel->video_path);
             $data['video_path'] = $request->file('video')->store('reels', 'public');
         }

@@ -58,7 +58,7 @@
         <div class="relative w-full h-full flex items-center justify-center" style="max-width:400px;margin:0 auto;padding:0 2px">
             <div class="w-full h-full relative overflow-hidden" style="aspect-ratio:9/16;max-height:100vh;background:#1a1a1a">
                  <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}" controls onerror="var n=this.nextElementSibling;if(n&&n.tagName==='IMG')n.style.display='block'">
-                     <source src="{{ asset('storage/' . $reel->video_path) }}" type="video/mp4">
+                     <source src="{{ str_starts_with($reel->video_path, 'http') ? $reel->video_path : asset('storage/' . $reel->video_path) }}" type="video/mp4">
                  </video>
                  @if ($reel->thumbnail_data || $reel->thumbnail)
                  <img src="{{ $reel->thumbnail_url }}" alt="" class="absolute inset-0 w-full h-full object-cover" style="display:none">

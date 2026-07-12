@@ -182,8 +182,68 @@
                     });
                     if (!hasFile) return;
 
-                    // Bypass AJAX for large files (Vercel hobby limit ~4.5MB, multipart overhead)
-                    if (totalSize > 3 * 1024 * 1024) return;
+                    // For large files, upload directly to Vercel Blob then submit form
+                    if (totalSize > 3 * 1024 * 1024) {
+                        e.preventDefault();
+                        var fileInput = form.querySelector('input[type="file"]');
+                        var file = fileInput.files[0];
+                        if (!file) return;
+
+                        container.classList.remove('hidden');
+                        bar.style.width = '0%';
+                        text.textContent = '0%';
+
+                        fetch('/api/blob-upload-url', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value },
+                            body: JSON.stringify({ name: file.name })
+                        })
+                        .then(function(r){ return r.json(); })
+                        .then(function(data){
+                            if (!data.uploadUrl) { alert('Failed to get upload URL'); container.classList.add('hidden'); return; }
+                            // Upload file directly to Vercel Blob
+                            return new Promise(function(resolve, reject){
+                                var xhr2 = new XMLHttpRequest();
+                                xhr2.open('PUT', data.uploadUrl, true);
+                                xhr2.setRequestHeader('Content-Type', file.type || 'video/mp4');
+                                xhr2.upload.onprogress = function(e){
+                                    if (e.lengthComputable) {
+                                        var pct = Math.round((e.loaded / e.total) * 100);
+                                        bar.style.width = pct + '%';
+                                        text.textContent = pct + '%';
+                                    }
+                                };
+                                xhr2.onload = function(){ resolve(data.url); };
+                                xhr2.onerror = function(){ reject(); };
+                                xhr2.send(file);
+                            });
+                        })
+                        .then(function(blobUrl){
+                            // Set blob URL as video_path and submit without file
+                            var fd = new FormData(form);
+                            fd.delete('video');
+                            fd.set('video_path', blobUrl);
+                            fd.set('_direct_upload', '1');
+                            var xhr3 = new XMLHttpRequest();
+                            xhr3.open(form.method, form.action, true);
+                            xhr3.setRequestHeader('Accept', 'application/json');
+                            xhr3.onload = function(){
+                                container.classList.add('hidden');
+                                if (xhr3.status >= 200 && xhr3.status < 400) {
+                                    try { var res = JSON.parse(xhr3.responseText); if (res.redirect) { window.location.href = res.redirect; return; } } catch(_){}
+                                    window.location.href = xhr3.responseURL || form.action;
+                                } else {
+                                    var msg = 'Upload failed.';
+                                    try { var err = JSON.parse(xhr3.responseText); var first = Object.values(err.errors||{})[0]; if(first) msg = first[0]; else if(err.message) msg = err.message; } catch(_){}
+                                    alert(msg);
+                                }
+                            };
+                            xhr3.onerror = function(){ container.classList.add('hidden'); alert('Network error.'); };
+                            xhr3.send(fd);
+                        })
+                        .catch(function(){ container.classList.add('hidden'); alert('Upload failed. Please try again.'); });
+                        return;
+                    }
 
                     e.preventDefault();
                     var data = new FormData(form);
