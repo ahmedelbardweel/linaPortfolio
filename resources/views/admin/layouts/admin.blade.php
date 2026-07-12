@@ -166,10 +166,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var bar = document.getElementById('progress-bar');
-            var text = document.getElementById('progress-text');
-            var container = document.getElementById('upload-progress');
-
             document.querySelectorAll('form[enctype="multipart/form-data"]').forEach(function (form) {
                 var btn = form.querySelector('button[type="submit"]');
                 var origBtnText = btn ? btn.textContent : '';
@@ -177,18 +173,12 @@
                 form.addEventListener('submit', function (e) {
                     var videoInput = form.querySelector('input[name="video"]');
                     var file = videoInput && videoInput.files.length > 0 ? videoInput.files[0] : null;
-
-                    // No file selected → let browser submit normally
                     if (!file) return;
 
                     e.preventDefault();
-
-                    // Show progress inside button
                     if (btn) btn.textContent = '0%';
 
-                    // Small file → AJAX directly to Laravel
-                    if (file.size <= 3 * 1024 * 1024) {
-                        var data = new FormData(form);
+                    function submitForm(fd) {
                         var xhr = new XMLHttpRequest();
                         xhr.open('POST', form.action, true);
                         xhr.setRequestHeader('Accept', 'application/json');
@@ -196,8 +186,6 @@
                             if (e.lengthComputable) {
                                 var pct = Math.round((e.loaded / e.total) * 100);
                                 if (btn) btn.textContent = pct + '%';
-                                bar.style.width = pct + '%';
-                                text.textContent = pct + '%';
                             }
                         };
                         xhr.onload = function () {
@@ -212,19 +200,29 @@
                             }
                         };
                         xhr.onerror = function () { if (btn) btn.textContent = origBtnText; alert('Network error.'); };
-                        xhr.send(data);
+                        xhr.send(fd);
+                    }
+
+                    var fd = new FormData(form);
+
+                    // File <= 3MB → submit directly via AJAX
+                    if (file.size <= 3 * 1024 * 1024) {
+                        submitForm(fd);
                         return;
                     }
 
-                    // Large file → upload to Vercel Blob first
+                    // File > 3MB → try Vercel Blob
                     fetch('/api/blob-upload-url', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value },
                         body: JSON.stringify({ name: file.name })
                     })
-                    .then(function (r) { return r.json(); })
+                    .then(function (r) {
+                        if (!r.ok) return r.json().then(function (d) { throw new Error(d.error || 'Failed'); });
+                        return r.json();
+                    })
                     .then(function (data) {
-                        if (!data.uploadUrl) { alert('Failed to get upload URL.'); if (btn) btn.textContent = origBtnText; return; }
+                        if (!data.uploadUrl) throw new Error('No upload URL');
                         return new Promise(function (resolve, reject) {
                             var xhr2 = new XMLHttpRequest();
                             xhr2.open('PUT', data.uploadUrl, true);
@@ -233,38 +231,28 @@
                                 if (e.lengthComputable) {
                                     var pct = Math.round((e.loaded / e.total) * 100);
                                     if (btn) btn.textContent = pct + '%';
-                                    bar.style.width = pct + '%';
-                                    text.textContent = pct + '%';
                                 }
                             };
                             xhr2.onload = function () { resolve(data.url); };
-                            xhr2.onerror = function () { reject(); };
+                            xhr2.onerror = function () { reject(new Error('Blob upload failed')); };
                             xhr2.send(file);
                         });
                     })
                     .then(function (blobUrl) {
-                        var fd = new FormData(form);
-                        fd.delete('video');
-                        fd.set('video_path', blobUrl);
-                        fd.set('_direct_upload', '1');
-                        var xhr3 = new XMLHttpRequest();
-                        xhr3.open('POST', form.action, true);
-                        xhr3.setRequestHeader('Accept', 'application/json');
-                        xhr3.onload = function () {
-                            if (btn) btn.textContent = origBtnText;
-                            if (xhr3.status >= 200 && xhr3.status < 400) {
-                                try { var res = JSON.parse(xhr3.responseText); if (res.redirect) { window.location.href = res.redirect; return; } } catch (_) {}
-                                window.location.href = xhr3.responseURL || form.action;
-                            } else {
-                                var msg = 'Upload failed.';
-                                try { var err = JSON.parse(xhr3.responseText); var first = Object.values(err.errors || {})[0]; if (first) msg = first[0]; else if (err.message) msg = err.message; } catch (_) {}
-                                alert(msg);
-                            }
-                        };
-                        xhr3.onerror = function () { if (btn) btn.textContent = origBtnText; alert('Network error.'); };
-                        xhr3.send(fd);
+                        var f = new FormData(form);
+                        f.delete('video');
+                        f.set('video_path', blobUrl);
+                        f.set('_direct_upload', '1');
+                        submitForm(f);
                     })
-                    .catch(function () { if (btn) btn.textContent = origBtnText; alert('Upload failed. Please try again.'); });
+                    .catch(function (err) {
+                        if (btn) btn.textContent = origBtnText;
+                        var msg = err && err.message ? err.message : 'Upload failed. Please try again.';
+                        if (msg.includes('BLOB_READ_WRITE_TOKEN')) {
+                            msg = 'Vercel Blob not configured. Please add BLOB_READ_WRITE_TOKEN to your Vercel environment variables, or use a video smaller than 3MB.';
+                        }
+                        alert(msg);
+                    });
                 });
             });
         });
