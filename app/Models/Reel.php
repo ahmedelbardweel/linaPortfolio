@@ -11,8 +11,8 @@ class Reel extends Model
 
     public function getThumbnailUrlAttribute(): string
     {
+        if ($this->thumbnail_data) return url('img/reel/' . $this->id . '/thumbnail');
         if ($this->thumbnail) return asset('storage/' . $this->thumbnail);
-        if ($this->thumbnail_data) return $this->thumbnail_data;
         return '';
     }
 }

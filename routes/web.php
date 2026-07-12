@@ -60,6 +60,40 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
 });
 
+Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
+    $model = match ($table) {
+        'hero' => \App\Models\HeroSection::class,
+        'story' => \App\Models\Story::class,
+        'portfolio' => \App\Models\Portfolio::class,
+        'reel' => \App\Models\Reel::class,
+        default => null,
+    };
+    if (!$model) abort(404);
+
+    $record = $model::findOrFail($id);
+
+    $dataColumn = match ("$table.$col") {
+        'hero.main' => 'main_image_data',
+        'hero.right' => 'right_image_data',
+        'story.image' => 'image_data',
+        'portfolio.image' => 'image_data',
+        'reel.thumbnail' => 'thumbnail_data',
+        default => null,
+    };
+    if (!$dataColumn || !$record->$dataColumn) abort(404);
+
+    $data = $record->$dataColumn;
+    preg_match('/^data:([^;]+);/', $data, $m);
+    $mime = $m[1] ?? 'image/jpeg';
+    $binary = base64_decode(explode(',', $data, 2)[1] ?? '');
+    if (!$binary) abort(404);
+
+    return response($binary, 200, [
+        'Content-Type' => $mime,
+        'Cache-Control' => 'public, max-age=31536000, immutable',
+    ]);
+})->where('table', '[a-z]+')->where('col', '[a-z]+');
+
 Route::get('storage/{path}', function (string $path) {
     if (!Storage::disk('public')->exists($path)) {
         abort(404);

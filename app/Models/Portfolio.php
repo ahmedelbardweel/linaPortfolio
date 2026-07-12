@@ -11,8 +11,8 @@ class Portfolio extends Model
 
     public function getImageUrlAttribute(): string
     {
+        if ($this->image_data) return url('img/portfolio/' . $this->id . '/image');
         if ($this->image_path) return asset('storage/' . $this->image_path);
-        if ($this->image_data) return $this->image_data;
         return '';
     }
 }

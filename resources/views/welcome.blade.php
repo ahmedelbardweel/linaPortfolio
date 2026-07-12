@@ -16,7 +16,7 @@
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2">
-    @if ($h && $h->main_image_url && !str_starts_with($h->main_image_url, 'data:'))
+    @if ($h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
         <link rel="preload" as="image" href="{{ $h->main_image_url }}">
     @endif
     <style>
