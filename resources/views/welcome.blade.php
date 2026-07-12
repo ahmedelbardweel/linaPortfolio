@@ -11,6 +11,7 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="preconnect" href="{{ url('/') }}">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/playfair-display/files/playfair-display-latin-700-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/playfair-display/files/playfair-display-latin-400-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2">
@@ -216,7 +217,7 @@
                         <div class="w-full h-full rounded-sm overflow-hidden"
                             style="background:{{ $h && $h->right_image ? 'none' : 'linear-gradient(135deg,#e8f0fe,#d4e4f7)' }}">
                             @if ($h && $h->right_image)
-                                <img src="{{ $h->right_image_url }}" alt="Work"
+                                <img src="{{ $h->right_image_url }}" alt="Work" loading="lazy"
                                     class="w-full h-full object-cover">
                             @else
                                 <svg class="w-full h-full text-[#1b1b18]/15 dark:text-white/10 p-8" viewBox="0 0 24 24"
@@ -303,7 +304,7 @@
                         <div class="aspect-[4/3] relative flex items-center justify-center overflow-hidden"
                             style="background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
                             @if ($portfolio->image_path)
-                                <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" class="w-full h-full object-cover">
+                                <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" loading="lazy" class="w-full h-full object-cover">
                             @else
                                 <svg class="w-16 h-16 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
                                     <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
@@ -350,7 +351,7 @@
                         <div class="h-40 flex items-center justify-center"
                             style="background:{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}">
                             @if ($story->image_path)
-                                <img src="{{ $story->image_url }}" alt="{{ $story->title }}" class="w-full h-full object-cover">
+                                <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" class="w-full h-full object-cover">
                             @else
                                 <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                     @if ($story->type === 'text')

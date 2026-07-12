@@ -61,6 +61,27 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
+    $dataColumn = match ("$table.$col") {
+        'hero.main' => 'main_image_data',
+        'hero.right' => 'right_image_data',
+        'story.image' => 'image_data',
+        'portfolio.image' => 'image_data',
+        'reel.thumbnail' => 'thumbnail_data',
+        default => null,
+    };
+    if (!$dataColumn) abort(404);
+
+    $cacheDir = env('VERCEL') ? '/tmp/img-cache' : storage_path('framework/cache/img');
+    $cacheFile = "$cacheDir/$table.$id.$col";
+
+    if (file_exists($cacheFile)) {
+        $binary = file_get_contents($cacheFile);
+        return response($binary, 200, [
+            'Content-Type' => 'image/webp',
+            'Cache-Control' => 'public, max-age=31536000, immutable',
+        ]);
+    }
+
     $model = match ($table) {
         'hero' => \App\Models\HeroSection::class,
         'story' => \App\Models\Story::class,
@@ -70,31 +91,9 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
     };
     if (!$model) abort(404);
 
-    $record = $model::findOrFail($id);
+    $data = $model::where('id', $id)->value($dataColumn);
+    if (!$data) abort(404);
 
-    $dataColumn = match ("$table.$col") {
-        'hero.main' => 'main_image_data',
-        'hero.right' => 'right_image_data',
-        'story.image' => 'image_data',
-        'portfolio.image' => 'image_data',
-        'reel.thumbnail' => 'thumbnail_data',
-        default => null,
-    };
-    if (!$dataColumn || !$record->$dataColumn) abort(404);
-
-    $cacheDir = env('VERCEL') ? '/tmp/img-cache' : storage_path('framework/cache/img');
-    $cacheKey = md5("$table.$id.$col." . ($record->updated_at ?? ''));
-    $cacheFile = "$cacheDir/$cacheKey";
-
-    if (file_exists($cacheFile)) {
-        $meta = json_decode(file_get_contents($cacheFile . '.json'), true);
-        return response(file_get_contents($cacheFile), 200, [
-            'Content-Type' => $meta['mime'] ?? 'image/webp',
-            'Cache-Control' => 'public, max-age=31536000, immutable',
-        ]);
-    }
-
-    $data = $record->$dataColumn;
     preg_match('/^data:([^;]+);/', $data, $m);
     $mime = $m[1] ?? 'image/webp';
     $binary = base64_decode(explode(',', $data, 2)[1] ?? '');
@@ -102,7 +101,6 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
 
     @mkdir($cacheDir, 0755, true);
     file_put_contents($cacheFile, $binary);
-    file_put_contents($cacheFile . '.json', json_encode(['mime' => $mime]));
 
     return response($binary, 200, [
         'Content-Type' => $mime,
