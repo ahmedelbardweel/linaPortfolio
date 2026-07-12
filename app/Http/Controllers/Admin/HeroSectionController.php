@@ -23,12 +23,8 @@ class HeroSectionController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title'        => 'required|string|max:255',
-            'description'  => 'nullable|string',
-            'right_label'  => 'nullable|string|max:255',
-            'right_subtitle' => 'nullable|string|max:255',
-            'main_image'   => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
-            'right_image'  => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
+            'main_image'  => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
+            'right_image' => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
         ]);
 
         if ($request->hasFile('main_image')) {
@@ -37,6 +33,9 @@ class HeroSectionController extends Controller
         if ($request->hasFile('right_image')) {
             $data['right_image'] = $request->file('right_image')->store('hero', 'public');
         }
+
+        $data['title'] = 'Hero';
+        $data['description'] = '';
 
         HeroSection::create($data);
 
@@ -51,12 +50,8 @@ class HeroSectionController extends Controller
     public function update(Request $request, HeroSection $hero)
     {
         $data = $request->validate([
-            'title'        => 'required|string|max:255',
-            'description'  => 'nullable|string',
-            'right_label'  => 'nullable|string|max:255',
-            'right_subtitle' => 'nullable|string|max:255',
-            'main_image'   => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
-            'right_image'  => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
+            'main_image'  => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
+            'right_image' => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
         ]);
 
         if ($request->hasFile('main_image')) {

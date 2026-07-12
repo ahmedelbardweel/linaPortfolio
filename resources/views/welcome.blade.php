@@ -297,66 +297,26 @@
                     {{ __("Makeover projects and interior designs by Lina") }}</p>
             </div>
             <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px">
-                <div
-                    class="rounded-xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
-                    <div class="aspect-[4/3] relative flex items-center justify-center"
-                        style="background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
-                        <svg class="w-16 h-16 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1">
-                            <rect x="3" y="3" width="18" height="18" rx="2" />
-                            <circle cx="8.5" cy="8.5" r="1.5" />
-                            <path d="m21 15-5-5L5 21" />
-                        </svg>
+                @forelse ($portfolios as $portfolio)
+                    <div class="rounded-xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                        <div class="aspect-[4/3] relative flex items-center justify-center overflow-hidden"
+                            style="background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
+                            @if ($portfolio->image_path)
+                                <img src="{{ asset('storage/' . $portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="w-full h-full object-cover">
+                            @else
+                                <svg class="w-16 h-16 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
+                                </svg>
+                            @endif
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ $portfolio->title }}</h3>
+                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">{{ $portfolio->description }}</p>
+                        </div>
                     </div>
-                    <div class="p-5">
-                        <h3 data-translate-key="Modern Classic Living Room"
-                            class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">
-                            {{ __("Modern Classic Living Room") }}</h3>
-                        <p data-translate-key="Full makeover of a 50m living space"
-                            class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">
-                            {{ __("Full makeover of a 50m living space") }}</p>
-                    </div>
-                </div>
-                <div
-                    class="rounded-xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
-                    <div class="aspect-[4/3] relative flex items-center justify-center"
-                        style="background:linear-gradient(135deg,#e8f0fe,#d4e4f7)">
-                        <svg class="w-16 h-16 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1">
-                            <rect x="3" y="3" width="18" height="18" rx="2" />
-                            <circle cx="8.5" cy="8.5" r="1.5" />
-                            <path d="m21 15-5-5L5 21" />
-                        </svg>
-                    </div>
-                    <div class="p-5">
-                        <h3 data-translate-key="Serene Bedroom"
-                            class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ __("Serene Bedroom") }}
-                        </h3>
-                        <p data-translate-key="Interior design with neutral calming tones"
-                            class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">
-                            {{ __("Interior design with neutral calming tones") }}</p>
-                    </div>
-                </div>
-                <div
-                    class="rounded-xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
-                    <div class="aspect-[4/3] relative flex items-center justify-center"
-                        style="background:linear-gradient(135deg,#f0faf0,#d8f0d8)">
-                        <svg class="w-16 h-16 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1">
-                            <rect x="3" y="3" width="18" height="18" rx="2" />
-                            <circle cx="8.5" cy="8.5" r="1.5" />
-                            <path d="m21 15-5-5L5 21" />
-                        </svg>
-                    </div>
-                    <div class="p-5">
-                        <h3 data-translate-key="Modern Entryway"
-                            class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ __("Modern Entryway") }}
-                        </h3>
-                        <p data-translate-key="Smart storage cabinets and ambient lighting"
-                            class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">
-                            {{ __("Smart storage cabinets and ambient lighting") }}</p>
-                    </div>
-                </div>
+                @empty
+                    <p class="text-[#706f6c] text-sm">{{ __('No portfolio items yet.') }}</p>
+                @endforelse
             </div>
         </section>
 
@@ -372,131 +332,44 @@
                     class="text-[#706f6c] dark:text-[#A1A09A] text-sm mt-1.5">
                     {{ __("Behind the scenes & daily design moments") }}</p>
             </div>
-            <div class="flex gap-4 overflow-x-auto pb-4" style="scrollbar-width:none;-ms-overflow-style:none">
+            <div class="story-card-row flex gap-4 overflow-x-auto pb-4" style="scrollbar-width:none;-ms-overflow-style:none">
                 <style>
                     .story-card-row::-webkit-scrollbar {
                         display: none
                     }
                 </style>
-                <div class="story-card-row flex gap-4">
+                @forelse ($stories as $story)
                     <div class="story-card shrink-0 w-64 rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A]"
                         onclick="openWelcomeStory(this)"
-                        data-translate-attrs="data-title:New Project,data-content:Behind the scenes of a modern living room design"
-                        data-title="{{ __('New Project') }}"
-                        data-content="{{ __('Behind the scenes of a modern living room design') }}"
-                        data-bg="linear-gradient(135deg, #f53003, #ff8a66)" data-type="visual">
+                        data-title="{{ $story->title }}"
+                        data-content="{{ $story->content }}"
+                        data-bg="{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}"
+                        data-type="{{ $story->type }}"
+                        data-image="{{ $story->image_path ? asset('storage/' . $story->image_path) : '' }}">
                         <div class="h-40 flex items-center justify-center"
-                            style="background:linear-gradient(135deg, #f53003, #ff8a66)">
-                            <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <path
-                                    d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
-                                <circle cx="12" cy="13" r="3" />
-                            </svg>
+                            style="background:{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}">
+                            @if ($story->image_path)
+                                <img src="{{ asset('storage/' . $story->image_path) }}" alt="{{ $story->title }}" class="w-full h-full object-cover">
+                            @else
+                                <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    @if ($story->type === 'text')
+                                        <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                                    @elseif ($story->type === 'mixed')
+                                        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" /><circle cx="12" cy="13" r="3" />
+                                    @else
+                                        <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
+                                    @endif
+                                </svg>
+                            @endif
                         </div>
                         <div class="p-4">
-                            <h3 data-translate-key="New Project"
-                                class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ __("New Project") }}
-                            </h3>
-                            <p data-translate-key="Behind the scenes of a modern living room design"
-                                class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">
-                                {{ __("Behind the scenes of a modern living room design") }}</p>
+                            <h3 class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ $story->title }}</h3>
+                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">{{ Str::limit($story->content, 80) }}</p>
                         </div>
                     </div>
-                    <div class="story-card shrink-0 w-64 rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A]"
-                        onclick="openWelcomeStory(this)"
-                        data-translate-attrs="data-title:Daily Tip,data-content:Natural light is the interior designer's best friend. Use mirrors to reflect and distribute light across the space."
-                        data-title="{{ __('Daily Tip') }}"
-                        data-content="{{ __('Natural light is the interior designer\'s best friend. Use mirrors to reflect and distribute light across the space.') }}"
-                        data-bg="linear-gradient(135deg, #161615, #3E3E3A)" data-type="text">
-                        <div class="h-40 flex items-center justify-center"
-                            style="background:linear-gradient(135deg, #161615, #3E3E3A)">
-                            <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <path d="M12 20h9" />
-                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <h3 data-translate-key="Daily Tip"
-                                class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ __('Daily Tip') }}
-                            </h3>
-                            <p data-translate-key="Natural light is the designer's best friend"
-                                class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">
-                                {{ __('Natural light is the designer\'s best friend') }}</p>
-                        </div>
-                    </div>
-                    <div class="story-card shrink-0 w-64 rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A]"
-                        onclick="openWelcomeStory(this)"
-                        data-translate-attrs="data-title:Behind Scenes,data-content:On-site shots before and after the transformation"
-                        data-title="{{ __('Behind Scenes') }}"
-                        data-content="{{ __('On-site shots before and after the transformation') }}"
-                        data-bg="linear-gradient(135deg, #706f6c, #A1A09A)" data-type="visual">
-                        <div class="h-40 flex items-center justify-center"
-                            style="background:linear-gradient(135deg, #706f6c, #A1A09A)">
-                            <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <path
-                                    d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
-                                <circle cx="12" cy="13" r="3" />
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <h3 data-translate-key="Behind Scenes"
-                                class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ __("Behind Scenes") }}
-                            </h3>
-                            <p data-translate-key="On-site shots before and after"
-                                class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">
-                                {{ __("On-site shots before and after") }}</p>
-                        </div>
-                    </div>
-                    <div class="story-card shrink-0 w-64 rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A]"
-                        onclick="openWelcomeStory(this)"
-                        data-translate-attrs="data-title:Makeover,data-content:Turning an ordinary bedroom into a design masterpiece"
-                        data-title="{{ __('Makeover') }}"
-                        data-content="{{ __('Turning an ordinary bedroom into a design masterpiece') }}"
-                        data-bg="linear-gradient(135deg, #A1A09A, #e3e3e0)" data-type="visual">
-                        <div class="h-40 flex items-center justify-center"
-                            style="background:linear-gradient(135deg, #A1A09A, #e3e3e0)">
-                            <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <rect x="3" y="3" width="18" height="18" rx="2" />
-                                <circle cx="8.5" cy="8.5" r="1.5" />
-                                <path d="m21 15-5-5L5 21" />
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <h3 data-translate-key="Makeover"
-                                class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ __("Makeover") }}</h3>
-                            <p data-translate-key="Transforming an ordinary bedroom"
-                                class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">
-                                {{ __("Transforming an ordinary bedroom") }}</p>
-                        </div>
-                    </div>
-                    <div class="story-card shrink-0 w-64 rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A]"
-                        onclick="openWelcomeStory(this)"
-                        data-translate-attrs="data-title:Decor,data-content:Small entryway decor ideas that make a big impact"
-                        data-title="{{ __('Decor') }}"
-                        data-content="{{ __('Small entryway decor ideas that make a big impact') }}"
-                        data-bg="linear-gradient(135deg, #706f6c, #A1A09A)" data-type="visual">
-                        <div class="h-40 flex items-center justify-center"
-                            style="background:linear-gradient(135deg, #706f6c, #A1A09A)">
-                            <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                                <path d="M2 17l10 5 10-5" />
-                                <path d="M2 12l10 5 10-5" />
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <h3 data-translate-key="Decor"
-                                class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ __("Decor") }}</h3>
-                            <p data-translate-key="Entryway ideas that make an impact"
-                                class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">
-                                {{ __("Entryway ideas that make an impact") }}</p>
-                        </div>
-                    </div>
-                </div>
+                @empty
+                    <p class="text-[#706f6c] text-sm">{{ __('No stories yet.') }}</p>
+                @endforelse
             </div>
         </section>
 
@@ -521,6 +394,7 @@
                 const content = el.getAttribute('data-content');
                 const bg = el.getAttribute('data-bg');
                 const type = el.getAttribute('data-type');
+                const image = el.getAttribute('data-image');
                 const modal = document.getElementById('storyModal');
                 const inner = document.getElementById('storyModalContent');
                 if (type === 'text') {
@@ -528,6 +402,8 @@
                 <svg class="w-10 h-10 mx-auto mb-4 opacity-60" style="color:#f53003" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                 <p class="text-2xl font-medium text-white leading-relaxed">${content}</p>
             `;
+                } else if (image) {
+                    inner.innerHTML = `<img src="${image}" alt="${title}" class="w-full h-full object-cover">`;
                 } else {
                     inner.innerHTML = `
                 <svg class="w-16 h-16 mx-auto mb-4 opacity-50 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
@@ -574,45 +450,16 @@
                     {{ __("Short design ideas and inspiration") }}</p>
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px">
-                <div
-                    class="rounded-xl p-6 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
-                    <span data-translate-key="Lighting"
-                        class="inline-block px-2.5 py-0.5 rounded text-[10px] font-medium text-white mb-4"
-                        style="background:#f53003">{{ __("Lighting") }}</span>
-                    <h3 data-translate-key="Layered Lighting Changes Everything"
-                        class="font-medium text-sm mb-1.5 text-[#1b1b18] dark:text-[#EDEDEC]">
-                        {{ __("Layered Lighting Changes Everything") }}</h3>
-                    <p data-translate-key="Don't rely on a single light source. Combine ambient, task, and accent lighting to create multiple moods in the same space."
-                        class="text-[#706f6c] dark:text-[#A1A09A] text-xs leading-relaxed">
-                        {{ __("Don't rely on a single light source. Combine ambient, task, and accent lighting to create multiple moods in the same space.") }}
-                    </p>
-                </div>
-                <div
-                    class="rounded-xl p-6 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
-                    <span data-translate-key="Colors"
-                        class="inline-block px-2.5 py-0.5 rounded text-[10px] font-medium text-white mb-4"
-                        style="background:#f53003">{{ __("Colors") }}</span>
-                    <h3 data-translate-key="The 60-30-10 Color Rule"
-                        class="font-medium text-sm mb-1.5 text-[#1b1b18] dark:text-[#EDEDEC]">
-                        {{ __("The 60-30-10 Color Rule") }}</h3>
-                    <p data-translate-key="60% neutral for walls, 30% secondary for furniture, 10% accent for accessories. This ratio guarantees visual balance."
-                        class="text-[#706f6c] dark:text-[#A1A09A] text-xs leading-relaxed">
-                        {{ __("60% neutral for walls, 30% secondary for furniture, 10% accent for accessories. This ratio guarantees visual balance.") }}
-                    </p>
-                </div>
-                <div
-                    class="rounded-xl p-6 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
-                    <span data-translate-key="Furniture"
-                        class="inline-block px-2.5 py-0.5 rounded text-[10px] font-medium text-white mb-4"
-                        style="background:#f53003">{{ __("Furniture") }}</span>
-                    <h3 data-translate-key="Multi-Purpose Pieces for Small Spaces"
-                        class="font-medium text-sm mb-1.5 text-[#1b1b18] dark:text-[#EDEDEC]">
-                        {{ __("Multi-Purpose Pieces for Small Spaces") }}</h3>
-                    <p data-translate-key="Choose furniture with hidden storage: storage ottomans, foldable tables, and beds with built-in drawers."
-                        class="text-[#706f6c] dark:text-[#A1A09A] text-xs leading-relaxed">
-                        {{ __("Choose furniture with hidden storage: storage ottomans, foldable tables, and beds with built-in drawers.") }}
-                    </p>
-                </div>
+                @forelse ($tips as $tip)
+                    <div class="rounded-xl p-6 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                        <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-medium text-white mb-4"
+                            style="background:#f53003">{{ $tip->category }}</span>
+                        <h3 class="font-medium text-sm mb-1.5 text-[#1b1b18] dark:text-[#EDEDEC]">{{ $tip->title }}</h3>
+                        <p class="text-[#706f6c] dark:text-[#A1A09A] text-xs leading-relaxed">{{ $tip->content }}</p>
+                    </div>
+                @empty
+                    <p class="text-[#706f6c] text-sm">{{ __('No tips yet.') }}</p>
+                @endforelse
             </div>
         </section>
 

@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $hero = HeroSection::where('is_active', true)->latest()->first();
-    return view('welcome', compact('hero'));
+    $stories = \App\Models\Story::where('is_active', true)->orderBy('order')->get();
+    $tips = \App\Models\Tip::where('is_active', true)->orderBy('order')->get();
+    $portfolios = \App\Models\Portfolio::where('is_active', true)->orderBy('order')->get();
+    return view('welcome', compact('hero', 'stories', 'tips', 'portfolios'));
 });
 
 Route::get('/reels', function () {
