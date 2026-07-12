@@ -22,6 +22,9 @@ Route::get('/reels', function () {
 })->name('reels');
 
 Route::get('/dashboard', function () {
+    if (Auth::user()?->is_admin) {
+        return redirect()->route('admin.dashboard');
+    }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 

@@ -139,6 +139,12 @@
         </div>
     </div>
 
+    {{-- Upload Progress Bar --}}
+    <div id="upload-progress" class="fixed top-0 left-0 right-0 z-50 hidden">
+        <div class="h-1 bg-[#c42802] transition-all duration-300 ease-out" id="progress-bar" style="width:0%"></div>
+        <div class="text-center text-xs font-medium text-[#c42802] mt-0.5" id="progress-text"></div>
+    </div>
+
     {{-- Mobile sidebar toggle script --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -155,6 +161,73 @@
                     overlay.classList.add('hidden');
                 });
             }
+    });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var bar = document.getElementById('progress-bar');
+            var text = document.getElementById('progress-text');
+            var container = document.getElementById('upload-progress');
+
+            document.querySelectorAll('form[enctype="multipart/form-data"]').forEach(function (form) {
+                form.addEventListener('submit', function (e) {
+                    var hasFile = false;
+                    form.querySelectorAll('input[type="file"]').forEach(function (input) {
+                        if (input.files.length > 0) hasFile = true;
+                    });
+                    if (!hasFile) return;
+
+                    e.preventDefault();
+                    var data = new FormData(form);
+
+                    var bar = document.getElementById('progress-bar');
+                    var text = document.getElementById('progress-text');
+                    var container = document.getElementById('upload-progress');
+                    container.classList.remove('hidden');
+                    bar.style.width = '0%';
+                    text.textContent = '0%';
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open(form.method, form.action, true);
+                    xhr.setRequestHeader('Accept', 'application/json');
+
+                    xhr.upload.onprogress = function (e) {
+                        if (e.lengthComputable) {
+                            var pct = Math.round((e.loaded / e.total) * 100);
+                            bar.style.width = pct + '%';
+                            text.textContent = pct + '%';
+                        }
+                    };
+
+                    xhr.onload = function () {
+                        container.classList.add('hidden');
+                        if (xhr.status >= 200 && xhr.status < 400) {
+                            try {
+                                var res = JSON.parse(xhr.responseText);
+                                if (res.redirect) { window.location.href = res.redirect; return; }
+                            } catch (_) {}
+                            window.location.href = xhr.responseURL || form.action;
+                        } else {
+                            var msg = 'Upload failed. Please try again.';
+                            try {
+                                var err = JSON.parse(xhr.responseText);
+                                var first = Object.values(err.errors || {})[0];
+                                if (first) msg = first[0] || msg;
+                                else if (err.message) msg = err.message;
+                            } catch (_) {}
+                            alert(msg);
+                        }
+                    };
+
+                    xhr.onerror = function () {
+                        container.classList.add('hidden');
+                        alert('Network error. Please try again.');
+                    };
+
+                    xhr.send(data);
+                });
+            });
         });
     </script>
 
