@@ -62,7 +62,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 Route::get('storage/{path}', function (string $path) {
     abort_if(!Storage::disk('public')->exists($path), 404);
-    return response()->file(storage_path('app/public/' . $path));
+    return response()->file(Storage::disk('public')->path($path));
 })->where('path', '.*')->name('storage.serve');
 
 Route::get('/lang/{locale}', function (string $locale) {
