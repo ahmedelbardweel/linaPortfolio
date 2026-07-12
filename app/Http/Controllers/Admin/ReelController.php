@@ -26,8 +26,8 @@ class ReelController extends Controller
     {
         $data = $request->validate([
             'title'       => 'required',
-            'video'       => 'required|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/webm,video/x-matroska,video/3gpp,video/ogg|max:102400',
-            'thumbnail'   => 'nullable|image',
+            'video'       => 'required|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:4096',
+            'thumbnail'   => 'nullable|image|max:10240',
             'description' => 'nullable',
         ]);
 
@@ -38,6 +38,9 @@ class ReelController extends Controller
             $data['thumbnail'] = $result['path'];
             $data['thumbnail_data'] = $result['data'];
         }
+
+        $data['order'] = $request->input('order', 0);
+        $data['is_active'] = $request->boolean('is_active');
 
         Reel::create($data);
 
@@ -53,8 +56,8 @@ class ReelController extends Controller
     {
         $data = $request->validate([
             'title'       => 'required',
-            'video'       => 'nullable|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/webm,video/x-matroska,video/3gpp,video/ogg|max:102400',
-            'thumbnail'   => 'nullable|image',
+            'video'       => 'nullable|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:204800',
+            'thumbnail'   => 'nullable|image|max:10240',
             'description' => 'nullable',
         ]);
 
@@ -71,6 +74,9 @@ class ReelController extends Controller
             $data['thumbnail'] = $result['path'];
             $data['thumbnail_data'] = $result['data'];
         }
+
+        $data['order'] = $request->input('order', 0);
+        $data['is_active'] = $request->boolean('is_active');
 
         $reel->update($data);
 

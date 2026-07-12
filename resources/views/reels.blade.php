@@ -57,11 +57,11 @@
     <div class="reel-slide" style="scroll-snap-align:start;height:100vh;display:flex;align-items:center;justify-content:center;background:#000">
         <div class="relative w-full h-full flex items-center justify-center" style="max-width:400px;margin:0 auto;padding:0 2px">
             <div class="w-full h-full relative overflow-hidden" style="aspect-ratio:9/16;max-height:100vh;background:#1a1a1a">
-                <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}">
-                    <source src="{{ asset('storage/' . $reel->video_path) }}" type="video/mp4">
-                </video>
-                @if ($reel->thumbnail_data || $reel->thumbnail)
-                <img src="{{ $reel->thumbnail_url }}" alt="" class="absolute inset-0 w-full h-full object-cover" style="display:none">
+                 <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}" controls onerror="var n=this.nextElementSibling;if(n&&n.tagName==='IMG')n.style.display='block'">
+                     <source src="{{ asset('storage/' . $reel->video_path) }}" type="video/mp4">
+                 </video>
+                 @if ($reel->thumbnail_data || $reel->thumbnail)
+                 <img src="{{ $reel->thumbnail_url }}" alt="" class="absolute inset-0 w-full h-full object-cover" style="display:none">
                 @endif
                 <div class="absolute bottom-0 left-0 right-0 p-4 z-10" style="background:linear-gradient(transparent,rgba(0,0,0,.7))">
                     <div class="flex items-center gap-2 mb-1">
@@ -99,7 +99,7 @@
     <div class="reel-slide" style="scroll-snap-align:start;height:100vh;display:flex;align-items:center;justify-content:center;background:#000">
         <div class="relative w-full h-full flex items-center justify-center" style="max-width:400px;margin:0 auto;padding:0 2px">
             <div class="w-full h-full relative overflow-hidden" style="aspect-ratio:9/16;max-height:100vh;background:#1a1a1a">
-                <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}">
+                <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}" controls>
                     <source src="{{ $demoVideos[$i] }}" type="video/mp4">
                 </video>
                 <div class="absolute bottom-0 left-0 right-0 p-4 z-10" style="background:linear-gradient(transparent,rgba(0,0,0,.7))">

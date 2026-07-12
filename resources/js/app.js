@@ -1,6 +1,9 @@
 import Alpine from 'alpinejs';
+import Plyr from 'plyr';
+import 'plyr/dist/plyr.css';
 
 window.Alpine = Alpine;
+window.Plyr = Plyr;
 
 Alpine.start();
 
