@@ -181,7 +181,7 @@
                 <!-- Center Image -->
                 <div class="relative w-[280px] sm:w-[380px] max-w-full h-[220px] sm:h-[320px] shrink-0 -mt-5 z-[1]">
                     <div class="w-full h-full rounded-sm overflow-hidden"
-                        style="background:{{ $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
+                        style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
                             <img src="{{ asset('storage/' . $h->main_image) }}" alt="Hero"
                                 class="w-full h-full object-cover">
@@ -213,7 +213,7 @@
                     </a>
                     <div class="w-[320px] max-w-full h-[240px]">
                         <div class="w-full h-full rounded-sm overflow-hidden"
-                            style="background:{{ $h->right_image ? 'none' : 'linear-gradient(135deg,#e8f0fe,#d4e4f7)' }}">
+                            style="background:{{ $h && $h->right_image ? 'none' : 'linear-gradient(135deg,#e8f0fe,#d4e4f7)' }}">
                             @if ($h && $h->right_image)
                                 <img src="{{ asset('storage/' . $h->right_image) }}" alt="Work"
                                     class="w-full h-full object-cover">
