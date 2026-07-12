@@ -44,8 +44,24 @@
             .snap-container { height: 100vh; height: 100dvh; scroll-padding-top: 56px; }
             .snap-section { min-height: 100vh; min-height: 100dvh; }
             @media (max-width: 768px) {
-                .snap-section { min-height: auto !important; padding-top: 64px; }
+                .snap-section { min-height: auto !important; padding-top: 56px; }
                 .snap-container { scroll-snap-type: none !important; }
+                #hero-section h1 { font-size: 1.75rem !important; }
+                #hero-section h2 { font-size: 1rem !important; line-height: 1.3 !important; }
+                #hero-section .max-w-6xl { gap: 0.75rem !important; padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+                #hero-section .w-\[280px\] { width: 200px !important; height: 150px !important; }
+                #hero-section .w-\[320px\] { width: 260px !important; height: 180px !important; }
+                #hero-section .mb-8 { margin-bottom: 0.5rem !important; }
+                #hero-section .mb-10 { margin-bottom: 0.5rem !important; }
+                #about h1 { font-size: 2.25rem !important; }
+                #about .max-w-4xl { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+                #about .text-base { font-size: 0.8125rem !important; }
+                #about .text-sm { font-size: 0.75rem !important; }
+                #about .space-y-6 > * + * { margin-top: 0.75rem !important; }
+                #portfolio h2, #stories h2, #tips h2 { font-size: 1.25rem !important; }
+                #portfolio .max-w-6xl, #stories .max-w-6xl, #tips .max-w-6xl { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+                .story-card { width: 200px !important; }
+                .story-card .h-40 { height: 120px !important; }
             }
         </style>
         <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 border-b border-[#e3e3e0] dark:border-[#3E3E3A]"
