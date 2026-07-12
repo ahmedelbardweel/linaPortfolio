@@ -25,7 +25,18 @@
 
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @php
+            use Illuminate\Support\Facades\Vite;
+            $cssUrl = Vite::asset('resources/css/app.css');
+            $jsUrl = Vite::asset('resources/js/app.js');
+        @endphp
+        @if ($cssUrl)
+            <link rel="stylesheet" href="{{ $cssUrl }}" media="print" onload="this.media='all'">
+            <noscript><link rel="stylesheet" href="{{ $cssUrl }}"></noscript>
+        @endif
+        @if ($jsUrl)
+            <script type="module" src="{{ $jsUrl }}" defer></script>
+        @endif
     @endif
 </head>
 

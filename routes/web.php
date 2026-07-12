@@ -82,11 +82,27 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
     };
     if (!$dataColumn || !$record->$dataColumn) abort(404);
 
+    $cacheDir = env('VERCEL') ? '/tmp/img-cache' : storage_path('framework/cache/img');
+    $cacheKey = md5("$table.$id.$col." . ($record->updated_at ?? ''));
+    $cacheFile = "$cacheDir/$cacheKey";
+
+    if (file_exists($cacheFile)) {
+        $meta = json_decode(file_get_contents($cacheFile . '.json'), true);
+        return response(file_get_contents($cacheFile), 200, [
+            'Content-Type' => $meta['mime'] ?? 'image/webp',
+            'Cache-Control' => 'public, max-age=31536000, immutable',
+        ]);
+    }
+
     $data = $record->$dataColumn;
     preg_match('/^data:([^;]+);/', $data, $m);
-    $mime = $m[1] ?? 'image/jpeg';
+    $mime = $m[1] ?? 'image/webp';
     $binary = base64_decode(explode(',', $data, 2)[1] ?? '');
     if (!$binary) abort(404);
+
+    @mkdir($cacheDir, 0755, true);
+    file_put_contents($cacheFile, $binary);
+    file_put_contents($cacheFile . '.json', json_encode(['mime' => $mime]));
 
     return response($binary, 200, [
         'Content-Type' => $mime,
