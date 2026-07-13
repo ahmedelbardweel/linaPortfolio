@@ -46,11 +46,8 @@
                 .snap-container { scroll-snap-type: none !important; }
                 #hero-section h1 { font-size: 1.75rem !important; }
                 #hero-section h2 { font-size: 1rem !important; line-height: 1.3 !important; }
-                #hero-section .max-w-6xl { gap: 0.75rem !important; padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
-                #hero-section .w-\[280px\] { width: 200px !important; height: 150px !important; }
-                #hero-section .w-\[320px\] { width: 260px !important; height: 180px !important; }
-                #hero-section .mb-8 { margin-bottom: 0.5rem !important; }
-                #hero-section .mb-10 { margin-bottom: 0.5rem !important; }
+                #hero-section .max-w-6xl { gap: 0.5rem !important; }
+                #hero-section p.text-xs { font-size: 0.75rem !important; }
                 #about h1 { font-size: 2.25rem !important; }
                 #about .max-w-4xl { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
                 #about .text-base { font-size: 0.8125rem !important; }
@@ -192,28 +189,17 @@
         </script>
 
         <main>
-        <!-- ===== HERO SECTION (New Design) ===== -->
+        <!-- ===== HERO SECTION ===== -->
         <section id="hero-section" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
             style="scroll-snap-align:start">
             <div
-                class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-10 py-16 lg:py-20 relative">
-                <!-- Left Column -->
-                <div class="flex flex-col max-w-[280px] z-[2] lg:mt-10">
-                    <p data-translate-key="Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today."
-                        class="text-xs md:text-sm leading-relaxed text-[#333] dark:text-[#A1A09A] mb-8 max-w-[220px]">
-                        {{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}
-                    </p>
-                    <h1 data-translate-html="Interior<br>Design"
-                        class="font-['Playfair_Display',serif] text-4xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] text-[#000] dark:text-[#EDEDEC] tracking-tight">
-                        {!! __("Interior<br>Design") !!}
-                    </h1>
-                </div>
-                <!-- Center Image -->
-                <div class="relative w-[280px] sm:w-[380px] max-w-full h-[220px] sm:h-[320px] shrink-0 -mt-5 z-[1]">
+                class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 py-6 lg:py-20 relative">
+                <!-- Center Image (Mobile order 1, Desktop order 2) -->
+                <div class="relative max-w-full shrink-0 z-[1] order-1 lg:order-2 w-full lg:w-[380px] h-[200px] lg:h-[320px]">
                     <div class="w-full h-full rounded-sm overflow-hidden"
                         style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
-                            <img src="{{ $mainImageInline ?: $h->main_image_url }}" alt="Hero" width="280" height="220" fetchpriority="high"
+                            <img src="{{ $mainImageInline ?: $h->main_image_url }}" alt="Hero" width="760" height="440" fetchpriority="high"
                                 class="w-full h-full object-cover">
                         @else
                             <svg class="w-full h-full text-[#1b1b18]/15 dark:text-white/10 p-8" viewBox="0 0 100 120"
@@ -230,22 +216,37 @@
                         @endif
                     </div>
                 </div>
-                <!-- Right Column -->
-                <div class="flex flex-col items-start max-w-[320px] lg:mt-5">
-                    <span data-translate-key="Our Recent Work"
-                        class="text-[11px] font-semibold text-[#333] dark:text-[#A1A09A] mb-3 tracking-[0.5px]">{{ __("Our Recent Work") }}</span>
-                    <h2 data-translate-key="We Will Make These Unique Tastes Of Yours A Design Reality!"
-                        class="font-['Playfair_Display',serif] text-xl sm:text-2xl font-bold leading-[1.4] text-[#000] dark:text-[#EDEDEC] mb-5">
-                        {{ __("We Will Make These Unique Tastes Of Yours A Design Reality!") }}</h2>
+                <!-- Left Column (Mobile order 2, Desktop order 1) -->
+                <div class="flex flex-col z-[2] lg:mt-10 order-2 lg:order-1 max-w-full lg:max-w-[280px]">
+                    <p data-translate-key="Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today."
+                        class="text-xs md:text-sm leading-relaxed text-[#333] dark:text-[#A1A09A] mb-3 lg:mb-8 max-w-full lg:max-w-[220px]">
+                        {{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}
+                    </p>
+                    <h1 data-translate-html="Interior<br>Design"
+                        class="font-['Playfair_Display',serif] text-3xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] text-[#000] dark:text-[#EDEDEC] tracking-tight mb-4 lg:mb-0">
+                        {!! __("Interior<br>Design") !!}
+                    </h1>
                     <a href="#portfolio" data-translate-key="View Project"
-                        class="inline-block px-6 py-2.5 border border-[#333] dark:border-[#62605b] text-[10px] font-semibold text-[#333] dark:text-[#EDEDEC] no-underline uppercase tracking-[1.5px] transition-all duration-300 bg-transparent hover:bg-[#333] dark:hover:bg-[#EDEDEC] hover:text-white dark:hover:text-[#1b1b18] mb-10">
+                        class="hidden lg:inline-block px-6 py-2.5 border border-[#333] dark:border-[#62605b] text-[10px] font-semibold text-[#333] dark:text-[#EDEDEC] no-underline uppercase tracking-[1.5px] transition-all duration-300 bg-transparent hover:bg-[#333] dark:hover:bg-[#EDEDEC] hover:text-white dark:hover:text-[#1b1b18] mt-4">
                         {{ __("View Project") }}
                     </a>
-                    <div class="w-[320px] max-w-full h-[240px]">
+                </div>
+                <!-- Right Column (Mobile order 3, Desktop order 3) -->
+                <div class="flex flex-col items-start max-w-full lg:max-w-[320px] lg:mt-5 order-3 w-full">
+                    <span data-translate-key="Our Recent Work"
+                        class="text-[11px] font-semibold text-[#333] dark:text-[#A1A09A] mb-2 lg:mb-3 tracking-[0.5px]">{{ __("Our Recent Work") }}</span>
+                    <h2 data-translate-key="We Will Make These Unique Tastes Of Yours A Design Reality!"
+                        class="font-['Playfair_Display',serif] text-lg sm:text-2xl font-bold leading-[1.4] text-[#000] dark:text-[#EDEDEC] mb-3 lg:mb-5">
+                        {{ __("We Will Make These Unique Tastes Of Yours A Design Reality!") }}</h2>
+                    <a href="#portfolio" data-translate-key="View Project"
+                        class="lg:hidden inline-block px-6 py-2.5 border border-[#333] dark:border-[#62605b] text-[10px] font-semibold text-[#333] dark:text-[#EDEDEC] no-underline uppercase tracking-[1.5px] transition-all duration-300 bg-transparent hover:bg-[#333] dark:hover:bg-[#EDEDEC] hover:text-white dark:hover:text-[#1b1b18] mb-3">
+                        {{ __("View Project") }}
+                    </a>
+                    <div class="w-full max-w-full h-[180px] lg:h-[240px]">
                         <div class="w-full h-full rounded-sm overflow-hidden"
                             style="background:{{ $h && $h->right_image ? 'none' : 'linear-gradient(135deg,#e8f0fe,#d4e4f7)' }}">
                             @if ($h && $h->right_image)
-                                <img src="{{ $h->right_image_url }}" alt="Work" width="320" height="240" loading="lazy"
+                                <img src="{{ $h->right_image_url }}" alt="Work" width="640" height="360" loading="lazy"
                                     class="w-full h-full object-cover">
                             @else
                                 <svg class="w-full h-full text-[#1b1b18]/15 dark:text-white/10 p-8" viewBox="0 0 24 24"
@@ -263,7 +264,7 @@
 
         <!-- ===== ABOUT ME ===== -->
         <section id="about" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
-            style="scroll-snap-align:start;content-visibility:auto;contain-intrinsic-size:600px">
+            style="scroll-snap-align:start">
             <div class="max-w-4xl mx-auto px-6 lg:px-10 w-full py-12 md:py-20">
                 <h1 data-translate-html="About<br>Me"
                     class="font-['Playfair_Display',serif] text-4xl md:text-7xl lg:text-8xl font-bold text-[#111111] dark:text-[#EDEDEC] leading-[1] mb-8 md:mb-12">
