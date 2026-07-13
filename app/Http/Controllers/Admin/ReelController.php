@@ -52,7 +52,10 @@ class ReelController extends Controller
         $data['order'] = $request->input('order', 0);
         $data['is_active'] = $request->boolean('is_active');
 
-        Reel::create($data);
+        $reel = Reel::create($data);
+        if ($request->hasFile('thumbnail')) {
+            $this->cacheImageData('reel', $reel);
+        }
 
         return redirect()->route('admin.reels.index')->with('success', 'Reel created successfully.');
     }
@@ -99,6 +102,9 @@ class ReelController extends Controller
         $data['is_active'] = $request->boolean('is_active');
 
         $reel->update($data);
+        if ($request->hasFile('thumbnail')) {
+            $this->cacheImageData('reel', $reel);
+        }
 
         return redirect()->route('admin.reels.index')->with('success', 'Reel updated successfully.');
     }

@@ -44,4 +44,30 @@ trait HandlesImages
 
         return ['path' => $webpPath, 'data' => $data];
     }
+
+    protected function cacheImageData(string $table, $model): void
+    {
+        $cacheDir = env('VERCEL') ? '/tmp/img-cache' : storage_path('framework/cache/img');
+        if (!is_dir($cacheDir)) {
+            @mkdir($cacheDir, 0755, true);
+        }
+
+        $pairs = match ($table) {
+            'hero' => [['id' => 'main', 'col' => 'main_image_data'], ['id' => 'right', 'col' => 'right_image_data']],
+            'story' => [['id' => 'image', 'col' => 'image_data']],
+            'portfolio' => [['id' => 'image', 'col' => 'image_data']],
+            'reel' => [['id' => 'thumbnail', 'col' => 'thumbnail_data']],
+            default => [],
+        };
+
+        foreach ($pairs as $pair) {
+            $data = $model->{$pair['col']} ?? '';
+            if (!$data) continue;
+
+            $binary = base64_decode(explode(',', $data, 2)[1] ?? '');
+            if (!$binary) continue;
+
+            file_put_contents("$cacheDir/$table.{$model->id}.{$pair['id']}", $binary);
+        }
+    }
 }

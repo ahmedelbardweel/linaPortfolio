@@ -38,7 +38,8 @@ class StoryController extends Controller
             $data['image_data'] = $result['data'];
         }
 
-        Story::create($data);
+        $story = Story::create($data);
+        $this->cacheImageData('story', $story);
 
         return redirect()->route('admin.stories.index')->with('success', 'Story created successfully.');
     }
@@ -68,6 +69,7 @@ class StoryController extends Controller
         }
 
         $story->update($data);
+        $this->cacheImageData('story', $story);
 
         return redirect()->route('admin.stories.index')->with('success', 'Story updated successfully.');
     }

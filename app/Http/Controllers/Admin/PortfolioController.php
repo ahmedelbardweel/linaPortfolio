@@ -35,7 +35,8 @@ class PortfolioController extends Controller
         $data['image_path'] = $result['path'];
         $data['image_data'] = $result['data'];
 
-        Portfolio::create($data);
+        $portfolio = Portfolio::create($data);
+        $this->cacheImageData('portfolio', $portfolio);
 
         return redirect()->route('admin.portfolios.index')->with('success', 'Portfolio created successfully.');
     }
@@ -62,6 +63,7 @@ class PortfolioController extends Controller
         }
 
         $portfolio->update($data);
+        $this->cacheImageData('portfolio', $portfolio);
 
         return redirect()->route('admin.portfolios.index')->with('success', 'Portfolio updated successfully.');
     }

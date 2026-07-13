@@ -43,7 +43,8 @@ class HeroSectionController extends Controller
         $data['title'] = 'Hero';
         $data['description'] = '';
 
-        HeroSection::create($data);
+        $hero = HeroSection::create($data);
+        $this->cacheImageData('hero', $hero);
 
         return redirect()->route('admin.hero.index')->with('success', 'Hero section created successfully.');
     }
@@ -75,6 +76,7 @@ class HeroSectionController extends Controller
         }
 
         $hero->update($data);
+        $this->cacheImageData('hero', $hero);
 
         return redirect()->route('admin.hero.index')->with('success', 'Hero section updated successfully.');
     }
