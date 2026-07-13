@@ -20,10 +20,25 @@
     @endif
     <style>
         @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-600-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2) format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/playfair-display/files/playfair-display-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/playfair-display/files/playfair-display-latin-700-normal.woff2) format('woff2')}
+        /* Critical inline styles — paint hero immediately while full CSS loads */
+        body{margin:0;background:#FDFDFC;color:#1b1b18;font-family:Instrument Sans,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0}.top-0{top:0}.left-0{left:0}.right-0{right:0}.z-10{z-index:10}.z-40{z-index:40}.z-50{z-index:50}.z-\[1000\]{z-index:1000}.hidden{display:none}.flex{display:flex}.w-full{width:100%}.h-full{height:100%}.mx-auto{margin-left:auto;margin-right:auto}.overflow-hidden{overflow:hidden}.object-cover{object-fit:cover}.font-\[Playfair_Display\,serif\]{font-family:Playfair Display,serif}
     </style>
 
-    <!-- Styles / Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Styles — async (preload + onload) to avoid blocking render -->
+    @php
+        $manifestPath = public_path('build/manifest.json');
+        $cssUrl = '';
+        if (file_exists($manifestPath)) {
+            $m = json_decode(file_get_contents($manifestPath), true);
+            $cssUrl = isset($m['resources/css/app.css']['file']) ? asset('build/' . $m['resources/css/app.css']['file']) : '';
+        }
+    @endphp
+    @if ($cssUrl)
+        <link rel="preload" href="{{ $cssUrl }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ $cssUrl }}"></noscript>
+    @else
+        @vite(['resources/css/app.css'])
+    @endif
 </head>
 
 <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] m-0" style="overflow:hidden">
@@ -648,6 +663,20 @@
     </div>
 
     <script>
+        // Dark mode (replaces app.js dependency)
+        (function () {
+            var key = 'theme', html = document.documentElement;
+            function apply(t) {
+                if (t === 'dark') html.classList.add('dark'); else html.classList.remove('dark');
+            }
+            var saved = localStorage.getItem(key);
+            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) apply('dark');
+            window.toggleDark = function () {
+                apply(html.classList.contains('dark') ? 'light' : 'dark');
+                localStorage.setItem(key, html.classList.contains('dark') ? 'dark' : 'light');
+            };
+        })();
+
         // Embed Arabic translations dictionary
         window.translations = {!! file_exists(lang_path('ar.json')) ? file_get_contents(lang_path('ar.json')) : '{}' !!};
 
