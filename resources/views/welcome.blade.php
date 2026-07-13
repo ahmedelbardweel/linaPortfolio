@@ -44,6 +44,7 @@
             @media (max-width: 768px) {
                 .snap-section { min-height: auto !important; padding-top: 56px; }
                 .snap-container { scroll-snap-type: none !important; }
+                #hero-section { height: 80vh !important; min-height: 80vh !important; padding-top: 56px; }
                 #hero-section h1 { font-size: 1.75rem !important; }
                 #hero-section h2 { font-size: 1rem !important; line-height: 1.3 !important; }
                 #hero-section .max-w-6xl { gap: 0.5rem !important; }
