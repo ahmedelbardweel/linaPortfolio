@@ -225,8 +225,13 @@
                         body: JSON.stringify({ name: file.name })
                     })
                     .then(function (r) {
-                        if (!r.ok) return r.json().then(function (d) { throw new Error(d.error || 'Failed'); });
-                        return r.json();
+                        if (r.headers.get('content-type')?.includes('application/json')) {
+                            return r.json().then(function (d) {
+                                if (!r.ok) throw new Error(d.error || 'Failed');
+                                return d;
+                            });
+                        }
+                        return r.text().then(function (t) { throw new Error(t.includes('BLOB_READ_WRITE_TOKEN') ? 'Missing BLOB_READ_WRITE_TOKEN' : 'Server returned HTML instead of JSON'); });
                     })
                     .then(function (data) {
                         if (!data.uploadUrl) throw new Error('No upload URL');
