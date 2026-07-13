@@ -45,13 +45,12 @@
                 .snap-section { min-height: auto !important; padding-top: 56px; }
                 .snap-container { scroll-snap-type: none !important; }
                 #hero-section { height: 80vh !important; min-height: 80vh !important; margin-top: 56px !important; padding-top: 0 !important; }
-                #hero-section .max-w-6xl { justify-content: center !important; gap: 0.25rem !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+                #hero-section .max-w-6xl { justify-content: center !important; gap: 0.5rem !important; padding-top: 0 !important; padding-bottom: 0 !important; }
                 #hero-section h1 { font-size: 1.5rem !important; margin-bottom: 0 !important; }
                 #hero-section h2 { font-size: 0.875rem !important; line-height: 1.3 !important; margin-bottom: 0 !important; }
                 #hero-section p.text-xs { font-size: 0.6875rem !important; margin-bottom: 0 !important; }
-                #hero-section .h-\[200px\] { height: 130px !important; }
-                #hero-section .h-\[180px\] { height: 120px !important; }
-                #hero-section .mb-3, #hero-section .mb-4, #hero-section .mb-5, #hero-section .mb-8 { margin-bottom: 0 !important; }
+                #hero-section .h-\[200px\] { height: 160px !important; }
+                #hero-section .h-\[180px\] { height: 140px !important; }
                 #about h1 { font-size: 2.25rem !important; }
                 #about .max-w-4xl { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
                 #about .text-base { font-size: 0.8125rem !important; }
