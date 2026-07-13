@@ -179,6 +179,16 @@
                 openIcon.classList.remove('hidden');
                 closeIcon.classList.add('hidden');
             }
+            function toggleDark() {
+                var html = document.documentElement;
+                if (html.classList.contains('dark')) {
+                    html.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    html.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
         </script>
 
         <main>
@@ -253,7 +263,7 @@
 
         <!-- ===== ABOUT ME ===== -->
         <section id="about" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
-            style="scroll-snap-align:start">
+            style="scroll-snap-align:start;content-visibility:auto;contain-intrinsic-size:600px">
             <div class="max-w-4xl mx-auto px-6 lg:px-10 w-full py-12 md:py-20">
                 <h1 data-translate-html="About<br>Me"
                     class="font-['Playfair_Display',serif] text-4xl md:text-7xl lg:text-8xl font-bold text-[#111111] dark:text-[#EDEDEC] leading-[1] mb-8 md:mb-12">
@@ -407,55 +417,6 @@
                     class="w-full h-full flex flex-col items-center justify-center p-8 text-center"></div>
             </div>
         </div>
-
-        <script>
-            function openWelcomeStory(el) {
-                const title = el.getAttribute('data-title');
-                const content = el.getAttribute('data-content');
-                const bg = el.getAttribute('data-bg');
-                const type = el.getAttribute('data-type');
-                const image = el.getAttribute('data-image');
-                const modal = document.getElementById('storyModal');
-                const inner = document.getElementById('storyModalContent');
-                if (type === 'text') {
-                    inner.innerHTML = `
-                <svg class="w-10 h-10 mx-auto mb-4 opacity-60" style="color:#f53003" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                <p class="text-2xl font-medium text-white leading-relaxed">${content}</p>
-            `;
-                } else if (image) {
-                    inner.innerHTML = `<img src="${image}" alt="${title}" class="w-full h-full object-cover">`;
-                } else {
-                    inner.innerHTML = `
-                <svg class="w-16 h-16 mx-auto mb-4 opacity-50 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-                <p class="text-lg text-white/80">${content}</p>
-            `;
-                }
-                inner.style.background = bg;
-                modal.style.opacity = '1';
-                modal.style.pointerEvents = 'auto';
-                document.body.style.overflow = 'hidden';
-            }
-            function closeWelcomeStory(e) {
-                if (e && e.target !== e.currentTarget) return;
-                const modal = document.getElementById('storyModal');
-                modal.style.opacity = '0';
-                modal.style.pointerEvents = 'none';
-                document.body.style.overflow = '';
-            }
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') closeWelcomeStory();
-            });
-
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-        </script>
 
         <!-- ===== TIPS & INSIGHTS ===== -->
         <section id="tips"
@@ -646,6 +607,57 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        function openWelcomeStory(el) {
+            const title = el.getAttribute('data-title');
+            const content = el.getAttribute('data-content');
+            const bg = el.getAttribute('data-bg');
+            const type = el.getAttribute('data-type');
+            const image = el.getAttribute('data-image');
+            const modal = document.getElementById('storyModal');
+            const inner = document.getElementById('storyModalContent');
+            if (type === 'text') {
+                inner.innerHTML = `
+            <svg class="w-10 h-10 mx-auto mb-4 opacity-60" style="color:#f53003" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <p class="text-2xl font-medium text-white leading-relaxed">${content}</p>
+        `;
+            } else if (image) {
+                inner.innerHTML = `<img src="${image}" alt="${title}" class="w-full h-full object-cover">`;
+            } else {
+                inner.innerHTML = `
+            <svg class="w-16 h-16 mx-auto mb-4 opacity-50 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            <p class="text-lg text-white/80">${content}</p>
+        `;
+            }
+            inner.style.background = bg;
+            modal.style.opacity = '1';
+            modal.style.pointerEvents = 'auto';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeWelcomeStory(e) {
+            if (e && e.target !== e.currentTarget) return;
+            const modal = document.getElementById('storyModal');
+            modal.style.opacity = '0';
+            modal.style.pointerEvents = 'none';
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeWelcomeStory();
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
 
     <script>
         // Dark mode (replaces app.js dependency)
