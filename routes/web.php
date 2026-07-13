@@ -18,33 +18,38 @@ Route::get('/', function () {
     $tips = \App\Models\Tip::where('is_active', true)->orderBy('order')->get();
     $portfolios = \App\Models\Portfolio::where('is_active', true)->orderBy('order')->get();
 
-    // Generate a small inline data URI for the hero image (mobile LCP optimisation)
+    // Inline hero image directly (avoids extra PHP cold start on the /img route)
     $mainImageInline = '';
-    if ($hero && $hero->main_image_data && function_exists('imagecreatefromstring')) {
-        $binary = base64_decode(explode(',', $hero->main_image_data, 2)[1] ?? '');
-        if ($binary) {
-            $img = @imagecreatefromstring($binary);
-            if ($img) {
-                $ow = imagesx($img);
-                $oh = imagesy($img);
-                $mw = 360;
-                if ($ow > $mw) {
-                    $nh = (int)round($oh * ($mw / $ow));
-                    $thumb = imagecreatetruecolor($mw, $nh);
-                    imagecopyresampled($thumb, $img, 0, 0, 0, 0, $mw, $nh, $ow, $oh);
+    if ($hero && $hero->main_image_data) {
+        if (function_exists('imagecreatefromstring')) {
+            $binary = base64_decode(explode(',', $hero->main_image_data, 2)[1] ?? '');
+            if ($binary) {
+                $img = @imagecreatefromstring($binary);
+                if ($img) {
+                    $ow = imagesx($img);
+                    $oh = imagesy($img);
+                    $mw = 360;
+                    if ($ow > $mw) {
+                        $nh = (int)round($oh * ($mw / $ow));
+                        $thumb = imagecreatetruecolor($mw, $nh);
+                        imagecopyresampled($thumb, $img, 0, 0, 0, 0, $mw, $nh, $ow, $oh);
+                        imagedestroy($img);
+                        $img = $thumb;
+                    }
+                    $tmp = fopen('php://temp', 'r+');
+                    if ($tmp) {
+                        imagewebp($img, $tmp, 50);
+                        rewind($tmp);
+                        $webp = stream_get_contents($tmp);
+                        fclose($tmp);
+                        $mainImageInline = 'data:image/webp;base64,' . base64_encode($webp);
+                    }
                     imagedestroy($img);
-                    $img = $thumb;
                 }
-                $tmp = fopen('php://temp', 'r+');
-                if ($tmp) {
-                    imagewebp($img, $tmp, 50);
-                    rewind($tmp);
-                    $webp = stream_get_contents($tmp);
-                    fclose($tmp);
-                    $mainImageInline = 'data:image/webp;base64,' . base64_encode($webp);
-                }
-                imagedestroy($img);
             }
+        }
+        if (!$mainImageInline) {
+            $mainImageInline = $hero->main_image_data;
         }
     }
 
