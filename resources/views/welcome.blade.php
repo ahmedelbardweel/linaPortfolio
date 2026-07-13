@@ -20,25 +20,10 @@
     @endif
     <style>
         @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-600-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2) format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/playfair-display/files/playfair-display-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/playfair-display/files/playfair-display-latin-700-normal.woff2) format('woff2')}
-        /* Critical inline styles — paint hero immediately while full CSS loads */
-        body{margin:0;background:#FDFDFC;color:#1b1b18;font-family:Instrument Sans,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0}.top-0{top:0}.left-0{left:0}.right-0{right:0}.z-10{z-index:10}.z-40{z-index:40}.z-50{z-index:50}.z-\[1000\]{z-index:1000}.hidden{display:none}.flex{display:flex}.w-full{width:100%}.h-full{height:100%}.mx-auto{margin-left:auto;margin-right:auto}.overflow-hidden{overflow:hidden}.object-cover{object-fit:cover}.font-\[Playfair_Display\,serif\]{font-family:Playfair Display,serif}
     </style>
 
-    <!-- Styles — async (preload + onload) to avoid blocking render -->
-    @php
-        $manifestPath = public_path('build/manifest.json');
-        $cssUrl = '';
-        if (file_exists($manifestPath)) {
-            $m = json_decode(file_get_contents($manifestPath), true);
-            $cssUrl = isset($m['resources/css/app.css']['file']) ? asset('build/' . $m['resources/css/app.css']['file']) : '';
-        }
-    @endphp
-    @if ($cssUrl)
-        <link rel="preload" href="{{ $cssUrl }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="{{ $cssUrl }}"></noscript>
-    @else
-        @vite(['resources/css/app.css'])
-    @endif
+    <!-- Styles / Scripts -->
+    @vite(['resources/css/app.css'])
 </head>
 
 <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] m-0" style="overflow:hidden">
@@ -218,7 +203,7 @@
                     <div class="w-full h-full rounded-sm overflow-hidden"
                         style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
-                            <img src="{{ $h->main_image_url }}" alt="Hero" fetchpriority="high"
+                            <img src="{{ $h->main_image_url }}" alt="Hero" width="280" height="220" fetchpriority="high"
                                 class="w-full h-full object-cover">
                         @else
                             <svg class="w-full h-full text-[#1b1b18]/15 dark:text-white/10 p-8" viewBox="0 0 100 120"
@@ -250,7 +235,7 @@
                         <div class="w-full h-full rounded-sm overflow-hidden"
                             style="background:{{ $h && $h->right_image ? 'none' : 'linear-gradient(135deg,#e8f0fe,#d4e4f7)' }}">
                             @if ($h && $h->right_image)
-                                <img src="{{ $h->right_image_url }}" alt="Work" loading="lazy"
+                                <img src="{{ $h->right_image_url }}" alt="Work" width="320" height="240" loading="lazy"
                                     class="w-full h-full object-cover">
                             @else
                                 <svg class="w-full h-full text-[#1b1b18]/15 dark:text-white/10 p-8" viewBox="0 0 24 24"
