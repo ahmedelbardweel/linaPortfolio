@@ -217,7 +217,7 @@
                     </div>
                 </div>
                 <!-- Left Column (Mobile order 2, Desktop order 1) -->
-                <div class="flex flex-col z-[2] lg:mt-10 order-2 lg:order-1 max-w-full lg:max-w-[280px]">
+                <div class="flex flex-col items-center lg:items-start z-[2] lg:mt-10 order-2 lg:order-1 max-w-full lg:max-w-[280px] text-center lg:text-left">
                     <p data-translate-key="Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today."
                         class="text-xs md:text-sm leading-relaxed text-[#333] dark:text-[#A1A09A] mb-3 lg:mb-8 max-w-full lg:max-w-[220px]">
                         {{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}
@@ -232,7 +232,7 @@
                     </a>
                 </div>
                 <!-- Right Column (Mobile order 3, Desktop order 3) -->
-                <div class="flex flex-col items-start max-w-full lg:max-w-[320px] lg:mt-5 order-3 w-full">
+                <div class="flex flex-col items-center lg:items-start max-w-full lg:max-w-[320px] lg:mt-5 order-3 w-full text-center lg:text-left">
                     <span data-translate-key="Our Recent Work"
                         class="text-[11px] font-semibold text-[#333] dark:text-[#A1A09A] mb-2 lg:mb-3 tracking-[0.5px]">{{ __("Our Recent Work") }}</span>
                     <h2 data-translate-key="We Will Make These Unique Tastes Of Yours A Design Reality!"
