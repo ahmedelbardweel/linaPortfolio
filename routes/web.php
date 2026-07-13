@@ -9,7 +9,6 @@ use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\ProfileController;
 use App\Models\HeroSection;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -125,40 +124,5 @@ Route::get('/lang/{locale}', function (string $locale) {
     }
     return redirect()->back();
 })->name('lang.switch');
-
-Route::post('api/blob-upload-url', function (Request $request) {
-    $token = env('BLOB_READ_WRITE_TOKEN');
-    if (!$token) {
-        return response()->json(['error' => 'BLOB_READ_WRITE_TOKEN not configured.'], 501);
-    }
-
-    $filename = preg_replace('/[^a-zA-Z0-9._-]/', '', $request->input('name', 'video.mp4'));
-
-    $ch = curl_init('https://api.vercel.com/v1/blob/upload-url');
-    curl_setopt_array($ch, [
-        CURLOPT_HTTPHEADER => [
-            'Authorization: Bearer ' . $token,
-            'Content-Type: application/json',
-        ],
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => json_encode([
-            'path' => 'reels/' . time() . '_' . $filename,
-            'options' => ['access' => 'public'],
-        ]),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 10,
-    ]);
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($httpCode !== 200) {
-        $err = json_decode($response, true);
-        $msg = $err['error']['message'] ?? 'Failed to generate upload URL.';
-        return response()->json(['error' => $msg], 502);
-    }
-
-    return response()->json(json_decode($response, true));
-});
 
 require __DIR__.'/auth.php';

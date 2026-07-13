@@ -19,7 +19,7 @@ class ReelController extends Controller
 
     public function create()
     {
-        return view('admin.reels.create');
+        return view('admin.reels.create', $this->blobUploadUrls());
     }
 
     public function store(Request $request)
@@ -59,7 +59,7 @@ class ReelController extends Controller
 
     public function edit(Reel $reel)
     {
-        return view('admin.reels.edit', compact('reel'));
+        return view('admin.reels.edit', array_merge(compact('reel'), $this->blobUploadUrls()));
     }
 
     public function update(Request $request, Reel $reel)
@@ -121,5 +121,40 @@ class ReelController extends Controller
         $reel->update(['is_active' => !$reel->is_active]);
 
         return back()->with('success', 'Reel status updated successfully.');
+    }
+
+    private function blobUploadUrls(): array
+    {
+        $token = env('BLOB_READ_WRITE_TOKEN');
+        if (!$token) {
+            return ['blobUploadUrl' => null, 'blobPublicUrl' => null];
+        }
+
+        $filename = 'reel_' . time() . '_' . bin2hex(random_bytes(4)) . '.mp4';
+        $body = json_encode([
+            'path' => 'reels/' . $filename,
+            'options' => ['access' => 'public'],
+        ]);
+
+        $ctx = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => "Authorization: Bearer $token\r\nContent-Type: application/json\r\n",
+                'content' => $body,
+                'timeout' => 10,
+                'ignore_errors' => true,
+            ],
+        ]);
+
+        $response = @file_get_contents('https://api.vercel.com/v1/blob/upload-url', false, $ctx);
+        if ($response === false) {
+            return ['blobUploadUrl' => null, 'blobPublicUrl' => null];
+        }
+
+        $data = json_decode($response, true);
+        return [
+            'blobUploadUrl' => $data['uploadUrl'] ?? null,
+            'blobPublicUrl' => $data['url'] ?? null,
+        ];
     }
 }

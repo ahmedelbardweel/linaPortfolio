@@ -9,7 +9,8 @@
     </div>
 
     <div class="max-w-2xl">
-        <form method="POST" action="{{ isset($reel) ? route('admin.reels.update', $reel) : route('admin.reels.store') }}" enctype="multipart/form-data" class="bg-white dark:bg-[#161615] rounded-xl shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] p-6 space-y-6">
+        <form method="POST" action="{{ isset($reel) ? route('admin.reels.update', $reel) : route('admin.reels.store') }}" enctype="multipart/form-data" class="bg-white dark:bg-[#161615] rounded-xl shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] p-6 space-y-6"
+{{-- Vercel Blob upload URL (for large videos) --}}@if ($blobUploadUrl ?? null) data-blob-upload-url="{{ $blobUploadUrl }}" data-blob-public-url="{{ $blobPublicUrl }}"@endif>
             @csrf
             @isset($reel)
                 @method('PUT')

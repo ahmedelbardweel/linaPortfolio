@@ -218,26 +218,12 @@
                     }
 
                     // Large file → upload directly to Vercel Blob (bypasses serverless 4.5MB limit)
-                    var token = document.querySelector('input[name="_token"]').value;
-                    fetch('/api/blob-upload-url', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token },
-                        body: JSON.stringify({ name: file.name })
-                    })
-                    .then(function (r) {
-                        if (r.headers.get('content-type')?.includes('application/json')) {
-                            return r.json().then(function (d) {
-                                if (!r.ok) throw new Error(d.error || 'Failed');
-                                return d;
-                            });
-                        }
-                        return r.text().then(function (t) { throw new Error(t.includes('BLOB_READ_WRITE_TOKEN') ? 'Missing BLOB_READ_WRITE_TOKEN' : 'Server returned HTML instead of JSON'); });
-                    })
-                    .then(function (data) {
-                        if (!data.uploadUrl) throw new Error('No upload URL');
-                        return new Promise(function (resolve, reject) {
+                    var uploadUrl = form.getAttribute('data-blob-upload-url');
+                    var publicUrl = form.getAttribute('data-blob-public-url');
+                    if (uploadUrl && publicUrl) {
+                        new Promise(function (resolve, reject) {
                             var xhr2 = new XMLHttpRequest();
-                            xhr2.open('PUT', data.uploadUrl, true);
+                            xhr2.open('PUT', uploadUrl, true);
                             xhr2.setRequestHeader('Content-Type', file.type || 'video/mp4');
                             xhr2.upload.onprogress = function (e) {
                                 if (e.lengthComputable) {
@@ -245,26 +231,25 @@
                                     if (btn) btn.textContent = pct + '%';
                                 }
                             };
-                            xhr2.onload = function () { resolve(data.url); };
+                            xhr2.onload = function () { resolve(publicUrl); };
                             xhr2.onerror = function () { reject(new Error('Blob upload failed')); };
                             xhr2.send(file);
+                        })
+                        .then(function (blobUrl) {
+                            var f = new FormData(form);
+                            f.delete('video');
+                            f.set('video_path', blobUrl);
+                            f.set('_direct_upload', '1');
+                            submitForm(f);
+                        })
+                        .catch(function (err) {
+                            if (btn) btn.textContent = origBtnText;
+                            alert(err && err.message ? err.message : 'Upload failed.');
                         });
-                    })
-                    .then(function (blobUrl) {
-                        var f = new FormData(form);
-                        f.delete('video');
-                        f.set('video_path', blobUrl);
-                        f.set('_direct_upload', '1');
-                        submitForm(f);
-                    })
-                    .catch(function (err) {
+                    } else {
                         if (btn) btn.textContent = origBtnText;
-                        var msg = err && err.message ? err.message : 'Upload failed.';
-                        if (msg.includes('BLOB_READ_WRITE_TOKEN') || msg.includes('not configured')) {
-                            msg = 'Vercel Blob not configured. Set BLOB_READ_WRITE_TOKEN in Vercel Dashboard, or use a video smaller than 3.5MB.';
-                        }
-                        alert(msg);
-                    });
+                        alert('Vercel Blob not configured. Set BLOB_READ_WRITE_TOKEN in Vercel Dashboard, or use a video smaller than 3.5MB.');
+                    }
                 });
             });
         });
