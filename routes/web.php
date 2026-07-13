@@ -20,7 +20,7 @@ Route::get('/', function () {
 
     // Generate a small inline data URI for the hero image (mobile LCP optimisation)
     $mainImageInline = '';
-    if ($hero && $hero->main_image_data) {
+    if ($hero && $hero->main_image_data && function_exists('imagecreatefromstring')) {
         $binary = base64_decode(explode(',', $hero->main_image_data, 2)[1] ?? '');
         if ($binary) {
             $img = @imagecreatefromstring($binary);
