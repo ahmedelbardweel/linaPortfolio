@@ -7,6 +7,7 @@ use App\Models\HeroSection;
 use App\Traits\HandlesImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class HeroSectionController extends Controller
 {
@@ -45,6 +46,8 @@ class HeroSectionController extends Controller
 
         $hero = HeroSection::create($data);
         $this->cacheImageData('hero', $hero);
+        $this->syncBlobUrl($hero, 'main_image', 'main_image_data');
+        $this->syncBlobUrl($hero, 'right_image', 'right_image_data');
 
         return redirect()->route('admin.hero.index')->with('success', 'Hero section created successfully.');
     }
@@ -77,14 +80,20 @@ class HeroSectionController extends Controller
 
         $hero->update($data);
         $this->cacheImageData('hero', $hero);
+        $this->syncBlobUrl($hero, 'main_image', 'main_image_data');
+        $this->syncBlobUrl($hero, 'right_image', 'right_image_data');
 
         return redirect()->route('admin.hero.index')->with('success', 'Hero section updated successfully.');
     }
 
     public function destroy(HeroSection $hero)
     {
-        if ($hero->main_image) Storage::disk('public')->delete($hero->main_image);
-        if ($hero->right_image) Storage::disk('public')->delete($hero->right_image);
+        foreach (['main_image', 'right_image'] as $col) {
+            $val = $hero->{$col} ?? '';
+            if ($val && !str_starts_with($val, 'https://')) {
+                Storage::disk('public')->delete($val);
+            }
+        }
         $hero->delete();
 
         return redirect()->route('admin.hero.index')->with('success', 'Hero section deleted successfully.');
@@ -94,5 +103,23 @@ class HeroSectionController extends Controller
     {
         $hero->update(['is_active' => !$hero->is_active]);
         return back()->with('success', 'Status updated.');
+    }
+
+    private function syncBlobUrl($hero, string $pathCol, string $dataCol): void
+    {
+        $binary = null;
+        if ($data = $hero->{$dataCol} ?? '') {
+            $binary = base64_decode(explode(',', $data, 2)[1] ?? '');
+        }
+        if (!$binary && ($path = $hero->{$pathCol} ?? '') && !str_starts_with($path, 'https://')) {
+            $binary = Storage::disk('public')->get($path);
+        }
+        if (!$binary) return;
+
+        $name = Str::slug(class_basename($hero)) . '-' . $hero->id . '-' . Str::random(8) . '.webp';
+        $url = $this->uploadToBlob($binary, $name);
+        if ($url) {
+            $hero->update([$pathCol => $url]);
+        }
     }
 }

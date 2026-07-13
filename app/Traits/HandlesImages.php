@@ -70,4 +70,43 @@ trait HandlesImages
             file_put_contents("$cacheDir/$table.{$model->id}.{$pair['id']}", $binary);
         }
     }
+
+    protected function uploadToBlob(string $binary, string $name): ?string
+    {
+        $token = env('BLOB_READ_WRITE_TOKEN');
+        if (!$token) return null;
+
+        $path = "images/$name";
+        $body = json_encode(['path' => $path, 'options' => ['access' => 'public']]);
+        $ctx = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => "Authorization: Bearer $token\r\nContent-Type: application/json\r\n",
+                'content' => $body,
+                'timeout' => 15,
+                'ignore_errors' => true,
+            ],
+        ]);
+
+        $response = @file_get_contents('https://api.vercel.com/v1/blob/upload-url', false, $ctx);
+        if ($response === false) return null;
+
+        $data = json_decode($response, true);
+        if (!$data || !isset($data['uploadUrl'], $data['url'])) return null;
+
+        $putCtx = stream_context_create([
+            'http' => [
+                'method' => 'PUT',
+                'header' => "Content-Type: image/webp\r\n",
+                'content' => $binary,
+                'timeout' => 30,
+                'ignore_errors' => true,
+            ],
+        ]);
+
+        $putResult = @file_get_contents($data['uploadUrl'], false, $putCtx);
+        if ($putResult === false) return null;
+
+        return $data['url'];
+    }
 }
