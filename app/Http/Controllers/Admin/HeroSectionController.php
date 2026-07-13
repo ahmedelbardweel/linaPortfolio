@@ -46,8 +46,16 @@ class HeroSectionController extends Controller
 
         $hero = HeroSection::create($data);
         $this->cacheImageData('hero', $hero);
-        $this->syncBlobUrl($hero, 'main_image', 'main_image_data');
-        $this->syncBlobUrl($hero, 'right_image', 'right_image_data');
+        foreach (['main_image', 'right_image'] as $col) {
+            $val = $hero->{$col} ?? '';
+            if ($val && !str_starts_with($val, 'https://')) {
+                $dataCol = match ($col) {
+                    'main_image' => 'main_image_data',
+                    'right_image' => 'right_image_data',
+                };
+                $this->syncBlobUrl($hero->fresh(), $col, $dataCol);
+            }
+        }
 
         return redirect()->route('admin.hero.index')->with('success', 'Hero section created successfully.');
     }
@@ -80,8 +88,19 @@ class HeroSectionController extends Controller
 
         $hero->update($data);
         $this->cacheImageData('hero', $hero);
-        $this->syncBlobUrl($hero, 'main_image', 'main_image_data');
-        $this->syncBlobUrl($hero, 'right_image', 'right_image_data');
+
+        // Upload existing (not yet synced) images to Blob
+        foreach (['main_image', 'right_image'] as $col) {
+            $val = $hero->{$col} ?? '';
+            if ($val && !str_starts_with($val, 'https://')) {
+                // Look up the corresponding data column
+                $dataCol = match ($col) {
+                    'main_image' => 'main_image_data',
+                    'right_image' => 'right_image_data',
+                };
+                $this->syncBlobUrl($hero->fresh(), $col, $dataCol);
+            }
+        }
 
         return redirect()->route('admin.hero.index')->with('success', 'Hero section updated successfully.');
     }
