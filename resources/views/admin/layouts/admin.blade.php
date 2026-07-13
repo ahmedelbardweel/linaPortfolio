@@ -211,9 +211,55 @@
                         return;
                     }
 
-                    // File too large for Vercel hobby plan (4.5MB serverless limit)
-                    if (btn) btn.textContent = origBtnText;
-                    alert('Video must be smaller than 3.5MB due to serverless limits. Compress the video or upgrade your Vercel plan.');
+                    // File <= 3.4MB → submit directly via AJAX (fits Vercel hobby limit with multipart overhead)
+                    if (file.size <= 3.4 * 1024 * 1024) {
+                        submitForm(fd);
+                        return;
+                    }
+
+                    // Large file → upload directly to Vercel Blob (bypasses serverless 4.5MB limit)
+                    var token = document.querySelector('input[name="_token"]').value;
+                    fetch('/api/blob-upload-url', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token },
+                        body: JSON.stringify({ name: file.name })
+                    })
+                    .then(function (r) {
+                        if (!r.ok) return r.json().then(function (d) { throw new Error(d.error || 'Failed'); });
+                        return r.json();
+                    })
+                    .then(function (data) {
+                        if (!data.uploadUrl) throw new Error('No upload URL');
+                        return new Promise(function (resolve, reject) {
+                            var xhr2 = new XMLHttpRequest();
+                            xhr2.open('PUT', data.uploadUrl, true);
+                            xhr2.setRequestHeader('Content-Type', file.type || 'video/mp4');
+                            xhr2.upload.onprogress = function (e) {
+                                if (e.lengthComputable) {
+                                    var pct = Math.round((e.loaded / e.total) * 100);
+                                    if (btn) btn.textContent = pct + '%';
+                                }
+                            };
+                            xhr2.onload = function () { resolve(data.url); };
+                            xhr2.onerror = function () { reject(new Error('Blob upload failed')); };
+                            xhr2.send(file);
+                        });
+                    })
+                    .then(function (blobUrl) {
+                        var f = new FormData(form);
+                        f.delete('video');
+                        f.set('video_path', blobUrl);
+                        f.set('_direct_upload', '1');
+                        submitForm(f);
+                    })
+                    .catch(function (err) {
+                        if (btn) btn.textContent = origBtnText;
+                        var msg = err && err.message ? err.message : 'Upload failed.';
+                        if (msg.includes('BLOB_READ_WRITE_TOKEN') || msg.includes('not configured')) {
+                            msg = 'Vercel Blob not configured. Set BLOB_READ_WRITE_TOKEN in Vercel Dashboard, or use a video smaller than 3.5MB.';
+                        }
+                        alert(msg);
+                    });
                 });
             });
         });
