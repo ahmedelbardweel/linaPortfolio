@@ -9,14 +9,12 @@
     <title>{{ __("Lina - Interior Design & Decoration") }}</title>
     <meta name="description" content="{{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}">
 
-    <!-- Fonts -->
+    <!-- Font preloads (critical above-the-fold only) -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link rel="preconnect" href="{{ url('/') }}">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/playfair-display/files/playfair-display-latin-700-normal.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/playfair-display/files/playfair-display-latin-400-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-600-normal.woff2">
     @if ($h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
         <link rel="preload" as="image" href="{{ $h->main_image_url }}" fetchpriority="high">
     @endif
@@ -205,7 +203,7 @@
                     <div class="w-full h-full rounded-sm overflow-hidden"
                         style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
-                            <img src="{{ $h->main_image_url }}" alt="Hero" fetchpriority="high"
+                            <img src="{{ $h->main_image_data ?: $h->main_image_url }}" alt="Hero" fetchpriority="high"
                                 class="w-full h-full object-cover">
                         @else
                             <svg class="w-full h-full text-[#1b1b18]/15 dark:text-white/10 p-8" viewBox="0 0 100 120"
