@@ -26,9 +26,9 @@
     @vite(['resources/css/app.css'])
 </head>
 
-<body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] m-0" style="overflow:hidden">
-    <div class="snap-container"
-        style="overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-ms-overflow-style:none">
+<body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] m-0">
+    <div id="snapContainer" class="snap-container"
+        style="overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;-ms-overflow-style:none">
         <style>
             html.dark nav {
                 background: rgba(10, 10, 10, .85) !important;
@@ -39,11 +39,45 @@
             .snap-container::-webkit-scrollbar {
                 display: none
             }
-            .snap-container { height: 100vh; height: 100dvh; scroll-padding-top: 56px; }
+            .snap-container { height: 100vh; height: 100dvh; }
             .snap-section { min-height: 100vh; min-height: 100dvh; }
+            @media (min-width: 769px) {
+                body { overflow: hidden !important; }
+                .snap-container {
+                    overflow: hidden !important;
+                    scroll-snap-type: none !important;
+                    display: flex;
+                    flex-wrap: nowrap;
+                    transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+                    transform-style: preserve-3d;
+                    perspective: 1200px;
+                }
+                .snap-section {
+                    min-width: 100vw;
+                    min-height: 100vh;
+                    flex-shrink: 0;
+                    scroll-snap-align: none !important;
+                    transition: transform 0.7s ease, opacity 0.7s ease;
+                    transform-style: preserve-3d;
+                }
+                .snap-section.page-prev {
+                    transform: perspective(1200px) rotateY(5deg);
+                    transform-origin: right center;
+                    opacity: 0.3;
+                }
+                .snap-section.page-next {
+                    transform: perspective(1200px) rotateY(-5deg);
+                    transform-origin: left center;
+                    opacity: 0.3;
+                }
+                .snap-section.page-active {
+                    transform: perspective(1200px) rotateY(0deg);
+                    opacity: 1;
+                }
+            }
             @media (max-width: 768px) {
                 .snap-section { min-height: auto !important; padding-top: 56px; }
-                .snap-container { scroll-snap-type: none !important; }
+                .snap-container { scroll-snap-type: none !important; scroll-padding-top: 56px; }
                 #hero-section { height: 80vh !important; min-height: 80vh !important; margin-top: 56px !important; padding-top: 0 !important; }
                 #hero-section .max-w-6xl { justify-content: center !important; gap: 0.5rem !important; padding-top: 0 !important; padding-bottom: 0 !important; }
                 #hero-section h1 { font-size: 1.5rem !important; margin-top: 20px !important; margin-bottom: 20px !important; }
@@ -685,16 +719,6 @@
 
     <style>
         /* Page-turn card effect */
-        .snap-section {
-            transition: transform 0.6s ease, opacity 0.6s ease;
-        }
-        .snap-section.page-enter {
-            animation: pageTurnIn 0.7s ease forwards;
-        }
-        @keyframes pageTurnIn {
-            0% { transform: perspective(1200px) rotateY(-4deg); opacity: 0.6; transform-origin: left center; }
-            100% { transform: perspective(1200px) rotateY(0deg); opacity: 1; transform-origin: left center; }
-        }
         .island-item.active {
             background: #c42802 !important;
             color: white !important;
@@ -760,59 +784,126 @@
                 });
             });
 
-            // Nav island: text click → smooth scroll
-            document.querySelectorAll('.island-item').forEach(item => {
-                item.addEventListener('click', function () {
-                    const id = this.getAttribute('data-target');
-                    const el = document.getElementById(id);
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                });
-            });
-
-            // Intersection Observer: highlight active item
-            const sections = ['hero-section', 'about', 'portfolio', 'stories', 'tips'];
+            // Nav island + anchor: book-style horizontal page turn on desktop
+            const isDesktop = window.innerWidth > 768;
+            const container = document.getElementById('snapContainer');
+            const sectionIds = ['hero-section', 'about', 'portfolio', 'stories', 'tips'];
+            let currentIndex = 0;
             const items = {};
-            sections.forEach(id => {
+
+            sectionIds.forEach((id, i) => {
                 items[id] = document.querySelector(`.island-item[data-target="${id}"]`);
             });
 
-            const observer = new IntersectionObserver(entries => {
-                let maxRatio = 0, maxId = null;
-                entries.forEach(entry => {
-                    if (entry.intersectionRatio > maxRatio) {
-                        maxRatio = entry.intersectionRatio;
-                        maxId = entry.target.id;
-                    }
-                });
-                if (maxId && items[maxId]) {
-                    Object.values(items).forEach(i => i && i.classList.remove('active'));
-                    items[maxId].classList.add('active');
-                }
-            }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
+            function goToSection(index) {
+                if (index < 0 || index >= sectionIds.length) return;
+                if (index === currentIndex) return;
 
-            sections.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) observer.observe(el);
+                const prevIndex = currentIndex;
+                currentIndex = index;
+
+                if (isDesktop) {
+                    const prev = document.getElementById(sectionIds[prevIndex]);
+                    const next = document.getElementById(sectionIds[currentIndex]);
+                    if (prev) { prev.classList.remove('page-active', 'page-prev', 'page-next'); }
+                    if (next) { next.classList.remove('page-active', 'page-prev', 'page-next'); }
+
+                    // Remove page classes from all
+                    sectionIds.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.classList.remove('page-active', 'page-prev', 'page-next');
+                    });
+
+                    // Animate container
+                    container.style.transform = `translateX(-${index * 100}vw)`;
+
+                    // Apply page classes for 3D effect
+                    if (next) next.classList.add('page-active');
+                    if (prev && index > prevIndex) {
+                        prev.classList.add('page-prev');
+                    } else if (prev && index < prevIndex) {
+                        prev.classList.add('page-next');
+                    }
+                } else {
+                    const el = document.getElementById(sectionIds[index]);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }
+
+                // Update island active
+                Object.values(items).forEach(i => i && i.classList.remove('active'));
+                if (items[sectionIds[index]]) items[sectionIds[index]].classList.add('active');
+            }
+
+            // Island click
+            document.querySelectorAll('.island-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    const id = this.getAttribute('data-target');
+                    const idx = sectionIds.indexOf(id);
+                    if (idx >= 0) goToSection(idx);
+                });
             });
 
-            // Page-turn animation on scroll
-            let lastScrollY = window.scrollY;
-            window.addEventListener('scroll', function () {
-                const dir = window.scrollY > lastScrollY ? 'down' : 'up';
-                lastScrollY = window.scrollY;
-                sections.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (!el) return;
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight * 0.8 && rect.bottom > window.innerHeight * 0.2) {
-                        if (!el.classList.contains('page-enter')) {
-                            el.classList.add('page-enter');
-                        }
-                    } else {
-                        el.classList.remove('page-enter');
+            // Anchor links → page turn on desktop, smooth scroll on mobile
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    const id = href.substring(1);
+                    const idx = sectionIds.indexOf(id);
+                    if (idx >= 0) {
+                        e.preventDefault();
+                        goToSection(idx);
+                    } else if (id) {
+                        // Non-section anchors (e.g. #contact, #privacy)
+                        e.preventDefault();
+                        const el = document.getElementById(id);
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }
                 });
-            }, { passive: true });
+            });
+
+            // Keyboard arrows
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    goToSection(currentIndex + 1);
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    goToSection(currentIndex - 1);
+                }
+            });
+
+            // Wheel → page turn on desktop
+            if (isDesktop) {
+                let wheelTimeout = null;
+                container.addEventListener('wheel', function (e) {
+                    if (wheelTimeout) return;
+                    const dir = e.deltaY > 0 || e.deltaX > 0 ? 1 : -1;
+                    wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 800);
+                    goToSection(currentIndex + dir);
+                }, { passive: true });
+            }
+
+            // Touch swipe on desktop
+            if (isDesktop) {
+                let touchStartX = 0;
+                container.addEventListener('touchstart', function (e) {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+                container.addEventListener('touchend', function (e) {
+                    const diff = touchStartX - e.changedTouches[0].screenX;
+                    if (Math.abs(diff) > 50) {
+                        goToSection(currentIndex + (diff > 0 ? 1 : -1));
+                    }
+                }, { passive: true });
+            }
+
+            // Init: set page-active on first section
+            if (isDesktop) {
+                const first = document.getElementById(sectionIds[0]);
+                if (first) first.classList.add('page-active');
+                container.style.transform = 'translateX(0)';
+                if (items[sectionIds[0]]) items[sectionIds[0]].classList.add('active');
+            }
         });
     </script>
 
