@@ -51,6 +51,7 @@
                 #hero-section p.text-xs { font-size: 0.6875rem !important; margin-bottom: 0 !important; }
                 #hero-section .h-\[200px\] { height: 160px !important; }
                 #hero-section .h-\[180px\] { height: 140px !important; }
+                #hero-section .order-1 { margin-top: 20px !important; }
                 #about { height: 80vh !important; min-height: 80vh !important; }
                 #about h1 { font-size: 1.75rem !important; margin-bottom: 0.5rem !important; }
                 #about .max-w-4xl { padding-top: 0 !important; padding-bottom: 0 !important; justify-content: center !important; display: flex !important; flex-direction: column !important; }
