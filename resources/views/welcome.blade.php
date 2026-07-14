@@ -30,6 +30,10 @@
     <div id="snapContainer" class="snap-container"
         style="overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;-ms-overflow-style:none">
         <style>
+            html { scrollbar-width: none; -ms-overflow-style: none; }
+            html::-webkit-scrollbar { display: none; }
+            body { overflow: -moz-scrollbars-none; -ms-overflow-style: none; }
+            body::-webkit-scrollbar { display: none; }
             html.dark nav {
                 background: rgba(10, 10, 10, .85) !important;
             }
@@ -383,9 +387,9 @@
         <section id="about" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] lg:pb-5"
             style="scroll-snap-align:start">
             <div class="max-w-4xl mx-auto px-6 lg:px-10 w-full py-12 md:py-20">
-                <h1 data-translate-html="About<br>Me"
-                    class="font-['Playfair_Display',serif] text-4xl md:text-7xl lg:text-8xl font-bold text-[#111111] dark:text-[#EDEDEC] leading-[1] mb-8 md:mb-12">
-                    {!! __("About<br>Me") !!}
+                <h1 data-translate-key="About Me"
+                    class="font-['Playfair_Display',serif] text-3xl md:text-5xl lg:text-6xl font-bold text-[#111111] dark:text-[#EDEDEC] mb-6 md:mb-10">
+                    {{ __("About Me") }}
                 </h1>
 
                 <div class="space-y-6 text-[#555] dark:text-[#A1A09A] text-sm md:text-[15px] leading-[1.8] max-w-3xl">
