@@ -197,7 +197,7 @@
 
         <main>
         <!-- ===== HERO SECTION ===== -->
-        <section id="hero-section" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
+        <section id="hero-section" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] relative"
             style="scroll-snap-align:start">
             <div
                 class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 py-6 lg:py-20 relative">
@@ -267,6 +267,13 @@
                     </div>
                 </div>
             </div>
+            <!-- Decorative elements (desktop only) -->
+            <div class="hidden lg:block absolute top-8 left-4 w-3 h-3 rounded-full border-2 border-[#f53003]/40 dark:border-[#FF4433]/40"></div>
+            <div class="hidden lg:block absolute top-32 right-8 w-2 h-2 rounded-full bg-[#f53003]/20 dark:bg-[#FF4433]/20"></div>
+            <div class="hidden lg:block absolute bottom-12 left-12 w-2.5 h-2.5 rotate-45 border border-[#333]/20 dark:border-[#EDEDEC]/20"></div>
+            <div class="hidden lg:block absolute top-1/2 -left-3 w-4 h-4 rounded-full border border-[#f53003]/30 dark:border-[#FF4433]/30"></div>
+            <div class="hidden lg:block absolute bottom-1/4 right-4 w-1.5 h-1.5 rounded-full bg-[#333]/15 dark:bg-[#EDEDEC]/15"></div>
+            <div class="hidden lg:block absolute top-3/4 left-1/3 w-2 h-2 border border-[#f53003]/20 dark:border-[#FF4433]/20" style="transform:rotate(45deg)"></div>
         </section>
 
         <!-- ===== ABOUT ME ===== -->
