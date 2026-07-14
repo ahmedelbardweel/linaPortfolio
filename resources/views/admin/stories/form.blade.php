@@ -18,7 +18,7 @@
             {{-- Title --}}
             <div>
                 <label for="title" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Title</label>
-                <input type="text" id="title" name="title" value="{{ old('title', $story->title ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                <input type="text" id="title" name="title" value="{{ old('title', $story->title ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
                 @error('title')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -27,7 +27,7 @@
             {{-- Content --}}
             <div>
                 <label for="content" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Content</label>
-                <textarea id="content" name="content" rows="4" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">{{ old('content', $story->content ?? '') }}</textarea>
+                <textarea id="content" name="content" rows="4" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">{{ old('content', $story->content ?? '') }}</textarea>
                 @error('content')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -36,7 +36,7 @@
             {{-- Type --}}
             <div>
                 <label for="type" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Type</label>
-                <select id="type" name="type" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                <select id="type" name="type" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
                     <option value="visual" {{ old('type', $story->type ?? '') == 'visual' ? 'selected' : '' }}>Visual</option>
                     <option value="text" {{ old('type', $story->type ?? '') == 'text' ? 'selected' : '' }}>Text</option>
                     <option value="mixed" {{ old('type', $story->type ?? '') == 'mixed' ? 'selected' : '' }}>Mixed</option>
@@ -49,7 +49,7 @@
             {{-- Background Color --}}
             <div>
                 <label for="bg_color" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Background Color</label>
-                <input type="text" id="bg_color" name="bg_color" value="{{ old('bg_color', $story->bg_color ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm" placeholder="e.g. #6366f1 or bg-gradient-to-r from-pink-500 to-purple-500">
+                <input type="text" id="bg_color" name="bg_color" value="{{ old('bg_color', $story->bg_color ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm" placeholder="e.g. #6366f1 or bg-gradient-to-r from-pink-500 to-purple-500">
                 @error('bg_color')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -63,7 +63,7 @@
                         <img src="{{ $story->image_url }}" alt="Current image" class="w-24 h-24 rounded-lg object-cover">
                     </div>
                 @endif
-                <input type="file" id="image" name="image" accept="image/*" class="w-full text-sm text-[#706f6c] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] file:text-[#c42802] hover:file:bg-[#fdf0ed]">
+                <input type="file" id="image" name="image" accept="image/*" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
                 @error('image')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -72,7 +72,7 @@
             {{-- Order --}}
             <div>
                 <label for="order" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Order</label>
-                <input type="number" id="order" name="order" value="{{ old('order', $story->order ?? 0) }}" class="w-32 rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                <input type="number" id="order" name="order" value="{{ old('order', $story->order ?? 0) }}" class="w-32 rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
                 @error('order')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror

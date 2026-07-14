@@ -15,7 +15,7 @@
 
             <div>
                 <label for="main_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Main Image (center)</label>
-                <input type="file" id="main_image" name="main_image" class="w-full text-sm">
+                <input type="file" id="main_image" name="main_image" class="w-full text-sm dark:text-[#EDEDEC]">
                 @if (isset($hero) && ($hero->main_image_data || $hero->main_image))
                     <img src="{{ $hero->main_image_url }}" class="mt-2 h-32 rounded object-cover">
                 @endif
@@ -24,7 +24,7 @@
 
             <div>
                 <label for="right_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Right Image</label>
-                <input type="file" id="right_image" name="right_image" class="w-full text-sm">
+                <input type="file" id="right_image" name="right_image" class="w-full text-sm dark:text-[#EDEDEC]">
                 @if (isset($hero) && ($hero->right_image_data || $hero->right_image))
                     <img src="{{ $hero->right_image_url }}" class="mt-2 h-32 rounded object-cover">
                 @endif

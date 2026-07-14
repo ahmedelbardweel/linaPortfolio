@@ -18,7 +18,7 @@
             {{-- Title --}}
             <div>
                 <label for="title" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Title</label>
-                <input type="text" id="title" name="title" value="{{ old('title', $tip->title ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                <input type="text" id="title" name="title" value="{{ old('title', $tip->title ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
                 @error('title')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -27,7 +27,7 @@
             {{-- Category --}}
             <div>
                 <label for="category" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Category</label>
-                <input type="text" id="category" name="category" value="{{ old('category', $tip->category ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm" placeholder="e.g. Photography, Business, Editing">
+                <input type="text" id="category" name="category" value="{{ old('category', $tip->category ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm" placeholder="e.g. Photography, Business, Editing">
                 @error('category')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -36,7 +36,7 @@
             {{-- Content --}}
             <div>
                 <label for="content" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Content</label>
-                <textarea id="content" name="content" rows="6" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">{{ old('content', $tip->content ?? '') }}</textarea>
+                <textarea id="content" name="content" rows="6" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">{{ old('content', $tip->content ?? '') }}</textarea>
                 @error('content')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -45,7 +45,7 @@
             {{-- Order --}}
             <div>
                 <label for="order" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Order</label>
-                <input type="number" id="order" name="order" value="{{ old('order', $tip->order ?? 0) }}" class="w-32 rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                <input type="number" id="order" name="order" value="{{ old('order', $tip->order ?? 0) }}" class="w-32 rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
                 @error('order')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror

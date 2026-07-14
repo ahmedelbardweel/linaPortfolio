@@ -19,7 +19,7 @@
             {{-- Title --}}
             <div>
                 <label for="title" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Title</label>
-                <input type="text" id="title" name="title" value="{{ old('title', $reel->title ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                <input type="text" id="title" name="title" value="{{ old('title', $reel->title ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
                 @error('title')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -28,7 +28,7 @@
             {{-- Description --}}
             <div>
                 <label for="description" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Description</label>
-                <textarea id="description" name="description" rows="4" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">{{ old('description', $reel->description ?? '') }}</textarea>
+                <textarea id="description" name="description" rows="4" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">{{ old('description', $reel->description ?? '') }}</textarea>
                 @error('description')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -43,7 +43,7 @@
                         <span>Current video: {{ basename($reel->video_path) }}</span>
                     </div>
                 @endisset
-                <input type="file" id="video" name="video" accept="video/*" class="w-full text-sm text-[#706f6c] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] file:text-[#c42802] hover:file:bg-[#fdf0ed]">
+                <input type="file" id="video" name="video" accept="video/*" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
                 @error('video')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -57,7 +57,7 @@
                         <img src="{{ $reel->thumbnail_url }}" alt="Current thumbnail" class="w-24 h-24 rounded-lg object-cover">
                     </div>
                 @endif
-                <input type="file" id="thumbnail" name="thumbnail" accept="image/*" class="w-full text-sm text-[#706f6c] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] file:text-[#c42802] hover:file:bg-[#fdf0ed]">
+                <input type="file" id="thumbnail" name="thumbnail" accept="image/*" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
                 @error('thumbnail')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -66,7 +66,7 @@
             {{-- Order --}}
             <div>
                 <label for="order" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Order</label>
-                <input type="number" id="order" name="order" value="{{ old('order', $reel->order ?? 0) }}" class="w-32 rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                <input type="number" id="order" name="order" value="{{ old('order', $reel->order ?? 0) }}" class="w-32 rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
                 @error('order')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror

@@ -18,7 +18,7 @@
             {{-- Title --}}
             <div>
                 <label for="title" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Title</label>
-                <input type="text" id="title" name="title" value="{{ old('title', $portfolio->title ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                <input type="text" id="title" name="title" value="{{ old('title', $portfolio->title ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
                 @error('title')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -27,7 +27,7 @@
             {{-- Description --}}
             <div>
                 <label for="description" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Description</label>
-                <textarea id="description" name="description" rows="4" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">{{ old('description', $portfolio->description ?? '') }}</textarea>
+                <textarea id="description" name="description" rows="4" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">{{ old('description', $portfolio->description ?? '') }}</textarea>
                 @error('description')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -41,7 +41,7 @@
                         <img src="{{ $portfolio->image_url }}" alt="Current image" class="w-24 h-24 rounded-lg object-cover">
                     </div>
                 @endif
-                <input type="file" id="image" name="image" accept="image/*" class="w-full text-sm text-[#706f6c] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] file:text-[#c42802] hover:file:bg-[#fdf0ed]">
+                <input type="file" id="image" name="image" accept="image/*" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
                 @error('image')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -50,7 +50,7 @@
             {{-- Gradient --}}
             <div>
                 <label for="gradient" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Gradient</label>
-                <input type="text" id="gradient" name="gradient" value="{{ old('gradient', $portfolio->gradient ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm" placeholder="e.g. linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <input type="text" id="gradient" name="gradient" value="{{ old('gradient', $portfolio->gradient ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm" placeholder="e.g. linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
                 @error('gradient')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -59,7 +59,7 @@
             {{-- Order --}}
             <div>
                 <label for="order" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Order</label>
-                <input type="number" id="order" name="order" value="{{ old('order', $portfolio->order ?? 0) }}" class="w-32 rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                <input type="number" id="order" name="order" value="{{ old('order', $portfolio->order ?? 0) }}" class="w-32 rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
                 @error('order')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
