@@ -734,7 +734,7 @@
     </div>
 
     <!-- ===== Bottom Navigation Island (outside snap-container!) ===== -->
-    <div id="navIsland" class="fixed bottom-14 md:bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 px-3 md:px-4 py-2.5 md:py-2 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500 max-w-[92vw] overflow-x-auto whitespace-nowrap"
+    <div id="navIsland" class="fixed bottom-8 md:bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 px-3 md:px-4 pt-2.5 pb-0 md:pt-2 md:pb-0 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500 max-w-[92vw] overflow-x-auto whitespace-nowrap"
         style="background:rgba(253,253,252,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
         <button data-target="hero-section" class="island-item px-1.5 md:px-2.5 py-1 text-[10px] md:text-[11px] font-medium text-[#1b1b18] dark:text-[#EDEDEC] rounded-full transition-all duration-300">Hero</button>
         <button data-target="about" class="island-item px-1.5 md:px-2.5 py-1 text-[10px] md:text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">About</button>
