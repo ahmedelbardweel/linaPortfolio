@@ -53,7 +53,7 @@
                     perspective: 1200px;
                 }
                 .snap-section {
-                    min-width: 100vw;
+                    width: 100vw;
                     min-height: 100vh;
                     flex-shrink: 0;
                     scroll-snap-align: none !important;
