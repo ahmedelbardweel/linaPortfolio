@@ -117,6 +117,7 @@
                 #portfolio .max-w-6xl, #stories .max-w-6xl, #tips .max-w-6xl { padding-top: 1rem !important; padding-bottom: 1rem !important; }
                 .story-card { width: 160px !important; }
                 .story-card .h-32 { height: 100px !important; }
+                #contact { padding-top: 0 !important; }
             }
             @keyframes dropIn {
                 0% { transform: translateY(-120px) rotate(var(--rot,0deg)); opacity: 0; filter: blur(8px); }
