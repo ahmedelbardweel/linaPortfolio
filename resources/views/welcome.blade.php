@@ -65,6 +65,19 @@
                 .story-card { width: 160px !important; }
                 .story-card .h-32 { height: 100px !important; }
             }
+            @keyframes dropIn {
+                0% { transform: translateY(-120px) rotate(var(--rot,0deg)); opacity: 0; }
+                100% { transform: translateY(0) rotate(var(--rot,0deg)); opacity: var(--bg-op,0.08); }
+            }
+            @keyframes bgFloat {
+                0%, 100% { transform: translateY(0) rotate(var(--rot,0deg)); }
+                50% { transform: translateY(-6px) rotate(var(--rot,0deg)); }
+            }
+            .bg-img-anim {
+                animation: dropIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                           bgFloat 6s ease-in-out infinite;
+                animation-delay: var(--anim-delay, 0s), calc(var(--anim-delay, 0s) + 0.8s);
+            }
         </style>
         <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 border-b border-[#e3e3e0] dark:border-[#3E3E3A]"
             style="background:rgba(253,253,252,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)">
@@ -220,7 +233,8 @@
                     $op = rand(5, 12) / 100;
                 @endphp
                 <img src="{{ $img }}" alt="" loading="lazy"
-                    style="position:absolute;left:{{ $x }}%;top:{{ $y }}%;width:{{ $w }}px;height:{{ $imgH }}px;object-fit:cover;border-radius:2px;opacity:{{ $op }};transform:rotate({{ $rot }}deg)">
+                    style="position:absolute;left:{{ $x }}%;top:{{ $y }}%;width:{{ $w }}px;height:{{ $imgH }}px;object-fit:cover;border-radius:2px;--bg-op:{{ $op }};--rot:{{ $rot }}deg;--anim-delay:{{ $i * 0.04 }}s"
+                    class="bg-img-anim">
                 @endfor
             </div>
             @endif
