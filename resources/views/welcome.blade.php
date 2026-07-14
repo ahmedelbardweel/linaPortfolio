@@ -197,8 +197,16 @@
 
         <main>
         <!-- ===== HERO SECTION ===== -->
-        <section id="hero-section" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] relative"
+        <section id="hero-section" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] relative overflow-hidden"
             style="scroll-snap-align:start">
+            <!-- Background pattern (desktop only) -->
+            @if ($h && $h->main_image_url)
+            <div class="hidden lg:block absolute inset-0 pointer-events-none opacity-[0.07] dark:opacity-[0.12]"
+                style="background-image:url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}');
+                background-size:100px 75px,140px 105px,80px 60px,120px 90px,60px 45px;
+                background-position:3% 8%,90% 5%,7% 92%,95% 88%,50% 3%;
+                background-repeat:no-repeat"></div>
+            @endif
             <div
                 class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 py-6 lg:py-20 relative">
                 <!-- Center Image (Mobile order 1, Desktop order 2) -->
@@ -267,25 +275,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Decorative images (desktop only) -->
-            @if ($h && $h->main_image_url)
-            <div class="hidden lg:block absolute top-6 left-0 w-20 h-20 rounded-sm overflow-hidden opacity-60 shadow-lg"
-                style="transform:rotate(-8deg);box-shadow:0 4px 20px rgba(0,0,0,.08)">
-                <img src="{{ $h->main_image_url }}" alt="" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            @endif
-            @if ($h && $h->right_image_url)
-            <div class="hidden lg:block absolute bottom-8 left-8 w-16 h-16 rounded-sm overflow-hidden opacity-50 shadow-lg"
-                style="transform:rotate(5deg);box-shadow:0 4px 16px rgba(0,0,0,.08)">
-                <img src="{{ $h->right_image_url }}" alt="" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            @endif
-            @if ($h && $h->main_image_url)
-            <div class="hidden lg:block absolute top-1/3 right-0 w-14 h-14 rounded-sm overflow-hidden opacity-40 shadow-lg"
-                style="transform:rotate(12deg);box-shadow:0 4px 16px rgba(0,0,0,.06)">
-                <img src="{{ $h->main_image_url }}" alt="" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            @endif
         </section>
 
         <!-- ===== ABOUT ME ===== -->
