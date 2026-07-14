@@ -672,17 +672,14 @@
         </footer>
 
         <!-- ===== Bottom Navigation Island ===== -->
-        <div id="navIsland" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-3 px-5 py-2 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500"
+        <div id="navIsland" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-1 px-4 py-2 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500"
             style="background:rgba(253,253,252,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
-            <span id="islandLabel" class="text-xs font-medium text-[#1b1b18] dark:text-[#EDEDEC] whitespace-nowrap min-w-[60px] text-center transition-opacity duration-300">Hero</span>
-            <div class="flex items-center gap-1.5">
-                <button data-target="hero-section" class="island-dot w-2 h-2 rounded-full bg-[#1b1b18] dark:bg-[#EDEDEC] transition-all duration-300 hover:scale-150" title="Hero"></button>
-                <button data-target="about" class="island-dot w-2 h-2 rounded-full bg-[#706f6c] dark:bg-[#A1A09A] transition-all duration-300 hover:scale-150" title="About Me"></button>
-                <button data-target="portfolio" class="island-dot w-2 h-2 rounded-full bg-[#706f6c] dark:bg-[#A1A09A] transition-all duration-300 hover:scale-150" title="Portfolio"></button>
-                <button data-target="stories" class="island-dot w-2 h-2 rounded-full bg-[#706f6c] dark:bg-[#A1A09A] transition-all duration-300 hover:scale-150" title="Stories"></button>
-                <a href="/reels" class="w-2 h-2 rounded-full bg-[#706f6c] dark:bg-[#A1A09A] transition-all duration-300 hover:scale-150 block" title="Reels"></a>
-                <button data-target="tips" class="island-dot w-2 h-2 rounded-full bg-[#706f6c] dark:bg-[#A1A09A] transition-all duration-300 hover:scale-150" title="Tips & Insights"></button>
-            </div>
+            <button data-target="hero-section" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#1b1b18] dark:text-[#EDEDEC] rounded-full transition-all duration-300" data-label="Hero">Hero</button>
+            <button data-target="about" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300" data-label="About">About</button>
+            <button data-target="portfolio" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300" data-label="Portfolio">Portfolio</button>
+            <button data-target="stories" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300" data-label="Stories">Stories</button>
+            <a href="/reels" class="px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300 hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">Reels</a>
+            <button data-target="tips" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300" data-label="Tips">Tips</button>
         </div>
     </div>
 
@@ -698,14 +695,15 @@
             0% { transform: perspective(1200px) rotateY(-4deg); opacity: 0.6; transform-origin: left center; }
             100% { transform: perspective(1200px) rotateY(0deg); opacity: 1; transform-origin: left center; }
         }
-        .island-dot.active {
+        .island-item.active {
             background: #c42802 !important;
-            box-shadow: 0 0 0 3px rgba(196,40,2,0.25);
-            transform: scale(1.4);
+            color: white !important;
         }
-        #navIsland.scrolled {
-            padding-left: 1.25rem;
-            padding-right: 1.25rem;
+        .island-item:hover:not(.active) {
+            background: #f0f0ef;
+        }
+        html.dark .island-item:hover:not(.active) {
+            background: #2a2a28;
         }
     </style>
 
@@ -759,23 +757,21 @@
                 });
             });
 
-            // Nav island: dot click → smooth scroll
-            document.querySelectorAll('.island-dot').forEach(dot => {
-                dot.addEventListener('click', function () {
+            // Nav island: text click → smooth scroll
+            document.querySelectorAll('.island-item').forEach(item => {
+                item.addEventListener('click', function () {
                     const id = this.getAttribute('data-target');
                     const el = document.getElementById(id);
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                 });
             });
 
-            // Intersection Observer: highlight active dot + update label
+            // Intersection Observer: highlight active item
             const sections = ['hero-section', 'about', 'portfolio', 'stories', 'tips'];
-            const dots = {};
-            const labels = { 'hero-section': 'Hero', 'about': 'About', 'portfolio': 'Portfolio', 'stories': 'Stories', 'tips': 'Tips' };
+            const items = {};
             sections.forEach(id => {
-                dots[id] = document.querySelector(`.island-dot[data-target="${id}"]`);
+                items[id] = document.querySelector(`.island-item[data-target="${id}"]`);
             });
-            const labelEl = document.getElementById('islandLabel');
 
             const observer = new IntersectionObserver(entries => {
                 let maxRatio = 0, maxId = null;
@@ -785,10 +781,9 @@
                         maxId = entry.target.id;
                     }
                 });
-                if (maxId && dots[maxId]) {
-                    Object.values(dots).forEach(d => d && d.classList.remove('active'));
-                    dots[maxId].classList.add('active');
-                    if (labelEl) labelEl.textContent = labels[maxId] || maxId;
+                if (maxId && items[maxId]) {
+                    Object.values(items).forEach(i => i && i.classList.remove('active'));
+                    items[maxId].classList.add('active');
                 }
             }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
 
