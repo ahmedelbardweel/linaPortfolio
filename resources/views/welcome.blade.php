@@ -64,6 +64,7 @@
                     scroll-snap-align: none !important;
                     opacity: 0;
                     z-index: 1;
+                    backface-visibility: hidden;
                 }
                 .snap-section.page-active {
                     opacity: 1;
@@ -71,34 +72,33 @@
                     animation: none;
                 }
                 .snap-section.page-exit-left {
-                    z-index: 2;
-                    animation: slideOutLeft 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-                }
-                .snap-section.page-exit-right {
-                    z-index: 2;
-                    animation: slideOutRight 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                    z-index: 3;
+                    transform-origin: left;
+                    animation: pageFlipOut 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards;
                 }
                 .snap-section.page-enter-right {
-                    animation: slideInRight 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                    z-index: 1;
+                    animation: pageFlipIn 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+                }
+                .snap-section.page-exit-right {
+                    z-index: 3;
+                    transform-origin: right;
+                    animation: pageFlipOut 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards;
                 }
                 .snap-section.page-enter-left {
-                    animation: slideInLeft 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                    z-index: 1;
+                    animation: pageFlipIn 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards;
                 }
-                @keyframes slideInRight {
-                    from { transform: translateX(30%); opacity: 0; }
-                    to   { transform: translateX(0); opacity: 1; }
+                @keyframes pageFlipOut {
+                    0%   { transform: rotateY(0); opacity: 1; }
+                    100% { transform: rotateY(-90deg); opacity: 0; }
                 }
-                @keyframes slideInLeft {
-                    from { transform: translateX(-30%); opacity: 0; }
-                    to   { transform: translateX(0); opacity: 1; }
+                @keyframes pageFlipIn {
+                    0%   { transform: translateX(20%); opacity: 0; }
+                    100% { transform: translateX(0); opacity: 1; }
                 }
-                @keyframes slideOutLeft {
-                    from { transform: translateX(0); opacity: 1; }
-                    to   { transform: translateX(-30%); opacity: 0; }
-                }
-                @keyframes slideOutRight {
-                    from { transform: translateX(0); opacity: 1; }
-                    to   { transform: translateX(30%); opacity: 0; }
+                .snap-container {
+                    perspective: 1200px;
                 }
             }
             @media (max-width: 768px) {
