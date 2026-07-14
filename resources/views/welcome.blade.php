@@ -105,20 +105,6 @@
                         style="font-family:Georgia,serif;border-radius:3px">L</span>
                     <span data-translate-key="Lina">{{ __("Lina") }}</span>
                 </a>
-                <div class="hidden md:flex items-center gap-6 text-sm flex-1 justify-center">
-                    <a href="#hero-section" data-translate-key="Hero"
-                        class="font-medium text-[#1b1b18] dark:text-[#EDEDEC]">{{ __("Hero") }}</a>
-                    <a href="#about" data-translate-key="About Me"
-                        class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("About Me") }}</a>
-                    <a href="#portfolio" data-translate-key="Portfolio"
-                        class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("Portfolio") }}</a>
-                    <a href="#stories" data-translate-key="Stories"
-                        class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("Stories") }}</a>
-                    <a href="/reels" data-translate-key="Reels"
-                        class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("Reels") }}</a>
-                    <a href="#tips" data-translate-key="Tips & Insights"
-                        class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("Tips & Insights") }}</a>
-                </div>
                 <div class="hidden md:flex items-center gap-3 text-sm">
                     <button onclick="toggleDark()"
                         class="w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all"
@@ -163,15 +149,9 @@
             </div>
         </nav>
 
-        <div id="mobileMenu" class="mobile-menu fixed top-14 left-0 right-0 z-40 hidden flex-col px-6 pb-8 pt-4 border-b border-[#e3e3e0] dark:border-[#3E3E3A] text-[15px]"
+        <div id="mobileMenu" class="mobile-menu fixed top-14 left-0 right-0 z-40 hidden flex-col px-6 pb-8 pt-4 text-[15px]"
             style="background:rgba(253,253,252,.98);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transform:translateY(-100%);transition:transform .3s ease">
-            <a href="#hero-section" data-translate-key="Hero" class="block w-full py-3 px-4 rounded-lg text-[#1b1b18] dark:text-[#EDEDEC] font-medium hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Hero") }}</a>
-            <a href="#about" data-translate-key="About Me" class="block w-full py-3 px-4 rounded-lg text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("About Me") }}</a>
-            <a href="#portfolio" data-translate-key="Portfolio" class="block w-full py-3 px-4 rounded-lg text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Portfolio") }}</a>
-            <a href="#stories" data-translate-key="Stories" class="block w-full py-3 px-4 rounded-lg text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Stories") }}</a>
-            <a href="/reels" data-translate-key="Reels" class="block w-full py-3 px-4 rounded-lg text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Reels") }}</a>
-            <a href="#tips" data-translate-key="Tips & Insights" class="block w-full py-3 px-4 rounded-lg text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Tips & Insights") }}</a>
-            <div class="w-full h-px bg-[#e3e3e0] dark:bg-[#3E3E3A] my-4"></div>
+            <div class="w-full h-px bg-[#e3e3e0] dark:bg-[#3E3E3A] mb-4"></div>
             <div class="flex items-center justify-between px-4">
                 <div class="flex items-center gap-3">
                     <button onclick="toggleDark()"
@@ -690,7 +670,44 @@
                 </div>
             </div>
         </footer>
+
+        <!-- ===== Bottom Navigation Island ===== -->
+        <div id="navIsland" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-3 px-5 py-2 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500"
+            style="background:rgba(253,253,252,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
+            <span id="islandLabel" class="text-xs font-medium text-[#1b1b18] dark:text-[#EDEDEC] whitespace-nowrap min-w-[60px] text-center transition-opacity duration-300">Hero</span>
+            <div class="flex items-center gap-1.5">
+                <button data-target="hero-section" class="island-dot w-2 h-2 rounded-full bg-[#1b1b18] dark:bg-[#EDEDEC] transition-all duration-300 hover:scale-150" title="Hero"></button>
+                <button data-target="about" class="island-dot w-2 h-2 rounded-full bg-[#706f6c] dark:bg-[#A1A09A] transition-all duration-300 hover:scale-150" title="About Me"></button>
+                <button data-target="portfolio" class="island-dot w-2 h-2 rounded-full bg-[#706f6c] dark:bg-[#A1A09A] transition-all duration-300 hover:scale-150" title="Portfolio"></button>
+                <button data-target="stories" class="island-dot w-2 h-2 rounded-full bg-[#706f6c] dark:bg-[#A1A09A] transition-all duration-300 hover:scale-150" title="Stories"></button>
+                <a href="/reels" class="w-2 h-2 rounded-full bg-[#706f6c] dark:bg-[#A1A09A] transition-all duration-300 hover:scale-150 block" title="Reels"></a>
+                <button data-target="tips" class="island-dot w-2 h-2 rounded-full bg-[#706f6c] dark:bg-[#A1A09A] transition-all duration-300 hover:scale-150" title="Tips & Insights"></button>
+            </div>
+        </div>
     </div>
+
+    <style>
+        /* Page-turn card effect */
+        .snap-section {
+            transition: transform 0.6s ease, opacity 0.6s ease;
+        }
+        .snap-section.page-enter {
+            animation: pageTurnIn 0.7s ease forwards;
+        }
+        @keyframes pageTurnIn {
+            0% { transform: perspective(1200px) rotateY(-4deg); opacity: 0.6; transform-origin: left center; }
+            100% { transform: perspective(1200px) rotateY(0deg); opacity: 1; transform-origin: left center; }
+        }
+        .island-dot.active {
+            background: #c42802 !important;
+            box-shadow: 0 0 0 3px rgba(196,40,2,0.25);
+            transform: scale(1.4);
+        }
+        #navIsland.scrolled {
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+    </style>
 
     <script>
         function openWelcomeStory(el) {
@@ -731,6 +748,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
+            // Smooth scroll for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -740,6 +758,63 @@
                     }
                 });
             });
+
+            // Nav island: dot click → smooth scroll
+            document.querySelectorAll('.island-dot').forEach(dot => {
+                dot.addEventListener('click', function () {
+                    const id = this.getAttribute('data-target');
+                    const el = document.getElementById(id);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            // Intersection Observer: highlight active dot + update label
+            const sections = ['hero-section', 'about', 'portfolio', 'stories', 'tips'];
+            const dots = {};
+            const labels = { 'hero-section': 'Hero', 'about': 'About', 'portfolio': 'Portfolio', 'stories': 'Stories', 'tips': 'Tips' };
+            sections.forEach(id => {
+                dots[id] = document.querySelector(`.island-dot[data-target="${id}"]`);
+            });
+            const labelEl = document.getElementById('islandLabel');
+
+            const observer = new IntersectionObserver(entries => {
+                let maxRatio = 0, maxId = null;
+                entries.forEach(entry => {
+                    if (entry.intersectionRatio > maxRatio) {
+                        maxRatio = entry.intersectionRatio;
+                        maxId = entry.target.id;
+                    }
+                });
+                if (maxId && dots[maxId]) {
+                    Object.values(dots).forEach(d => d && d.classList.remove('active'));
+                    dots[maxId].classList.add('active');
+                    if (labelEl) labelEl.textContent = labels[maxId] || maxId;
+                }
+            }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
+
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) observer.observe(el);
+            });
+
+            // Page-turn animation on scroll
+            let lastScrollY = window.scrollY;
+            window.addEventListener('scroll', function () {
+                const dir = window.scrollY > lastScrollY ? 'down' : 'up';
+                lastScrollY = window.scrollY;
+                sections.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.8 && rect.bottom > window.innerHeight * 0.2) {
+                        if (!el.classList.contains('page-enter')) {
+                            el.classList.add('page-enter');
+                        }
+                    } else {
+                        el.classList.remove('page-enter');
+                    }
+                });
+            }, { passive: true });
         });
     </script>
 
