@@ -155,12 +155,14 @@
             .anim-left { animation: slideInLeft 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both; }
             .anim-right { animation: slideInRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; }
             .anim-center { animation: dropFromTop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both; }
+            html.rtl .anim-left { animation: slideInRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both; }
+            html.rtl .anim-right { animation: slideInLeft 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; }
         </style>
         <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5"
             style="background:rgba(253,253,252,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
             <div class="flex items-center gap-4 w-full max-w-6xl px-0 lg:px-8">
                 <a href="#hero-section"
-                    class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] mr-auto">
+                    class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] me-auto">
                     <span
                         class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold"
                         style="font-family:Georgia,serif;border-radius:3px">L</span>
@@ -341,7 +343,7 @@
                     </div>
                 </div>
                 <!-- Left Column (Mobile order 2, Desktop order 1) -->
-                <div class="anim-left flex flex-col items-center lg:items-start z-[2] lg:mt-10 order-2 lg:order-1 max-w-full lg:max-w-[280px] text-center lg:text-left">
+                <div class="anim-left flex flex-col items-center lg:items-start z-[2] lg:mt-10 order-2 lg:order-1 max-w-full lg:max-w-[280px] text-center lg:text-start">
                     <p data-translate-key="Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today."
                         class="text-xs md:text-sm leading-relaxed text-[#333] dark:text-[#A1A09A] mb-3 lg:mb-8 max-w-full lg:max-w-[220px]">
                         {{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}
@@ -356,7 +358,7 @@
                     </a>
                 </div>
                 <!-- Right Column (Mobile order 3, Desktop order 3) -->
-                <div class="anim-right flex flex-col items-center lg:items-start max-w-full lg:max-w-[320px] lg:mt-5 order-3 w-full text-center lg:text-left">
+                <div class="anim-right flex flex-col items-center lg:items-start max-w-full lg:max-w-[320px] lg:mt-5 order-3 w-full text-center lg:text-start">
                     <span data-translate-key="Our Recent Work"
                         class="text-[11px] font-semibold text-[#333] dark:text-[#A1A09A] mb-2 lg:mb-3 tracking-[0.5px]">{{ __("Our Recent Work") }}</span>
                     <h2 data-translate-key="We Will Make These Unique Tastes Of Yours A Design Reality!"
@@ -535,7 +537,7 @@
             <div class="w-full max-w-lg mx-4 rounded-xl overflow-hidden relative" onclick="event.stopPropagation()"
                 style="aspect-ratio:9/16;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)">
                 <button
-                    class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full border-none flex items-center justify-center text-white text-xl cursor-pointer"
+                    class="absolute top-4 end-4 z-10 w-10 h-10 rounded-full border-none flex items-center justify-center text-white text-xl cursor-pointer"
                     style="background:rgba(255,255,255,.15);backdrop-filter:blur(8px)"
                     onclick="closeWelcomeStory()">&times;</button>
                 <div id="storyModalContent"
@@ -843,14 +845,25 @@
                     });
 
                     // Trigger animation based on direction
+                    const isRtl = document.documentElement.dir === 'rtl';
                     if (index > prevIndex) {
-                        // Going forward: current slides left, next enters from right
-                        if (prev) prev.classList.add('page-exit-left');
-                        if (next) next.classList.add('page-enter-right');
+                        // Going forward
+                        if (isRtl) {
+                            if (prev) prev.classList.add('page-exit-right');
+                            if (next) next.classList.add('page-enter-left');
+                        } else {
+                            if (prev) prev.classList.add('page-exit-left');
+                            if (next) next.classList.add('page-enter-right');
+                        }
                     } else {
-                        // Going backward: current slides right, next enters from left
-                        if (prev) prev.classList.add('page-exit-right');
-                        if (next) next.classList.add('page-enter-left');
+                        // Going backward
+                        if (isRtl) {
+                            if (prev) prev.classList.add('page-exit-left');
+                            if (next) next.classList.add('page-enter-right');
+                        } else {
+                            if (prev) prev.classList.add('page-exit-right');
+                            if (next) next.classList.add('page-enter-left');
+                        }
                     }
 
                     // After animation, set active state

@@ -22,7 +22,7 @@
     <div class="flex h-screen overflow-hidden">
 
         {{-- Sidebar --}}
-        <aside class="fixed inset-y-0 left-0 z-30 w-64 bg-[#1b1b18] dark:bg-[#0a0a0a] text-[#EDEDEC] flex flex-col transition-transform -translate-x-full lg:translate-x-0 lg:static lg:inset-auto">
+        <aside class="fixed inset-y-0 start-0 z-30 w-64 bg-[#1b1b18] dark:bg-[#0a0a0a] text-[#EDEDEC] flex flex-col transition-transform ltr:-translate-x-full rtl:translate-x-full lg:translate-x-0 lg:static lg:inset-auto">
             {{-- Brand --}}
             <div class="h-16 flex items-center px-6 border-b border-[#3E3E3A]">
                 <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold tracking-wide">
@@ -88,7 +88,7 @@
                 <div class="flex-1"></div>
 
                 {{-- Toggle buttons --}}
-                <div class="flex items-center gap-2 mr-4">
+                <div class="flex items-center gap-2 me-4">
                     <button onclick="toggleDark()" class="w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all" title="Toggle theme">
                         <svg class="dark:hidden block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
                         <svg class="hidden dark:block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -106,11 +106,11 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
 
-                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#161615] rounded-lg shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] py-1 z-50" style="display: none;">
+                    <div x-show="open" @click.away="open = false" class="absolute end-0 mt-2 w-48 bg-white dark:bg-[#161615] rounded-lg shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] py-1 z-50" style="display: none;">
                         <a href="{{ route('profile.edit') }}" data-translate-key="Profile" class="block px-4 py-2 text-sm text-[#1b1b18] dark:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">{{ __("Profile") }}</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" data-translate-key="Logout" class="w-full text-left px-4 py-2 text-sm text-[#1b1b18] dark:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">{{ __("Logout") }}</button>
+                            <button type="submit" data-translate-key="Logout" class="w-full text-start px-4 py-2 text-sm text-[#1b1b18] dark:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">{{ __("Logout") }}</button>
                         </form>
                     </div>
                 </div>
@@ -151,17 +151,19 @@
             var toggle = document.getElementById('sidebar-toggle');
             var sidebar = document.querySelector('aside');
             var overlay = document.getElementById('sidebar-overlay');
+            var isRtl = document.documentElement.dir === 'rtl';
+            var hideClass = isRtl ? 'translate-x-full' : '-translate-x-full';
             if (toggle && sidebar && overlay) {
                 toggle.addEventListener('click', function () {
-                    sidebar.classList.toggle('-translate-x-full');
+                    sidebar.classList.toggle(hideClass);
                     overlay.classList.toggle('hidden');
                 });
                 overlay.addEventListener('click', function () {
-                    sidebar.classList.add('-translate-x-full');
+                    sidebar.classList.add(hideClass);
                     overlay.classList.add('hidden');
                 });
             }
-    });
+        });
     </script>
 
     <script>
