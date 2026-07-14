@@ -437,13 +437,13 @@
                     class="text-[#706f6c] dark:text-[#A1A09A] text-sm mt-1.5">
                     {{ __("Short design ideas and inspiration") }}</p>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
                 @forelse ($tips as $tip)
-                    <div class="rounded-xl p-6 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
-                        <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-medium text-white mb-4"
+                    <div class="rounded-[10px] p-3 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-medium text-white mb-2"
                             style="background:#f53003">{{ $tip->category }}</span>
-                        <h3 class="font-medium text-sm mb-1.5 text-[#1b1b18] dark:text-[#EDEDEC]">{{ $tip->title }}</h3>
-                        <p class="text-[#706f6c] dark:text-[#A1A09A] text-xs leading-relaxed">{{ $tip->content }}</p>
+                        <h3 class="font-medium text-xs mb-1 text-[#1b1b18] dark:text-[#EDEDEC]">{{ $tip->title }}</h3>
+                        <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] leading-relaxed">{{ $tip->content }}</p>
                     </div>
                 @empty
                     <p class="text-[#706f6c] text-sm">{{ __('No tips yet.') }}</p>
