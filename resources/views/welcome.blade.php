@@ -267,13 +267,25 @@
                     </div>
                 </div>
             </div>
-            <!-- Decorative elements (desktop only) -->
-            <div class="hidden lg:block absolute top-8 left-4 w-3 h-3 rounded-full border-2 border-[#f53003]/40 dark:border-[#FF4433]/40"></div>
-            <div class="hidden lg:block absolute top-32 right-8 w-2 h-2 rounded-full bg-[#f53003]/20 dark:bg-[#FF4433]/20"></div>
-            <div class="hidden lg:block absolute bottom-12 left-12 w-2.5 h-2.5 rotate-45 border border-[#333]/20 dark:border-[#EDEDEC]/20"></div>
-            <div class="hidden lg:block absolute top-1/2 -left-3 w-4 h-4 rounded-full border border-[#f53003]/30 dark:border-[#FF4433]/30"></div>
-            <div class="hidden lg:block absolute bottom-1/4 right-4 w-1.5 h-1.5 rounded-full bg-[#333]/15 dark:bg-[#EDEDEC]/15"></div>
-            <div class="hidden lg:block absolute top-3/4 left-1/3 w-2 h-2 border border-[#f53003]/20 dark:border-[#FF4433]/20" style="transform:rotate(45deg)"></div>
+            <!-- Decorative images (desktop only) -->
+            @if ($h && $h->main_image_url)
+            <div class="hidden lg:block absolute top-6 left-0 w-20 h-20 rounded-sm overflow-hidden opacity-60 shadow-lg"
+                style="transform:rotate(-8deg);box-shadow:0 4px 20px rgba(0,0,0,.08)">
+                <img src="{{ $h->main_image_url }}" alt="" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            @endif
+            @if ($h && $h->right_image_url)
+            <div class="hidden lg:block absolute bottom-8 left-8 w-16 h-16 rounded-sm overflow-hidden opacity-50 shadow-lg"
+                style="transform:rotate(5deg);box-shadow:0 4px 16px rgba(0,0,0,.08)">
+                <img src="{{ $h->right_image_url }}" alt="" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            @endif
+            @if ($h && $h->main_image_url)
+            <div class="hidden lg:block absolute top-1/3 right-0 w-14 h-14 rounded-sm overflow-hidden opacity-40 shadow-lg"
+                style="transform:rotate(12deg);box-shadow:0 4px 16px rgba(0,0,0,.06)">
+                <img src="{{ $h->main_image_url }}" alt="" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            @endif
         </section>
 
         <!-- ===== ABOUT ME ===== -->
