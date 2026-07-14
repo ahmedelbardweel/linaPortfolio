@@ -438,7 +438,7 @@
 
         <!-- ===== PORTFOLIO ===== -->
         <section id="portfolio"
-            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-center"
+            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28"
             style="scroll-snap-align:start">
             <div class="mb-10">
                 <h2 data-translate-key="Portfolio"
@@ -474,7 +474,7 @@
 
         <!-- ===== STORIES ===== -->
         <section id="stories"
-            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-center"
+            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28"
             style="scroll-snap-align:start">
             <div class="mb-10">
                 <h2 data-translate-key="Stories"
@@ -542,7 +542,7 @@
 
         <!-- ===== TIPS & INSIGHTS ===== -->
         <section id="tips"
-            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-center"
+            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28"
             style="scroll-snap-align:start">
             <div class="mb-10">
                 <h2 data-translate-key="Tips & Insights"
@@ -569,8 +569,8 @@
         </main>
 
         <!-- ===== FOOTER ===== -->
-        <footer id="contact" class="snap-section w-full border-t border-[#e3e3e0] dark:border-[#3E3E3A]" style="scroll-snap-align:start">
-            <div class="max-w-6xl mx-auto px-6 lg:px-10 py-12 lg:py-16">
+        <footer id="contact" class="snap-section w-full border-t border-[#e3e3e0] dark:border-[#3E3E3A] flex flex-col justify-end" style="scroll-snap-align:start">
+            <div class="max-w-6xl mx-auto px-6 lg:px-10 py-12 lg:py-16 w-full">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
                     <!-- Brand -->
                     <div>
