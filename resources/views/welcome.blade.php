@@ -245,7 +245,7 @@
                         class="font-['Playfair_Display',serif] text-lg sm:text-2xl font-bold leading-[1.4] text-[#000] dark:text-[#EDEDEC] mb-3 lg:mb-5">
                         {{ __("We Will Make These Unique Tastes Of Yours A Design Reality!") }}</h2>
                     <a href="#portfolio" data-translate-key="View Project"
-                        class="lg:hidden inline-block px-6 py-2.5 border border-[#333] dark:border-[#62605b] text-[10px] font-semibold text-[#333] dark:text-[#EDEDEC] no-underline uppercase tracking-[1.5px] transition-all duration-300 bg-transparent hover:bg-[#333] dark:hover:bg-[#EDEDEC] hover:text-white dark:hover:text-[#1b1b18] mb-3">
+                        class="lg:hidden inline-block px-6 py-2.5 border border-[#333] dark:border-[#62605b] text-[10px] font-semibold text-[#333] dark:text-[#EDEDEC] no-underline uppercase tracking-[1.5px] transition-all duration-300 bg-transparent hover:bg-[#333] dark:hover:bg-[#EDEDEC] hover:text-white dark:hover:text-[#1b1b18] mt-3 mb-3">
                         {{ __("View Project") }}
                     </a>
                     <div class="w-full max-w-full h-[180px] lg:h-[240px]">
