@@ -61,8 +61,8 @@
                 #about .pt-6 { padding-top: 0.375rem !important; }
                 #portfolio h2, #stories h2, #tips h2 { font-size: 1.25rem !important; }
                 #portfolio .max-w-6xl, #stories .max-w-6xl, #tips .max-w-6xl { padding-top: 1rem !important; padding-bottom: 1rem !important; }
-                .story-card { width: 200px !important; }
-                .story-card .h-40 { height: 120px !important; }
+                .story-card { width: 160px !important; }
+                .story-card .h-32 { height: 100px !important; }
             }
         </style>
         <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 border-b border-[#e3e3e0] dark:border-[#3E3E3A]"
@@ -333,22 +333,22 @@
                     class="text-[#706f6c] dark:text-[#A1A09A] text-sm mt-1.5">
                     {{ __("Makeover projects and interior designs by Lina") }}</p>
             </div>
-            <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px">
+            <div class="grid gap-3" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
                 @forelse ($portfolios as $portfolio)
-                    <div class="rounded-xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                    <div class="rounded-[10px] overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
                         <div class="aspect-[4/3] relative flex items-center justify-center overflow-hidden"
                             style="background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
                             @if ($portfolio->image_path)
                                 <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" loading="lazy" class="w-full h-full object-cover">
                             @else
-                                <svg class="w-16 h-16 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <svg class="w-12 h-12 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
                                     <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
                                 </svg>
                             @endif
                         </div>
-                        <div class="p-5">
-                            <h3 class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ $portfolio->title }}</h3>
-                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">{{ $portfolio->description }}</p>
+                        <div class="p-3">
+                            <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC]">{{ $portfolio->title }}</h3>
+                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5 leading-relaxed">{{ $portfolio->description }}</p>
                         </div>
                     </div>
                 @empty
@@ -376,14 +376,14 @@
                     }
                 </style>
                 @forelse ($stories as $story)
-                    <div class="story-card shrink-0 w-64 rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A]"
+                    <div class="story-card shrink-0 w-48 rounded-[10px] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A]"
                         onclick="openWelcomeStory(this)"
                         data-title="{{ $story->title }}"
                         data-content="{{ $story->content }}"
                         data-bg="{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}"
                         data-type="{{ $story->type }}"
                         data-image="{{ $story->image_url }}">
-                        <div class="h-40 flex items-center justify-center"
+                        <div class="h-32 flex items-center justify-center"
                             style="background:{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}">
                             @if ($story->image_path)
                                 <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" class="w-full h-full object-cover">
@@ -399,9 +399,9 @@
                                 </svg>
                             @endif
                         </div>
-                        <div class="p-4">
-                            <h3 class="font-medium text-sm text-[#1b1b18] dark:text-[#EDEDEC]">{{ $story->title }}</h3>
-                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-xs mt-1">{{ Str::limit($story->content, 80) }}</p>
+                        <div class="p-3">
+                            <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC]">{{ $story->title }}</h3>
+                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5">{{ Str::limit($story->content, 60) }}</p>
                         </div>
                     </div>
                 @empty
