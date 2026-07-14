@@ -335,7 +335,7 @@
             </div>
             <div class="grid gap-3" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
                 @forelse ($portfolios as $portfolio)
-                    <div class="rounded-[10px] overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                    <div class="rounded-[3px] overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
                         <div class="aspect-[4/3] relative flex items-center justify-center overflow-hidden"
                             style="background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
                             @if ($portfolio->image_path)
@@ -376,7 +376,7 @@
                     }
                 </style>
                 @forelse ($stories as $story)
-                    <div class="story-card shrink-0 w-48 rounded-[10px] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A]"
+                    <div class="story-card shrink-0 w-48 rounded-[3px] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A]"
                         onclick="openWelcomeStory(this)"
                         data-title="{{ $story->title }}"
                         data-content="{{ $story->content }}"
@@ -439,7 +439,7 @@
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
                 @forelse ($tips as $tip)
-                    <div class="rounded-[10px] p-3 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                    <div class="rounded-[3px] p-3 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
                         <span class="inline-block px-2 py-0.5 rounded text-[10px] font-medium text-white mb-2"
                             style="background:#f53003">{{ $tip->category }}</span>
                         <h3 class="font-medium text-xs mb-1 text-[#1b1b18] dark:text-[#EDEDEC]">{{ $tip->title }}</h3>
