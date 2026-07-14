@@ -11,7 +11,7 @@
         </a>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid gap-3" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
         @forelse ($tips as $tip)
             <div class="rounded-[3px] p-4 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] transition-transform duration-300 hover:-translate-y-1 flex flex-col">
                 <div class="flex items-center justify-between mb-2">
