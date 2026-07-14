@@ -51,11 +51,14 @@
                 #hero-section p.text-xs { font-size: 0.6875rem !important; margin-bottom: 0 !important; }
                 #hero-section .h-\[200px\] { height: 160px !important; }
                 #hero-section .h-\[180px\] { height: 140px !important; }
-                #about h1 { font-size: 2.25rem !important; }
-                #about .max-w-4xl { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
-                #about .text-base { font-size: 0.8125rem !important; }
-                #about .text-sm { font-size: 0.75rem !important; }
-                #about .space-y-6 > * + * { margin-top: 0.75rem !important; }
+                #about { height: 80vh !important; min-height: 80vh !important; }
+                #about h1 { font-size: 1.75rem !important; margin-bottom: 0.5rem !important; }
+                #about .max-w-4xl { padding-top: 0 !important; padding-bottom: 0 !important; justify-content: center !important; }
+                #about .text-base { font-size: 0.6875rem !important; }
+                #about .text-sm { font-size: 0.625rem !important; }
+                #about .space-y-6 > * + * { margin-top: 0.375rem !important; }
+                #about .mt-10 { margin-top: 0.5rem !important; }
+                #about .pt-6 { padding-top: 0.375rem !important; }
                 #portfolio h2, #stories h2, #tips h2 { font-size: 1.25rem !important; }
                 #portfolio .max-w-6xl, #stories .max-w-6xl, #tips .max-w-6xl { padding-top: 1rem !important; padding-bottom: 1rem !important; }
                 .story-card { width: 200px !important; }
