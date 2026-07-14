@@ -3,6 +3,13 @@
 namespace App\Traits;
 
 use Illuminate\Http\UploadedFile;
+use function imagecreatefromstring;
+use function imagesx;
+use function imagesy;
+use function imagecreatetruecolor;
+use function imagecopyresampled;
+use function imagedestroy;
+use function imagewebp;
 
 trait HandlesImages
 {
