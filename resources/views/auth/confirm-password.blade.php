@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-[#706f6c]">
+    <div class="mb-4 text-sm text-[#706f6c]" data-translate-key="This is a secure area of the application. Please confirm your password before continuing.">
         {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
     </div>
 
@@ -8,7 +8,7 @@
 
         <!-- Password -->
         <div>
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('Password')" data-translate-key="Password" />
 
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
@@ -19,7 +19,7 @@
         </div>
 
         <div class="flex justify-end mt-4">
-            <x-primary-button>
+            <x-primary-button data-translate-key="Confirm">
                 {{ __('Confirm') }}
             </x-primary-button>
         </div>

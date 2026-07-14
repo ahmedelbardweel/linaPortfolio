@@ -7,14 +7,14 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email" :value="__('Email')" data-translate-key="Email" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('Password')" data-translate-key="Password" />
 
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
@@ -34,7 +34,7 @@
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c42802]/30" href="{{ route('password.request') }}">
+                <a class="underline text-sm text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] rounded-[3px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c42802]/30" href="{{ route('password.request') }}" data-translate-key="Forgot your password?">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
