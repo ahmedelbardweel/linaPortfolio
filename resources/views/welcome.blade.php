@@ -201,10 +201,11 @@
             style="scroll-snap-align:start">
             <!-- Background pattern (desktop only) -->
             @if ($h && $h->main_image_url)
-            <div class="hidden lg:block absolute inset-0 pointer-events-none opacity-[0.07] dark:opacity-[0.12]"
-                style="background-image:url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}');
-                background-size:100px 75px,140px 105px,80px 60px,120px 90px,60px 45px;
-                background-position:3% 8%,90% 5%,7% 92%,95% 88%,50% 3%;
+            @php $bgPositions = []; for ($i = 0; $i < 24; $i++) { $bgPositions[] = rand(0, 95) . '% ' . rand(0, 95) . '%'; } @endphp
+            <div class="hidden lg:block absolute inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.12]"
+                style="background-image:url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}');
+                background-size:60px 45px,80px 60px,50px 38px,70px 53px,55px 41px,90px 68px,45px 34px,65px 49px,75px 56px,50px 38px,85px 64px,60px 45px,70px 53px,55px 41px,80px 60px,45px 34px,90px 68px,50px 38px,65px 49px,75px 56px,60px 45px,85px 64px,55px 41px,70px 53px;
+                background-position:{{ implode(',', $bgPositions) }};
                 background-repeat:no-repeat"></div>
             @endif
             <div
