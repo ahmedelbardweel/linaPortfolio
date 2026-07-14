@@ -564,7 +564,7 @@
         </main>
 
         <!-- ===== FOOTER ===== -->
-        <footer class="w-full border-t border-[#e3e3e0] dark:border-[#3E3E3A]" style="scroll-snap-align:start">
+        <footer id="contact" class="snap-section w-full border-t border-[#e3e3e0] dark:border-[#3E3E3A]" style="scroll-snap-align:start">
             <div class="max-w-6xl mx-auto px-6 lg:px-10 py-12 lg:py-16">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
                     <!-- Brand -->
@@ -734,6 +734,7 @@
         <button data-target="stories" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Stories</button>
         <a href="/reels" class="px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300 hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">Reels</a>
         <button data-target="tips" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Tips</button>
+        <button data-target="contact" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Contact</button>
     </div>
 
     <style>
@@ -805,7 +806,7 @@
 
             // Nav island + anchor: book-style horizontal page turn on desktop
             const isDesktop = window.innerWidth > 768;
-            const sectionIds = ['hero-section', 'about', 'portfolio', 'stories', 'tips'];
+            const sectionIds = ['hero-section', 'about', 'portfolio', 'stories', 'tips', 'contact'];
             let currentIndex = 0;
             let isAnimating = false;
             const items = {};
