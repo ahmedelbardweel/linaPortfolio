@@ -46,27 +46,52 @@
                 .snap-container {
                     overflow: hidden !important;
                     scroll-snap-type: none !important;
-                    display: flex;
-                    flex-wrap: nowrap;
-                    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+                    position: relative;
                 }
                 .snap-section {
-                    width: 100vw;
-                    min-height: 100vh;
-                    flex-shrink: 0;
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    overflow-y: auto;
                     scroll-snap-align: none !important;
-                }
-                .snap-section.page-prev {
-                    opacity: 0.4;
-                    transform: scale(0.96);
-                }
-                .snap-section.page-next {
-                    opacity: 0.4;
-                    transform: scale(0.96);
+                    opacity: 0;
+                    z-index: 1;
                 }
                 .snap-section.page-active {
                     opacity: 1;
-                    transform: scale(1);
+                    z-index: 2;
+                    animation: none;
+                }
+                .snap-section.page-exit-left {
+                    z-index: 2;
+                    animation: slideOutLeft 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                }
+                .snap-section.page-exit-right {
+                    z-index: 2;
+                    animation: slideOutRight 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                }
+                .snap-section.page-enter-right {
+                    animation: slideInRight 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                }
+                .snap-section.page-enter-left {
+                    animation: slideInLeft 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                }
+                @keyframes slideInRight {
+                    from { transform: translateX(30%); opacity: 0; }
+                    to   { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideInLeft {
+                    from { transform: translateX(-30%); opacity: 0; }
+                    to   { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOutLeft {
+                    from { transform: translateX(0); opacity: 1; }
+                    to   { transform: translateX(-30%); opacity: 0; }
+                }
+                @keyframes slideOutRight {
+                    from { transform: translateX(0); opacity: 1; }
+                    to   { transform: translateX(30%); opacity: 0; }
                 }
             }
             @media (max-width: 768px) {
@@ -698,17 +723,17 @@
                 </div>
             </div>
         </footer>
+    </div>
 
-        <!-- ===== Bottom Navigation Island ===== -->
-        <div id="navIsland" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-1 px-4 py-2 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500"
-            style="background:rgba(253,253,252,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
-            <button data-target="hero-section" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#1b1b18] dark:text-[#EDEDEC] rounded-full transition-all duration-300">Hero</button>
-            <button data-target="about" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">About</button>
-            <button data-target="portfolio" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Portfolio</button>
-            <button data-target="stories" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Stories</button>
-            <a href="/reels" class="px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300 hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">Reels</a>
-            <button data-target="tips" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Tips</button>
-        </div>
+    <!-- ===== Bottom Navigation Island (outside snap-container!) ===== -->
+    <div id="navIsland" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-1 px-4 py-2 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500"
+        style="background:rgba(253,253,252,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
+        <button data-target="hero-section" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#1b1b18] dark:text-[#EDEDEC] rounded-full transition-all duration-300">Hero</button>
+        <button data-target="about" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">About</button>
+        <button data-target="portfolio" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Portfolio</button>
+        <button data-target="stories" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Stories</button>
+        <a href="/reels" class="px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300 hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">Reels</a>
+        <button data-target="tips" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Tips</button>
     </div>
 
     <style>
@@ -780,9 +805,9 @@
 
             // Nav island + anchor: book-style horizontal page turn on desktop
             const isDesktop = window.innerWidth > 768;
-            const container = document.getElementById('snapContainer');
             const sectionIds = ['hero-section', 'about', 'portfolio', 'stories', 'tips'];
             let currentIndex = 0;
+            let isAnimating = false;
             const items = {};
 
             sectionIds.forEach((id, i) => {
@@ -791,36 +816,48 @@
 
             function goToSection(index) {
                 if (index < 0 || index >= sectionIds.length) return;
-                if (index === currentIndex) return;
+                if (index === currentIndex || isAnimating) return;
 
+                isAnimating = true;
                 const prevIndex = currentIndex;
                 currentIndex = index;
 
                 if (isDesktop) {
                     const prev = document.getElementById(sectionIds[prevIndex]);
                     const next = document.getElementById(sectionIds[currentIndex]);
-                    if (prev) { prev.classList.remove('page-active', 'page-prev', 'page-next'); }
-                    if (next) { next.classList.remove('page-active', 'page-prev', 'page-next'); }
 
-                    // Remove page classes from all
+                    // Remove all classes from all sections
                     sectionIds.forEach(id => {
                         const el = document.getElementById(id);
-                        if (el) el.classList.remove('page-active', 'page-prev', 'page-next');
+                        if (el) el.className = el.className
+                            .replace(/ ?page-(active|enter-right|enter-left|exit-left|exit-right)/g, '');
                     });
 
-                    // Animate container
-                    container.style.transform = `translateX(-${index * 100}vw)`;
-
-                    // Apply page classes for 3D effect
-                    if (next) next.classList.add('page-active');
-                    if (prev && index > prevIndex) {
-                        prev.classList.add('page-prev');
-                    } else if (prev && index < prevIndex) {
-                        prev.classList.add('page-next');
+                    // Trigger animation based on direction
+                    if (index > prevIndex) {
+                        // Going forward: current slides left, next enters from right
+                        if (prev) prev.classList.add('page-exit-left');
+                        if (next) next.classList.add('page-enter-right');
+                    } else {
+                        // Going backward: current slides right, next enters from left
+                        if (prev) prev.classList.add('page-exit-right');
+                        if (next) next.classList.add('page-enter-left');
                     }
+
+                    // After animation, set active state
+                    setTimeout(() => {
+                        sectionIds.forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) el.className = el.className
+                                .replace(/ ?page-(active|enter-right|enter-left|exit-left|exit-right)/g, '');
+                        });
+                        if (next) next.classList.add('page-active');
+                        isAnimating = false;
+                    }, 650);
                 } else {
                     const el = document.getElementById(sectionIds[index]);
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(() => { isAnimating = false; }, 600);
                 }
 
                 // Update island active
@@ -869,7 +906,7 @@
             // Wheel → page turn on desktop
             if (isDesktop) {
                 let wheelTimeout = null;
-                container.addEventListener('wheel', function (e) {
+                document.getElementById('snapContainer').addEventListener('wheel', function (e) {
                     if (wheelTimeout) return;
                     const dir = e.deltaY > 0 || e.deltaX > 0 ? 1 : -1;
                     wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 800);
@@ -879,11 +916,12 @@
 
             // Touch swipe on desktop
             if (isDesktop) {
+                const sc = document.getElementById('snapContainer');
                 let touchStartX = 0;
-                container.addEventListener('touchstart', function (e) {
+                sc.addEventListener('touchstart', function (e) {
                     touchStartX = e.changedTouches[0].screenX;
                 }, { passive: true });
-                container.addEventListener('touchend', function (e) {
+                sc.addEventListener('touchend', function (e) {
                     const diff = touchStartX - e.changedTouches[0].screenX;
                     if (Math.abs(diff) > 50) {
                         goToSection(currentIndex + (diff > 0 ? 1 : -1));
@@ -891,12 +929,17 @@
                 }, { passive: true });
             }
 
-            // Init: set page-active on first section
+            // Init: set first section active
             if (isDesktop) {
+                sectionIds.forEach((id) => {
+                    const el = document.getElementById(id);
+                    if (el) el.className = el.className
+                        .replace(/ ?page-(active|enter-right|enter-left|exit-left|exit-right)/g, '');
+                });
                 const first = document.getElementById(sectionIds[0]);
                 if (first) first.classList.add('page-active');
-                container.style.transform = 'translateX(0)';
                 if (items[sectionIds[0]]) items[sectionIds[0]].classList.add('active');
+                document.body.style.overflow = 'hidden';
             }
         });
     </script>
