@@ -48,7 +48,7 @@
                 #hero-section .max-w-6xl { justify-content: center !important; gap: 0.5rem !important; padding-top: 0 !important; padding-bottom: 0 !important; }
                 #hero-section h1 { font-size: 1.5rem !important; margin-bottom: 0 !important; }
                 #hero-section h2 { font-size: 0.875rem !important; line-height: 1.3 !important; margin-bottom: 0 !important; }
-                #hero-section p.text-xs { font-size: 0.6875rem !important; margin-bottom: 0 !important; }
+                #hero-section p.text-xs { font-size: 0.6875rem !important; margin-bottom: 0 !important; display: none !important; }
                 #hero-section .h-\[200px\] { height: 160px !important; }
                 #hero-section .h-\[180px\] { height: 140px !important; }
                 #about { height: 80vh !important; min-height: 80vh !important; }
