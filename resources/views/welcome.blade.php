@@ -66,14 +66,15 @@
                 .story-card .h-32 { height: 100px !important; }
             }
             @keyframes dropIn {
-                0% { transform: translateY(-120px) rotate(var(--rot,0deg)); opacity: 0; }
-                100% { transform: translateY(0) rotate(var(--rot,0deg)); opacity: var(--bg-op,0.08); }
+                0% { transform: translateY(-120px) rotate(var(--rot,0deg)); opacity: 0; filter: blur(8px); }
+                100% { transform: translateY(0) rotate(var(--rot,0deg)); opacity: var(--bg-op,0.08); filter: blur(0); }
             }
             @keyframes bgFloat {
                 0%, 100% { transform: translateY(0) rotate(var(--rot,0deg)); }
                 50% { transform: translateY(-6px) rotate(var(--rot,0deg)); }
             }
             .bg-img-anim {
+                opacity: 0;
                 animation: dropIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
                            bgFloat 6s ease-in-out infinite;
                 animation-delay: var(--anim-delay, 0s), calc(var(--anim-delay, 0s) + 0.8s);
