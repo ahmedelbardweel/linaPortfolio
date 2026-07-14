@@ -898,43 +898,6 @@
                 });
             });
 
-            // Keyboard arrows
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    goToSection(currentIndex + 1);
-                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    goToSection(currentIndex - 1);
-                }
-            });
-
-            // Wheel → page turn on desktop
-            if (isDesktop) {
-                let wheelTimeout = null;
-                document.getElementById('snapContainer').addEventListener('wheel', function (e) {
-                    if (wheelTimeout) return;
-                    const dir = e.deltaY > 0 || e.deltaX > 0 ? 1 : -1;
-                    wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 800);
-                    goToSection(currentIndex + dir);
-                }, { passive: true });
-            }
-
-            // Touch swipe on desktop
-            if (isDesktop) {
-                const sc = document.getElementById('snapContainer');
-                let touchStartX = 0;
-                sc.addEventListener('touchstart', function (e) {
-                    touchStartX = e.changedTouches[0].screenX;
-                }, { passive: true });
-                sc.addEventListener('touchend', function (e) {
-                    const diff = touchStartX - e.changedTouches[0].screenX;
-                    if (Math.abs(diff) > 50) {
-                        goToSection(currentIndex + (diff > 0 ? 1 : -1));
-                    }
-                }, { passive: true });
-            }
-
             // Init: set first section active
             if (isDesktop) {
                 sectionIds.forEach((id) => {
