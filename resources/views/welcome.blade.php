@@ -48,31 +48,25 @@
                     scroll-snap-type: none !important;
                     display: flex;
                     flex-wrap: nowrap;
-                    transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
-                    transform-style: preserve-3d;
-                    perspective: 1200px;
+                    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
                 }
                 .snap-section {
                     width: 100vw;
                     min-height: 100vh;
                     flex-shrink: 0;
                     scroll-snap-align: none !important;
-                    transition: transform 0.7s ease, opacity 0.7s ease;
-                    transform-style: preserve-3d;
                 }
                 .snap-section.page-prev {
-                    transform: perspective(1200px) rotateY(5deg);
-                    transform-origin: right center;
-                    opacity: 0.3;
+                    opacity: 0.4;
+                    transform: scale(0.96);
                 }
                 .snap-section.page-next {
-                    transform: perspective(1200px) rotateY(-5deg);
-                    transform-origin: left center;
-                    opacity: 0.3;
+                    opacity: 0.4;
+                    transform: scale(0.96);
                 }
                 .snap-section.page-active {
-                    transform: perspective(1200px) rotateY(0deg);
                     opacity: 1;
+                    transform: scale(1);
                 }
             }
             @media (max-width: 768px) {
