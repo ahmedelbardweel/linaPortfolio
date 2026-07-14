@@ -35,10 +35,13 @@
             body { overflow: -moz-scrollbars-none; -ms-overflow-style: none; }
             body::-webkit-scrollbar { display: none; }
             html.dark nav {
-                background: rgba(10, 10, 10, .85) !important;
+                background: rgba(10, 10, 10, .3) !important;
+            }
+            html.dark #navIsland {
+                background: rgba(10, 10, 10, .3) !important;
             }
             html.dark .mobile-menu {
-                background: rgba(10, 10, 10, .98) !important;
+                background: rgba(10, 10, 10, .35) !important;
             }
             .snap-container::-webkit-scrollbar {
                 display: none
@@ -154,7 +157,7 @@
             .anim-center { animation: dropFromTop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both; }
         </style>
         <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5"
-            style="background:rgba(253,253,252,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)">
+            style="background:rgba(253,253,252,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
             <div class="flex items-center gap-4 w-full max-w-6xl px-0 lg:px-8">
                 <a href="#hero-section"
                     class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] mr-auto">
@@ -208,7 +211,7 @@
         </nav>
 
         <div id="mobileMenu" class="mobile-menu fixed top-14 left-0 right-0 z-40 hidden flex-col px-6 pb-8 pt-4 text-[15px]"
-            style="background:rgba(253,253,252,.98);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transform:translateY(-100%);transition:transform .3s ease">
+            style="background:rgba(253,253,252,.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transform:translateY(-100%);transition:transform .3s ease">
             <div class="w-full h-px bg-[#e3e3e0] dark:bg-[#3E3E3A] mb-4"></div>
             <div class="flex items-center justify-between px-4">
                 <div class="flex items-center gap-3">
@@ -732,7 +735,7 @@
 
     <!-- ===== Bottom Navigation Island (outside snap-container!) ===== -->
     <div id="navIsland" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 px-4 py-2 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500"
-        style="background:rgba(253,253,252,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
+        style="background:rgba(253,253,252,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
         <button data-target="hero-section" class="island-item px-1.5 md:px-2.5 py-1 text-[9px] md:text-[11px] font-medium text-[#1b1b18] dark:text-[#EDEDEC] rounded-full transition-all duration-300">Hero</button>
         <button data-target="about" class="island-item px-1.5 md:px-2.5 py-1 text-[9px] md:text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">About</button>
         <button data-target="portfolio" class="island-item px-1.5 md:px-2.5 py-1 text-[9px] md:text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Portfolio</button>
