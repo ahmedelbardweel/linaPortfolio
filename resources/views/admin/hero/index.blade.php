@@ -11,51 +11,54 @@
         <a href="{{ route('admin.hero.create') }}" class="px-4 py-2 bg-[#c42802] hover:bg-[#f53003] text-white text-sm font-medium rounded-lg transition-colors">Add New</a>
     </div>
 
-    <div class="bg-white dark:bg-[#161615] rounded-xl shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden">
-        <table class="w-full text-sm">
-            <thead>
-                <tr class="bg-[#f0f0ef] dark:bg-[#2a2a28] border-b border-[#e3e3e0] dark:border-[#3E3E3A]">
-                    <th class="text-left px-4 py-3 font-medium text-[#706f6c]">#</th>
-                    <th class="text-left px-4 py-3 font-medium text-[#706f6c]">Main Image</th>
-                    <th class="text-left px-4 py-3 font-medium text-[#706f6c]">Title</th>
-                    <th class="text-left px-4 py-3 font-medium text-[#706f6c]">Status</th>
-                    <th class="text-left px-4 py-3 font-medium text-[#706f6c]">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($heroSections as $hero)
-                <tr class="border-b border-[#e3e3e0] dark:border-[#3E3E3A] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">
-                    <td class="px-4 py-3 text-[#706f6c]">{{ $loop->iteration }}</td>
-                    <td class="px-4 py-3">
-                        @if ($hero->main_image_data || $hero->main_image)
-                            <img src="{{ $hero->main_image_url }}" class="w-16 h-12 object-cover rounded">
-                        @else
-                            <span class="text-[#706f6c]">—</span>
-                        @endif
-                    </td>
-                    <td class="px-4 py-3 font-medium text-[#1b1b18] dark:text-[#EDEDEC]">{{ $hero->title }}</td>
-                    <td class="px-4 py-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        @forelse ($heroSections as $hero)
+            <div class="rounded-[3px] overflow-hidden bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] transition-transform duration-300 hover:-translate-y-1">
+                <div class="aspect-[4/3] relative flex items-center justify-center overflow-hidden"
+                    style="background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
+                    @if ($hero->main_image_data || $hero->main_image)
+                        <img src="{{ $hero->main_image_url }}" alt="{{ $hero->title }}" class="w-full h-full object-cover">
+                    @else
+                        <svg class="w-12 h-12 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
+                        </svg>
+                    @endif
+                </div>
+                <div class="p-3">
+                    <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC]">{{ $hero->title }}</h3>
+                    @if ($hero->description)
+                        <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5 leading-relaxed">{{ Str::limit($hero->description, 80) }}</p>
+                    @endif
+                    <div class="flex items-center justify-between mt-2 pt-2 border-t border-[#e3e3e0] dark:border-[#3E3E3A]">
                         <form method="POST" action="{{ route('admin.hero.toggle', $hero) }}">
                             @csrf @method('PATCH')
-                            <button type="submit" class="px-2.5 py-1 text-xs font-medium rounded-full {{ $hero->is_active ? 'bg-green-100 text-green-700' : 'bg-[#e3e3e0] dark:bg-[#3E3E3A] text-[#706f6c]' }}">
+                            <button type="submit" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium {{ $hero->is_active ? 'bg-green-100 text-green-700' : 'bg-[#e3e3e0] dark:bg-[#3E3E3A] text-[#706f6c]' }}">
+                                <span class="w-1.5 h-1.5 rounded-full {{ $hero->is_active ? 'bg-green-500' : 'bg-gray-400' }}"></span>
                                 {{ $hero->is_active ? 'Active' : 'Inactive' }}
                             </button>
                         </form>
-                    </td>
-                    <td class="px-4 py-3">
                         <div class="flex items-center gap-2">
-                            <a href="{{ route('admin.hero.edit', $hero) }}" class="text-[#c42802] hover:text-[#f53003] text-xs font-medium">Edit</a>
-                            <form method="POST" action="{{ route('admin.hero.destroy', $hero) }}" onsubmit="return confirm('Delete this hero section?')">
+                            <a href="{{ route('admin.hero.edit', $hero) }}" class="inline-flex items-center gap-1 text-xs text-[#c42802] hover:text-[#f53003]">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                Edit
+                            </a>
+                            <form method="POST" action="{{ route('admin.hero.destroy', $hero) }}" class="inline" onsubmit="return confirm('Delete this hero section?')">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-800 text-xs font-medium">Delete</button>
+                                <button type="submit" class="inline-flex items-center gap-1 text-xs text-red-600 hover:text-red-800">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    Delete
+                                </button>
                             </form>
                         </div>
-                    </td>
-                </tr>
-                @empty
-                <tr><td colspan="5" class="px-4 py-10 text-center text-[#706f6c]">No hero sections yet.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="col-span-full text-center py-12 text-[#706f6c]">
+                <svg class="w-12 h-12 mx-auto text-[#706f6c] mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <p class="text-sm">No hero sections yet.</p>
+                <a href="{{ route('admin.hero.create') }}" class="mt-2 inline-block text-sm text-[#c42802] hover:text-[#f53003]">Add your first hero section</a>
+            </div>
+        @endforelse
     </div>
 @endsection
