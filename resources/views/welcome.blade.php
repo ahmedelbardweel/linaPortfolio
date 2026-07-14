@@ -95,7 +95,7 @@
             .anim-right { animation: slideInRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; }
             .anim-center { animation: dropFromTop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both; }
         </style>
-        <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 border-b border-[#e3e3e0] dark:border-[#3E3E3A]"
+        <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5"
             style="background:rgba(253,253,252,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)">
             <div class="flex items-center gap-4 w-full max-w-6xl px-0 lg:px-8">
                 <a href="#hero-section"
