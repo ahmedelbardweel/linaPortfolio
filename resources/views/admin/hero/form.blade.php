@@ -1,11 +1,11 @@
 @extends('admin.layouts.admin')
 
-@section('title', isset($hero) ? 'Edit Hero Section' : 'Create Hero Section')
+@section('title', isset($hero) ? __("Edit Hero Section") : __("Create Hero Section"))
 
 @section('content')
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]">{{ isset($hero) ? 'Edit Hero Section' : 'Create Hero Section' }}</h1>
-        <p class="mt-1 text-sm text-[#706f6c]">{{ isset($hero) ? 'Update the hero section images.' : 'Upload images for the hero section.' }}</p>
+        <h1 class="text-2xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]" data-translate-key="{{ isset($hero) ? 'Edit Hero Section' : 'Create Hero Section' }}">{{ isset($hero) ? __("Edit Hero Section") : __("Create Hero Section") }}</h1>
+        <p class="mt-1 text-sm text-[#706f6c]" data-translate-key="{{ isset($hero) ? 'Update the hero section images.' : 'Upload images for the hero section.' }}">{{ isset($hero) ? __("Update the hero section images.") : __("Upload images for the hero section.") }}</p>
     </div>
 
     <div class="max-w-2xl">
@@ -14,7 +14,7 @@
             @isset($hero) @method('PUT') @endisset
 
             <div>
-                <label for="main_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Main Image (center)</label>
+                <label for="main_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1" data-translate-key="Main Image (center)">{{ __("Main Image (center)") }}</label>
                 <input type="file" id="main_image" name="main_image" class="w-full text-sm dark:text-[#EDEDEC]">
                 @if (isset($hero) && ($hero->main_image_data || $hero->main_image))
                     <img src="{{ $hero->main_image_url }}" class="mt-2 h-32 rounded object-cover">
@@ -23,7 +23,7 @@
             </div>
 
             <div>
-                <label for="right_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">Right Image</label>
+                <label for="right_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1" data-translate-key="Right Image">{{ __("Right Image") }}</label>
                 <input type="file" id="right_image" name="right_image" class="w-full text-sm dark:text-[#EDEDEC]">
                 @if (isset($hero) && ($hero->right_image_data || $hero->right_image))
                     <img src="{{ $hero->right_image_url }}" class="mt-2 h-32 rounded object-cover">
@@ -33,9 +33,9 @@
 
             <div class="flex items-center gap-3 pt-2">
                 <button type="submit" class="px-6 py-2.5 bg-[#c42802] hover:bg-[#f53003] text-white text-sm font-medium rounded-lg transition-colors">
-                    {{ isset($hero) ? 'Update' : 'Create' }}
+                    <span data-translate-key="{{ isset($hero) ? 'Update' : 'Create' }}">{{ isset($hero) ? __("Update") : __("Create") }}</span>
                 </button>
-                <a href="{{ route('admin.hero.index') }}" class="px-6 py-2.5 text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">Cancel</a>
+                <a href="{{ route('admin.hero.index') }}" class="px-6 py-2.5 text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors" data-translate-key="Cancel">{{ __("Cancel") }}</a>
             </div>
         </form>
     </div>

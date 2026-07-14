@@ -1,11 +1,11 @@
 @extends('admin.layouts.admin')
 
-@section('title', 'Dashboard')
+@section('title', __("Dashboard"))
 
 @section('content')
     <div class="mb-8">
-        <h1 class="text-2xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]">Welcome back, {{ Auth::user()->name }}!</h1>
-        <p class="mt-1 text-sm text-[#706f6c]">Here's an overview of your site content.</p>
+        <h1 class="text-2xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]" data-translate-key="Welcome back, :name!">{{ __("Welcome back, :name!", ['name' => Auth::user()->name]) }}</h1>
+        <p class="mt-1 text-sm text-[#706f6c]" data-translate-key="Here's an overview of your site content.">{{ __("Here's an overview of your site content.") }}</p>
     </div>
 
     @php
@@ -27,7 +27,7 @@
             <div class="bg-white dark:bg-[#161615] rounded-xl shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-[#706f6c]">{{ $stat['label'] }}</p>
+                        <p class="text-sm font-medium text-[#706f6c]" data-translate-key="{{ $stat['label'] }}">{{ __($stat['label']) }}</p>
                         <p class="mt-1 text-3xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]">{{ $stat['count'] }}</p>
                     </div>
                     <div class="w-12 h-12 {{ $stat['color'] }} rounded-lg flex items-center justify-center">

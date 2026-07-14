@@ -1,14 +1,14 @@
 @extends('admin.layouts.admin')
 
-@section('title', 'Hero Sections')
+@section('title', __("Hero Sections"))
 
 @section('content')
     <div class="mb-6 flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]">Hero Sections</h1>
-            <p class="mt-1 text-sm text-[#706f6c]">Manage hero section content.</p>
+            <h1 class="text-2xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]" data-translate-key="Hero Sections">{{ __("Hero Sections") }}</h1>
+            <p class="mt-1 text-sm text-[#706f6c]" data-translate-key="Manage hero section content.">{{ __("Manage hero section content.") }}</p>
         </div>
-        <a href="{{ route('admin.hero.create') }}" class="px-4 py-2 bg-[#c42802] hover:bg-[#f53003] text-white text-sm font-medium rounded-lg transition-colors">Add New</a>
+        <a href="{{ route('admin.hero.create') }}" class="px-4 py-2 bg-[#c42802] hover:bg-[#f53003] text-white text-sm font-medium rounded-lg transition-colors" data-translate-key="Add New">{{ __("Add New") }}</a>
     </div>
 
     <div class="grid gap-3" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
@@ -34,16 +34,16 @@
                             @csrf @method('PATCH')
                             <button type="submit" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium {{ $hero->is_active ? 'bg-green-100 text-green-700' : 'bg-[#e3e3e0] dark:bg-[#3E3E3A] text-[#706f6c]' }}">
                                 <span class="w-1.5 h-1.5 rounded-full {{ $hero->is_active ? 'bg-green-500' : 'bg-gray-400' }}"></span>
-                                {{ $hero->is_active ? 'Active' : 'Inactive' }}
+                                <span data-translate-key="{{ $hero->is_active ? 'Active' : 'Inactive' }}">{{ $hero->is_active ? __("Active") : __("Inactive") }}</span>
                             </button>
                         </form>
                         <div class="flex items-center gap-1">
-                            <a href="{{ route('admin.hero.edit', $hero) }}" class="inline-flex items-center justify-center w-7 h-7 rounded text-[#c42802] hover:text-[#f53003] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all" title="Edit">
+                            <a href="{{ route('admin.hero.edit', $hero) }}" class="inline-flex items-center justify-center w-7 h-7 rounded text-[#c42802] hover:text-[#f53003] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all" title="{{ __("Edit") }}" data-translate-key="Edit">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                             </a>
-                            <form method="POST" action="{{ route('admin.hero.destroy', $hero) }}" class="inline" onsubmit="return confirm('Delete this hero section?')">
+                            <form method="POST" action="{{ route('admin.hero.destroy', $hero) }}" class="inline" onsubmit="return confirm('{{ __("Delete this hero section?") }}')">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="inline-flex items-center justify-center w-7 h-7 rounded text-red-600 hover:text-red-800 hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all" title="Delete">
+                                <button type="submit" class="inline-flex items-center justify-center w-7 h-7 rounded text-red-600 hover:text-red-800 hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all" title="{{ __("Delete") }}" data-translate-key="Delete">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 </button>
                             </form>
@@ -54,8 +54,8 @@
         @empty
             <div class="col-span-full text-center py-12 text-[#706f6c]">
                 <svg class="w-12 h-12 mx-auto text-[#706f6c] mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <p class="text-sm">No hero sections yet.</p>
-                <a href="{{ route('admin.hero.create') }}" class="mt-2 inline-block text-sm text-[#c42802] hover:text-[#f53003]">Add your first hero section</a>
+                <p class="text-sm" data-translate-key="No hero sections yet.">{{ __("No hero sections yet.") }}</p>
+                <a href="{{ route('admin.hero.create') }}" class="mt-2 inline-block text-sm text-[#c42802] hover:text-[#f53003]" data-translate-key="Add your first hero section">{{ __("Add your first hero section") }}</a>
             </div>
         @endforelse
     </div>

@@ -203,5 +203,15 @@
     "Dashboard": "لوحة التحكم",
     "You're logged in!": "تم تسجيل الدخول!",
     "Profile": "الملف الشخصي",
-    "Logout": "تسجيل الخروج"
+    "Logout": "تسجيل الخروج",
+    "Add your first hero section": "أضف أول قسم هيرو",
+    "Visual": "مرئي",
+    "Text": "نص",
+    "Mixed": "مختلط",
+    "Current image": "الصورة الحالية",
+    "Current thumbnail": "الصورة المصغرة الحالية",
+    "Site logo": "شعار الموقع",
+    "Hero image": "صورة الهيرو",
+    "Toggle theme": "تبديل السمة",
+    "Toggle language": "تبديل اللغة"
 }

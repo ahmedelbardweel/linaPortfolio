@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="{{ __('Admin panel for Lina interior design portfolio.') }}">
 
-    <title>@yield('title', 'Admin') - {{ config('app.name', 'Lina') }}</title>
+    <title>@yield('title', __("Admin")) - {{ config('app.name', 'Lina') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2">
@@ -22,7 +22,7 @@
     <div class="flex h-screen overflow-hidden">
 
         {{-- Sidebar --}}
-        <aside class="fixed inset-y-0 start-0 z-30 w-64 bg-[#1b1b18] dark:bg-[#0a0a0a] text-[#EDEDEC] flex flex-col transition-transform ltr:-translate-x-full rtl:translate-x-full lg:translate-x-0 lg:static lg:inset-auto">
+        <aside class="fixed inset-y-0 start-0 z-30 w-64 bg-[#1b1b18] dark:bg-[#0a0a0a] text-[#EDEDEC] flex flex-col transition-transform max-lg:ltr:-translate-x-full max-lg:rtl:translate-x-full lg:translate-x-0 lg:static lg:inset-auto">
             {{-- Brand --}}
             <div class="h-16 flex items-center px-6 border-b border-[#3E3E3A]">
                 <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold tracking-wide">
@@ -89,11 +89,11 @@
 
                 {{-- Toggle buttons --}}
                 <div class="flex items-center gap-2 me-4">
-                    <button onclick="toggleDark()" class="w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all" title="Toggle theme">
+                    <button onclick="toggleDark()" class="w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all" title="{{ __("Toggle theme") }}" data-translate-key="Toggle theme">
                         <svg class="dark:hidden block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
                         <svg class="hidden dark:block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     </button>
-                    <button onclick="toggleLang()" class="lang-btn w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all text-xs font-semibold" title="Toggle language">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</button>
+                    <button onclick="toggleLang()" class="lang-btn w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all text-xs font-semibold" title="{{ __("Toggle language") }}" data-translate-key="Toggle language">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</button>
                 </div>
 
                 {{-- User Dropdown --}}
@@ -155,11 +155,19 @@
             var hideClass = isRtl ? 'translate-x-full' : '-translate-x-full';
             if (toggle && sidebar && overlay) {
                 toggle.addEventListener('click', function () {
-                    sidebar.classList.toggle(hideClass);
+                    if (isRtl) {
+                        sidebar.classList.toggle('translate-x-full');
+                    } else {
+                        sidebar.classList.toggle('-translate-x-full');
+                    }
                     overlay.classList.toggle('hidden');
                 });
                 overlay.addEventListener('click', function () {
-                    sidebar.classList.add(hideClass);
+                    if (isRtl) {
+                        sidebar.classList.add('translate-x-full');
+                    } else {
+                        sidebar.classList.add('-translate-x-full');
+                    }
                     overlay.classList.add('hidden');
                 });
             }
