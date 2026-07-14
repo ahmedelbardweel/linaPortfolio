@@ -295,7 +295,7 @@
         </section>
 
         <!-- ===== ABOUT ME ===== -->
-        <section id="about" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a]"
+        <section id="about" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] lg:pb-5"
             style="scroll-snap-align:start">
             <div class="max-w-4xl mx-auto px-6 lg:px-10 w-full py-12 md:py-20">
                 <h1 data-translate-html="About<br>Me"
