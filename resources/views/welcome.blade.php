@@ -215,12 +215,12 @@
                     $x = rand(0, 92);
                     $y = rand(0, 92);
                     $w = rand(60, 120);
-                    $h = round($w * rand(65, 80) / 100);
+                    $imgH = round($w * rand(65, 80) / 100);
                     $rot = rand(-15, 15);
                     $op = rand(5, 12) / 100;
                 @endphp
                 <img src="{{ $img }}" alt="" loading="lazy"
-                    style="position:absolute;left:{{ $x }}%;top:{{ $y }}%;width:{{ $w }}px;height:{{ $h }}px;object-fit:cover;border-radius:2px;opacity:{{ $op }};transform:rotate({{ $rot }}deg)">
+                    style="position:absolute;left:{{ $x }}%;top:{{ $y }}%;width:{{ $w }}px;height:{{ $imgH }}px;object-fit:cover;border-radius:2px;opacity:{{ $op }};transform:rotate({{ $rot }}deg)">
                 @endfor
             </div>
             @endif
