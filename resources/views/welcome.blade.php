@@ -199,14 +199,30 @@
         <!-- ===== HERO SECTION ===== -->
         <section id="hero-section" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] relative overflow-hidden"
             style="scroll-snap-align:start">
-            <!-- Background pattern (desktop only) -->
-            @if ($h && $h->main_image_url)
-            @php $bgPositions = []; for ($i = 0; $i < 24; $i++) { $bgPositions[] = rand(0, 95) . '% ' . rand(0, 95) . '%'; } @endphp
-            <div class="hidden lg:block absolute inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.12]"
-                style="background-image:url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}'),url('{{ $h->main_image_url }}');
-                background-size:60px 45px,80px 60px,50px 38px,70px 53px,55px 41px,90px 68px,45px 34px,65px 49px,75px 56px,50px 38px,85px 64px,60px 45px,70px 53px,55px 41px,80px 60px,45px 34px,90px 68px,50px 38px,65px 49px,75px 56px,60px 45px,85px 64px,55px 41px,70px 53px;
-                background-position:{{ implode(',', $bgPositions) }};
-                background-repeat:no-repeat"></div>
+            <!-- Background image collage (desktop only) -->
+            @php
+                $bgImages = [];
+                if ($h && $h->main_image_url) $bgImages[] = $h->main_image_url;
+                if ($h && $h->right_image_url) $bgImages[] = $h->right_image_url;
+                foreach ($portfolios->take(4) as $p) { if ($p->image_url) $bgImages[] = $p->image_url; }
+                foreach ($stories->take(4) as $s) { if ($s->image_url) $bgImages[] = $s->image_url; }
+            @endphp
+            @if (count($bgImages))
+            <div class="hidden lg:block absolute inset-0 pointer-events-none overflow-hidden">
+                @for ($i = 0; $i < 40; $i++)
+                @php
+                    $img = $bgImages[array_rand($bgImages)];
+                    $x = rand(0, 92);
+                    $y = rand(0, 92);
+                    $w = rand(60, 120);
+                    $h = round($w * rand(65, 80) / 100);
+                    $rot = rand(-15, 15);
+                    $op = rand(5, 12) / 100;
+                @endphp
+                <img src="{{ $img }}" alt="" loading="lazy"
+                    style="position:absolute;left:{{ $x }}%;top:{{ $y }}%;width:{{ $w }}px;height:{{ $h }}px;object-fit:cover;border-radius:2px;opacity:{{ $op }};transform:rotate({{ $rot }}deg)">
+                @endfor
+            </div>
             @endif
             <div
                 class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 py-6 lg:py-20 relative">
