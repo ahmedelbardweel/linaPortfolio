@@ -475,6 +475,12 @@
                     <p class="text-[#706f6c] text-sm">{{ __('No portfolio items yet.') }}</p>
                 @endforelse
             </div>
+            @if (count($portfolios) > 2)
+                <a href="{{ route('explore') }}#portfolio"
+                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
+                    style="background:linear-gradient(135deg,#f53003,#ff8a66)"
+                    data-translate-key="View All">{{ __("View All") }}</a>
+            @endif
         </section>
 
         <!-- ===== STORIES ===== -->
@@ -569,6 +575,12 @@
                     <p class="text-[#706f6c] text-sm">{{ __('No tips yet.') }}</p>
                 @endforelse
             </div>
+            @if (count($tips) > 2)
+                <a href="{{ route('explore') }}#tips"
+                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
+                    style="background:linear-gradient(135deg,#f53003,#ff8a66)"
+                    data-translate-key="View All">{{ __("View All") }}</a>
+            @endif
         </section>
 
         </main>

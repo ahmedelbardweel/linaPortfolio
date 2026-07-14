@@ -28,6 +28,12 @@ Route::get('/reels', function () {
     return view('reels', compact('reels'));
 })->name('reels');
 
+Route::get('/explore', function () {
+    $tips = \App\Models\Tip::where('is_active', true)->orderBy('order')->get();
+    $portfolios = \App\Models\Portfolio::where('is_active', true)->orderBy('order')->get();
+    return view('explore', compact('tips', 'portfolios'));
+})->name('explore');
+
 Route::get('/dashboard', function () {
     if (Auth::user()?->is_admin) {
         return redirect()->route('admin.dashboard');
