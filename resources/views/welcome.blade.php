@@ -731,15 +731,15 @@
     </div>
 
     <!-- ===== Bottom Navigation Island (outside snap-container!) ===== -->
-    <div id="navIsland" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-1 px-4 py-2 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500"
+    <div id="navIsland" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 px-4 py-2 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500"
         style="background:rgba(253,253,252,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
-        <button data-target="hero-section" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#1b1b18] dark:text-[#EDEDEC] rounded-full transition-all duration-300">Hero</button>
-        <button data-target="about" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">About</button>
-        <button data-target="portfolio" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Portfolio</button>
-        <button data-target="stories" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Stories</button>
-        <a href="/reels" class="px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300 hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">Reels</a>
-        <button data-target="tips" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Tips</button>
-        <button data-target="contact" class="island-item px-2.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Contact</button>
+        <button data-target="hero-section" class="island-item px-1.5 md:px-2.5 py-1 text-[9px] md:text-[11px] font-medium text-[#1b1b18] dark:text-[#EDEDEC] rounded-full transition-all duration-300">Hero</button>
+        <button data-target="about" class="island-item px-1.5 md:px-2.5 py-1 text-[9px] md:text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">About</button>
+        <button data-target="portfolio" class="island-item px-1.5 md:px-2.5 py-1 text-[9px] md:text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Portfolio</button>
+        <button data-target="stories" class="island-item px-1.5 md:px-2.5 py-1 text-[9px] md:text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Stories</button>
+        <a href="/reels" class="px-1.5 md:px-2.5 py-1 text-[9px] md:text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300 hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">Reels</a>
+        <button data-target="tips" class="island-item px-1.5 md:px-2.5 py-1 text-[9px] md:text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Tips</button>
+        <button data-target="contact" class="island-item px-1.5 md:px-2.5 py-1 text-[9px] md:text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">Contact</button>
     </div>
 
     <style>
