@@ -135,10 +135,22 @@
                     <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
                         onclick="event.preventDefault(); switchLanguage(document.documentElement.lang === 'ar' ? 'en' : 'ar');"
                         class="lang-btn w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all text-xs font-semibold">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</a>
-                    <a href="/login" data-translate-key="Login"
-                        class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("Login") }}</a>
-                    <a href="/register" data-translate-key="Register"
-                        class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white hover:opacity-90 transition-opacity shadow-[0_0_0_1px_rgba(26,26,0,0.08)] bg-[#c42802] dark:bg-[#FF4433]">{{ __("Register") }}</a>
+                    @auth
+                        @if (Auth::user()->is_admin)
+                            <a href="/admin" data-translate-key="Admin Dashboard"
+                                class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white hover:opacity-90 transition-opacity shadow-[0_0_0_1px_rgba(26,26,0,0.08)] bg-[#c42802] dark:bg-[#FF4433]">{{ __("Admin Dashboard") }}</a>
+                        @else
+                            <a href="#contact" data-translate-key="Request Consultation"
+                                class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white hover:opacity-90 transition-opacity shadow-[0_0_0_1px_rgba(26,26,0,0.08)] bg-[#c42802] dark:bg-[#FF4433]">{{ __("Request Consultation") }}</a>
+                            <a href="#contact" data-translate-key="Contact Us"
+                                class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("Contact Us") }}</a>
+                        @endif
+                    @else
+                        <a href="/login" data-translate-key="Login"
+                            class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("Login") }}</a>
+                        <a href="/register" data-translate-key="Register"
+                            class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white hover:opacity-90 transition-opacity shadow-[0_0_0_1px_rgba(26,26,0,0.08)] bg-[#c42802] dark:bg-[#FF4433]">{{ __("Register") }}</a>
+                    @endauth
                 </div>
                 <button onclick="toggleMobileMenu()" class="md:hidden flex items-center justify-center w-8 h-8 rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-all" aria-label="Toggle menu">
                     <svg id="menuIconOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,8 +189,17 @@
                         class="lang-btn w-9 h-9 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all text-xs font-semibold">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</a>
                 </div>
                 <div class="flex items-center gap-2">
-                    <a href="/login" data-translate-key="Login" class="px-4 py-2 rounded-lg text-sm text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Login") }}</a>
-                    <a href="/register" data-translate-key="Register" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" onclick="closeMobileMenu()">{{ __("Register") }}</a>
+                    @auth
+                        @if (Auth::user()->is_admin)
+                            <a href="/admin" data-translate-key="Admin Dashboard" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" onclick="closeMobileMenu()">{{ __("Admin Dashboard") }}</a>
+                        @else
+                            <a href="#contact" data-translate-key="Request Consultation" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" onclick="closeMobileMenu()">{{ __("Request Consultation") }}</a>
+                            <a href="#contact" data-translate-key="Contact Us" class="px-4 py-2 rounded-lg text-sm text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Contact Us") }}</a>
+                        @endif
+                    @else
+                        <a href="/login" data-translate-key="Login" class="px-4 py-2 rounded-lg text-sm text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Login") }}</a>
+                        <a href="/register" data-translate-key="Register" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" onclick="closeMobileMenu()">{{ __("Register") }}</a>
+                    @endauth
                 </div>
             </div>
         </div>
