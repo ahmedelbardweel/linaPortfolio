@@ -209,7 +209,7 @@
             @endphp
             @if (count($bgImages))
             <div class="hidden lg:block absolute inset-0 pointer-events-none overflow-hidden">
-                @for ($i = 0; $i < 40; $i++)
+                @for ($i = 0; $i < 70; $i++)
                 @php
                     $img = $bgImages[array_rand($bgImages)];
                     $x = rand(0, 92);
