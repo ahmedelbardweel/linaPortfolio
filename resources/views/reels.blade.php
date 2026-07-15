@@ -111,9 +111,20 @@
     <div class="reel-slide" style="scroll-snap-align:start;height:100vh;display:flex;align-items:center;justify-content:center;background:#000">
         <div class="relative w-full h-full flex items-center justify-center" style="max-width:400px;margin:0 auto;padding:0 2px">
             <div class="w-full h-full relative overflow-hidden" style="aspect-ratio:9/16;max-height:100vh;background:#1a1a1a">
-                <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}" controls>
+                <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}" onclick="toggleVideo(this)">
                     <source src="{{ $demoVideos[$i] }}" type="video/mp4">
                 </video>
+                <!-- Tap-to-play overlay -->
+                <div class="play-overlay" onclick="toggleVideo(this.previousElementSibling)">
+                    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="38" fill="rgba(0,0,0,0.45)" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+                        <polygon points="32,25 60,40 32,55" fill="white"/>
+                    </svg>
+                </div>
+                <!-- Mute toggle -->
+                <button class="mute-btn" onclick="toggleMute(this)" title="Mute/Unmute">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                </button>
                 <div class="absolute bottom-0 left-0 right-0 p-4 z-10" style="background:linear-gradient(transparent,rgba(0,0,0,.7))">
                     <div class="flex items-center gap-2 mb-1">
                         <span class="w-6 h-6 rounded-full bg-[#f53003] text-white flex items-center justify-center text-[10px] font-bold" style="font-family:Georgia,serif">L</span>
