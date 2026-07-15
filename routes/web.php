@@ -18,7 +18,8 @@ Route::get('/', function () {
     $tips = \App\Models\Tip::where('is_active', true)->orderBy('order')->get();
     $portfolios = \App\Models\Portfolio::where('is_active', true)->orderBy('order')->get();
 
-    $mainImageInline = null;
+    // Inline the LCP hero image as base64 to eliminate extra HTTP round-trip and improve LCP
+    $mainImageInline = ($hero && $hero->main_image_data) ? $hero->main_image_data : null;
 
     return view('welcome', compact('hero', 'stories', 'tips', 'portfolios', 'mainImageInline'));
 });
