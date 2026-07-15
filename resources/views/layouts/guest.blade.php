@@ -71,7 +71,7 @@
                     class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] me-auto">
                     <?php $logoPath = \App\Models\Setting::get('logo'); ?>
                     @if ($logoPath)
-                        <img src="{{ asset('storage/' . $logoPath) }}" alt="Logo" class="h-6 w-auto">
+                        <img src="{{ $logoPath }}" alt="Logo" class="h-6 w-auto">
                     @else
                         <span class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold" style="font-family:Georgia,serif;border-radius:3px">L</span>
                     @endif

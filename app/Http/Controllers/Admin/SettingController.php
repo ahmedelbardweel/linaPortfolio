@@ -19,8 +19,10 @@ class SettingController extends Controller
     {
         foreach ($request->except('_token', '_method') as $key => $value) {
             if ($request->hasFile($key)) {
-                $path = $request->file($key)->store('settings', 'public');
-                Setting::set($key, $path);
+                $file = $request->file($key);
+                $binary = file_get_contents($file->getRealPath());
+                $data = 'data:' . $file->getMimeType() . ';base64,' . base64_encode($binary);
+                Setting::set($key, $data);
             } else {
                 Setting::set($key, $value);
             }
