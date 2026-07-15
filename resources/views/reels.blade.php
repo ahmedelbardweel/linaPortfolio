@@ -287,33 +287,45 @@ function toggleMute(e) {
 document.addEventListener('DOMContentLoaded', () => {
     switchLanguage(document.documentElement.lang || 'en');
 
-    // Scroll-based auto play/pause
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            const video = entry.target.querySelector('.reel-video');
-            const overlay = video ? video.nextElementSibling : null;
-            if (!video) return;
-            if (entry.isIntersecting) {
-                document.querySelectorAll('.reel-video').forEach(v => {
-                    if (v !== video) {
-                        v.pause();
-                        const o = v.nextElementSibling;
-                        if (o && o.classList.contains('play-overlay')) o.removeAttribute('data-playing');
-                    }
-                });
-                video.play().then(() => {
+    const feed = document.querySelector('.reels-feed');
+    if (!feed) return;
+
+    function getVisibleVideo() {
+        let best = null, bestRatio = 0;
+        document.querySelectorAll('.reel-slide').forEach(slide => {
+            const rect = slide.getBoundingClientRect();
+            const visible = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+            const ratio = Math.max(0, visible / slide.offsetHeight);
+            if (ratio > bestRatio) { bestRatio = ratio; best = slide.querySelector('.reel-video'); }
+        });
+        return best;
+    }
+
+    function syncVideos() {
+        const active = getVisibleVideo();
+        if (!active) return;
+        document.querySelectorAll('.reel-video').forEach(v => {
+            const overlay = v.nextElementSibling;
+            if (v === active) {
+                if (v.paused) {
+                    v.play().then(() => {
+                        if (overlay && overlay.classList.contains('play-overlay')) overlay.setAttribute('data-playing', '1');
+                    }).catch(() => {});
+                } else {
                     if (overlay && overlay.classList.contains('play-overlay')) overlay.setAttribute('data-playing', '1');
-                }).catch(() => {
-                    if (overlay && overlay.classList.contains('play-overlay')) overlay.removeAttribute('data-playing');
-                });
+                }
             } else {
-                video.pause();
+                v.pause();
                 if (overlay && overlay.classList.contains('play-overlay')) overlay.removeAttribute('data-playing');
             }
         });
-    }, { threshold: 0.6 });
+    }
 
-    document.querySelectorAll('.reel-slide').forEach(el => observer.observe(el));
+    // Sync on scroll
+    feed.addEventListener('scroll', syncVideos, { passive: true });
+
+    // Initial sync — delay 500ms to not conflict with browser autoplay attribute
+    setTimeout(syncVideos, 500);
 });
 </script>
 </main>
