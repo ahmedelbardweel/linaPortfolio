@@ -111,12 +111,12 @@ trait HandlesImages
         }
     }
 
-    protected function uploadToBlob(string $binary, string $name): ?string
+    protected function uploadToBlob(string $binary, string $name, string $mime = 'image/webp'): ?string
     {
         $token = env('BLOB_READ_WRITE_TOKEN');
         if (!$token) return null;
 
-        $path = "images/$name";
+        $path = str_contains($name, '/') ? $name : "images/$name";
         $body = \json_encode(['path' => $path, 'options' => ['access' => 'public']]);
         $ctx = \stream_context_create([
             'http' => [
@@ -137,9 +137,9 @@ trait HandlesImages
         $putCtx = \stream_context_create([
             'http' => [
                 'method' => 'PUT',
-                'header' => "Content-Type: image/webp\r\n",
+                'header' => "Content-Type: $mime\r\n",
                 'content' => $binary,
-                'timeout' => 30,
+                'timeout' => 45, // slightly longer timeout for videos
                 'ignore_errors' => true,
             ],
         ]);

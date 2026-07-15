@@ -54,7 +54,7 @@ class SyncImagesToBlob extends Command
             }
         }
 
-        // 4. Reel (Thumbnails only, videos should use direct uploads)
+        // 4. Reel Thumbnails
         $this->info('Syncing Reel Thumbnails...');
         foreach (Reel::all() as $reel) {
             $val = $reel->thumbnail ?? '';
@@ -64,6 +64,36 @@ class SyncImagesToBlob extends Command
             }
         }
 
-        $this->info('All images synchronized to Vercel Blob successfully!');
+        // 5. Reel Videos
+        $this->info('Syncing Reel Videos...');
+        foreach (Reel::all() as $reel) {
+            $val = $reel->video_path ?? '';
+            if ($val && !str_starts_with($val, 'https://')) {
+                $this->info("Syncing Reel #{$reel->id} Video ($val)...");
+                try {
+                    if (Storage::disk('public')->exists($val)) {
+                        $binary = Storage::disk('public')->get($val);
+                        $mime = 'video/mp4';
+                        if (str_ends_with($val, '.webm')) $mime = 'video/webm';
+                        elseif (str_ends_with($val, '.mov')) $mime = 'video/quicktime';
+
+                        $name = 'reels/' . basename($val);
+                        $url = $this->uploadToBlob($binary, $name, $mime);
+                        if ($url) {
+                            $reel->update(['video_path' => $url]);
+                            $this->info("Successfully synced Reel #{$reel->id} Video to $url");
+                        } else {
+                            $this->error("Failed to upload Reel #{$reel->id} Video to Vercel Blob");
+                        }
+                    } else {
+                        $this->warn("Local file $val does not exist for Reel #{$reel->id}");
+                    }
+                } catch (\Exception $e) {
+                    $this->error("Error syncing Reel #{$reel->id} Video: " . $e->getMessage());
+                }
+            }
+        }
+
+        $this->info('All assets synchronized to Vercel Blob successfully!');
     }
 }

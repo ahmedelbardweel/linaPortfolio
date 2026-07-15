@@ -40,7 +40,16 @@ class ReelController extends Controller
         if ($request->input('_direct_upload')) {
             $data['video_path'] = $request->input('video_path');
         } else {
-            $data['video_path'] = $request->file('video')->store('reels', 'public');
+            $file = $request->file('video');
+            $binary = file_get_contents($file->getRealPath());
+            $name = 'reels/reel_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $file->getClientOriginalExtension();
+            $mime = $file->getClientMimeType() ?: 'video/mp4';
+            $url = $this->uploadToBlob($binary, $name, $mime);
+            if ($url) {
+                $data['video_path'] = $url;
+            } else {
+                $data['video_path'] = $file->store('reels', 'public');
+            }
         }
 
         if ($request->hasFile('thumbnail')) {
@@ -87,11 +96,20 @@ class ReelController extends Controller
             }
         } elseif ($request->hasFile('video')) {
             try {
-                if ($reel->video_path) {
+                if ($reel->video_path && !str_starts_with($reel->video_path, 'https://')) {
                     Storage::disk('public')->delete($reel->video_path);
                 }
             } catch (\Exception $e) {}
-            $data['video_path'] = $request->file('video')->store('reels', 'public');
+            $file = $request->file('video');
+            $binary = file_get_contents($file->getRealPath());
+            $name = 'reels/reel_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $file->getClientOriginalExtension();
+            $mime = $file->getClientMimeType() ?: 'video/mp4';
+            $url = $this->uploadToBlob($binary, $name, $mime);
+            if ($url) {
+                $data['video_path'] = $url;
+            } else {
+                $data['video_path'] = $file->store('reels', 'public');
+            }
         }
 
         if ($request->hasFile('thumbnail')) {

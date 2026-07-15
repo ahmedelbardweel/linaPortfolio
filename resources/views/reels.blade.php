@@ -10,9 +10,7 @@
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2">
     <style>@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-600-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-700-normal.woff2) format('woff2')}</style>
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @endif
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         *, :before, :after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; background: #000; color: #fff; min-height: 100vh; overflow: hidden; }
@@ -234,10 +232,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial call to ensure correct sidebar alignment for loaded language
     switchLanguage(document.documentElement.lang || 'en');
 
-    if (typeof Plyr === 'undefined') return;
+    const plyrLib = window.Plyr || (typeof Plyr !== 'undefined' ? Plyr : null);
+    if (!plyrLib) return;
     const players = [];
     document.querySelectorAll('.reel-video').forEach((el) => {
-        const p = new Plyr(el, {
+        const p = new plyrLib(el, {
             controls: ['play', 'mute', 'fullscreen'],
             settings: [],
             clickToPlay: true,
