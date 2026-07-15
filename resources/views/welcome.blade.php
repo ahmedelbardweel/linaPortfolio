@@ -769,13 +769,13 @@
     <!-- ===== Bottom Navigation Island (outside snap-container!) ===== -->
     <div id="navIsland" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:hidden flex items-center gap-1 px-3 py-2 rounded-full shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] transition-all duration-500 max-w-[92vw] overflow-x-auto whitespace-nowrap"
         style="background:rgba(253,253,252,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
-        <button data-target="hero-section" data-translate-key="Hero" class="island-item px-1.5 py-1 text-[10px] font-medium text-[#1b1b18] dark:text-[#EDEDEC] rounded-full transition-all duration-300">{{ __("Hero") }}</button>
-        <button data-target="about" data-translate-key="About" class="island-item px-1.5 py-1 text-[10px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">{{ __("About") }}</button>
-        <button data-target="portfolio" data-translate-key="Portfolio" class="island-item px-1.5 py-1 text-[10px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">{{ __("Portfolio") }}</button>
-        <button data-target="stories" data-translate-key="Stories" class="island-item px-1.5 py-1 text-[10px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">{{ __("Stories") }}</button>
-        <a href="/reels" data-translate-key="Reels" class="px-1.5 py-1 text-[10px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300 hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">{{ __("Reels") }}</a>
-        <button data-target="tips" data-translate-key="Tips" class="island-item px-1.5 py-1 text-[10px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">{{ __("Tips") }}</button>
-        <button data-target="contact" data-translate-key="Contact" class="island-item px-1.5 py-1 text-[10px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">{{ __("Contact") }}</button>
+        <button data-target="hero-section" data-translate-key="Hero" class="island-item px-1.5 py-1 text-[11px] font-medium text-[#1b1b18] dark:text-[#EDEDEC] rounded-full transition-all duration-300">{{ __("Hero") }}</button>
+        <button data-target="about" data-translate-key="About" class="island-item px-1.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">{{ __("About") }}</button>
+        <button data-target="portfolio" data-translate-key="Portfolio" class="island-item px-1.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">{{ __("Portfolio") }}</button>
+        <button data-target="stories" data-translate-key="Stories" class="island-item px-1.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">{{ __("Stories") }}</button>
+        <a href="/reels" data-translate-key="Reels" class="px-1.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300 hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]">{{ __("Reels") }}</a>
+        <button data-target="tips" data-translate-key="Tips" class="island-item px-1.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">{{ __("Tips") }}</button>
+        <button data-target="contact" data-translate-key="Contact" class="island-item px-1.5 py-1 text-[11px] font-medium text-[#706f6c] dark:text-[#A1A09A] rounded-full transition-all duration-300">{{ __("Contact") }}</button>
     </div>
 
     <style>
