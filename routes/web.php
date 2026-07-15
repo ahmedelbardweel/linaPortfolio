@@ -277,4 +277,42 @@ Route::get('/lang/{locale}', function (string $locale) {
     return redirect()->back();
 })->name('lang.switch');
 
+// --- Temporary maintenance routes (protected by token) ---
+Route::get('/fix-reels', function () {
+    if (request()->get('token') !== 'lina_fix_2024') abort(403);
+
+    $demoVideos = [
+        'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+        'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+        'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+        'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+        'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+        'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    ];
+
+    $reels = \App\Models\Reel::all();
+    $fixed = 0;
+    foreach ($reels as $i => $reel) {
+        // Only fix reels that have a broken local path (not a full URL)
+        if (!str_starts_with($reel->video_path ?? '', 'http')) {
+            $demo = $demoVideos[$i % count($demoVideos)];
+            $reel->update(['video_path' => $demo]);
+            $fixed++;
+        }
+    }
+
+    return response()->json([
+        'fixed' => $fixed,
+        'total' => $reels->count(),
+        'message' => "$fixed reel(s) updated with demo video URLs. Upload real videos from admin to replace them.",
+    ]);
+});
+
+Route::get('/run-sync', function () {
+    if (request()->get('token') !== 'lina_fix_2024') abort(403);
+    \Illuminate\Support\Facades\Artisan::call('images:sync-blob');
+    return '<pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
+});
+// --- End maintenance routes ---
+
 require __DIR__.'/auth.php';
