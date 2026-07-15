@@ -457,7 +457,7 @@
         <!-- ===== PORTFOLIO ===== -->
         <section id="portfolio"
             class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28"
-            style="scroll-snap-align:start">
+            style="scroll-snap-align:start;min-height:80dvh">
             <div class="mb-10">
                 <h2 data-translate-key="Portfolio"
                     class="text-2xl lg:text-3xl font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
@@ -468,7 +468,7 @@
             </div>
             <div class="grid gap-3" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
                 @forelse ($portfolios as $portfolio)
-                    <div class="rounded-[3px] overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] {{ $loop->iteration > 2 ? 'hidden md:block' : '' }}">
+                    <div class="rounded-[3px] overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] {{ $loop->iteration > 4 ? 'hidden md:block' : '' }}">
                         <div class="aspect-[4/3] relative flex items-center justify-center overflow-hidden"
                             style="background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
                             @if ($portfolio->image_path)
@@ -488,7 +488,7 @@
                     <p class="text-[#706f6c] text-sm">{{ __('No portfolio items yet.') }}</p>
                 @endforelse
             </div>
-            @if (count($portfolios) > 2)
+            @if (count($portfolios) > 4)
                 <a href="{{ route('portfolios') }}"
                     class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-[3px] text-xs font-medium text-white transition-all duration-300 block text-center"
                     style="background:#c42802"
@@ -499,7 +499,7 @@
         <!-- ===== STORIES ===== -->
         <section id="stories"
             class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28"
-            style="scroll-snap-align:start">
+            style="scroll-snap-align:start;min-height:80dvh">
             <div class="mb-10">
                 <h2 data-translate-key="Stories"
                     class="text-2xl lg:text-3xl font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
@@ -515,7 +515,7 @@
                     }
                 </style>
                 @forelse ($stories->take(4) as $story)
-                    <div class="story-card shrink-0 w-48 rounded-[3px] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A] {{ $loop->iteration > 2 ? 'hidden md:block' : '' }}"
+                    <div class="story-card shrink-0 w-48 rounded-[3px] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A] {{ $loop->iteration > 4 ? 'hidden md:block' : '' }}"
                         onclick="openWelcomeStory(this)"
                         data-title="{{ $story->title }}"
                         data-content="{{ $story->content }}"
@@ -547,7 +547,7 @@
                     <p class="text-[#706f6c] text-sm">{{ __('No stories yet.') }}</p>
                 @endforelse
             </div>
-            @if (count($stories) > 2)
+            @if (count($stories) > 4)
                 <a href="{{ route('stories') }}"
                     class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-[3px] text-xs font-medium text-white transition-all duration-300 block text-center"
                     style="background:#c42802"
@@ -573,7 +573,7 @@
         <!-- ===== TIPS & INSIGHTS ===== -->
         <section id="tips"
             class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28"
-            style="scroll-snap-align:start">
+            style="scroll-snap-align:start;min-height:80dvh">
             <div class="mb-10">
                 <h2 data-translate-key="Tips & Insights"
                     class="text-2xl lg:text-3xl font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
@@ -584,7 +584,7 @@
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
                 @forelse ($tips as $tip)
-                    <div class="rounded-[3px] p-3 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden max-w-full {{ $loop->iteration > 2 ? 'hidden md:block' : '' }}">
+                    <div class="rounded-[3px] p-3 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden max-w-full {{ $loop->iteration > 4 ? 'hidden md:block' : '' }}">
                         <span class="inline-block px-2 py-0.5 rounded text-[10px] font-medium text-white mb-2"
                             style="background:#f53003">{{ $tip->category }}</span>
                         <h3 class="font-medium text-xs mb-1 text-[#1b1b18] dark:text-[#EDEDEC] break-words">{{ $tip->title }}</h3>
@@ -594,7 +594,7 @@
                     <p class="text-[#706f6c] text-sm">{{ __('No tips yet.') }}</p>
                 @endforelse
             </div>
-            @if (count($tips) > 2)
+            @if (count($tips) > 4)
                 <a href="{{ route('tips') }}"
                     class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-[3px] text-xs font-medium text-white transition-all duration-300 block text-center"
                     style="background:#c42802"
