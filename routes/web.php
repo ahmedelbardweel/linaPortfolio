@@ -126,6 +126,60 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
     $binary = base64_decode(explode(',', $data, 2)[1] ?? '');
     if (!$binary) abort(404);
 
+    // Dynamic Image Resizing & WebP Compression to optimize payload for PageSpeed
+    if (function_exists('imagecreatefromstring')) {
+        $img = @imagecreatefromstring($binary);
+        if ($img) {
+            $ow = imagesx($img);
+            $oh = imagesy($img);
+            
+            // Define targeted resolutions based on where the image is displayed
+            $maxW = 640;
+            $maxH = 640;
+            if ($table === 'hero' && $col === 'main') {
+                $maxW = 800; // Hero image max width
+                $maxH = 600;
+            } elseif ($table === 'hero' && $col === 'right') {
+                $maxW = 400; // Small side hero image
+                $maxH = 400;
+            } elseif ($table === 'portfolio') {
+                $maxW = 480; // Portfolio grid cards
+                $maxH = 360;
+            } elseif ($table === 'story') {
+                $maxW = 320; // Story circle/cards
+                $maxH = 240;
+            }
+
+            $scale = min($maxW / $ow, $maxH / $oh, 1);
+            if ($scale < 1) {
+                $nw = (int)round($ow * $scale);
+                $nh = (int)round($oh * $scale);
+                $resized = imagecreatetruecolor($nw, $nh);
+                
+                // Maintain transparency for PNGs
+                imagealphablending($resized, false);
+                imagesavealpha($resized, true);
+                
+                imagecopyresampled($resized, $img, 0, 0, 0, 0, $nw, $nh, $ow, $oh);
+                imagedestroy($img);
+                $img = $resized;
+            }
+            
+            $tmp = fopen('php://temp', 'r+');
+            if ($tmp) {
+                imagewebp($img, $tmp, 60); // 60% quality WebP is highly optimized and virtually indistinguishable
+                rewind($tmp);
+                $webpBinary = stream_get_contents($tmp);
+                fclose($tmp);
+                if ($webpBinary) {
+                    $binary = $webpBinary;
+                    $mime = 'image/webp';
+                }
+            }
+            imagedestroy($img);
+        }
+    }
+
     @mkdir($cacheDir, 0755, true);
     file_put_contents($cacheFile, $binary);
 
@@ -137,7 +191,48 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
 
 Route::get('storage/{path}', function (string $path) {
     if (!Storage::disk('public')->exists($path)) {
-        abort(404);
+        $binary = null;
+        
+        // Try searching Portfolio
+        $portfolio = \App\Models\Portfolio::where('image_path', $path)->first();
+        if ($portfolio && $portfolio->image_data) {
+            $binary = @base64_decode(explode(',', $portfolio->image_data, 2)[1] ?? '');
+        }
+        
+        // Try searching Story
+        if (!$binary) {
+            $story = \App\Models\Story::where('image_path', $path)->first();
+            if ($story && $story->image_data) {
+                $binary = @base64_decode(explode(',', $story->image_data, 2)[1] ?? '');
+            }
+        }
+        
+        // Try searching HeroSection
+        if (!$binary) {
+            $hero = \App\Models\HeroSection::where('main_image', $path)->first();
+            if ($hero && $hero->main_image_data) {
+                $binary = @base64_decode(explode(',', $hero->main_image_data, 2)[1] ?? '');
+            } else {
+                $hero = \App\Models\HeroSection::where('right_image', $path)->first();
+                if ($hero && $hero->right_image_data) {
+                    $binary = @base64_decode(explode(',', $hero->right_image_data, 2)[1] ?? '');
+                }
+            }
+        }
+        
+        // Try searching Reel
+        if (!$binary) {
+            $reel = \App\Models\Reel::where('thumbnail', $path)->first();
+            if ($reel && $reel->thumbnail_data) {
+                $binary = @base64_decode(explode(',', $reel->thumbnail_data, 2)[1] ?? '');
+            }
+        }
+
+        if ($binary) {
+            Storage::disk('public')->put($path, $binary);
+        } else {
+            abort(404);
+        }
     }
     return response()->file(Storage::disk('public')->path($path), [
         'Cache-Control' => 'public, max-age=31536000, immutable',

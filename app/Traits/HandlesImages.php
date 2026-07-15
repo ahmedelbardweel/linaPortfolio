@@ -71,13 +71,10 @@ trait HandlesImages
         };
 
         foreach ($pairs as $pair) {
-            $data = $model->{$pair['col']} ?? '';
-            if (!$data) continue;
-
-            $binary = \base64_decode(\explode(',', $data, 2)[1] ?? '');
-            if (!$binary) continue;
-
-            \file_put_contents("$cacheDir/$table.{$model->id}.{$pair['id']}", $binary);
+            $cacheFile = "$cacheDir/$table.{$model->id}.{$pair['id']}";
+            if (\file_exists($cacheFile)) {
+                @\unlink($cacheFile);
+            }
         }
     }
 
