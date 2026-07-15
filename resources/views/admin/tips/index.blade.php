@@ -13,13 +13,13 @@
 
     <div class="grid gap-3" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
         @forelse ($tips as $tip)
-            <div class="rounded-[3px] p-4 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] transition-transform duration-300 hover:-translate-y-1 flex flex-col">
+            <div class="rounded-[3px] p-4 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] transition-transform duration-300 hover:-translate-y-1 flex flex-col overflow-hidden max-w-full">
                 <div class="flex items-center justify-between mb-2">
                     <span class="inline-block px-2 py-0.5 rounded text-[10px] font-medium text-white" style="background:#f53003">{{ $tip->category ?? __("Uncategorized") }}</span>
-                    <span class="text-[10px] text-[#706f6c]">#{{ $tip->order }}</span>
+                    <span class="text-[10px] text-[#706f6c] shrink-0">#{{ $tip->order }}</span>
                 </div>
-                <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC] mb-1">{{ $tip->title }}</h3>
-                <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] leading-relaxed flex-1">{{ $tip->content }}</p>
+                <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC] mb-1 break-words">{{ $tip->title }}</h3>
+                <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] leading-relaxed flex-1 break-words overflow-hidden max-h-[3.3em]">{{ $tip->content }}</p>
                 <div class="flex items-center justify-between mt-3 pt-3 border-t border-[#e3e3e0] dark:border-[#3E3E3A]">
                     <form method="POST" action="{{ route('admin.tips.toggle', $tip) }}">
                         @csrf

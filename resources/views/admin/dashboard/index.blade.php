@@ -24,10 +24,10 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         @foreach ($stats as $stat)
-            <div class="bg-white dark:bg-[#161615] rounded-xl shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] p-6">
+            <div class="bg-white dark:bg-[#161615] rounded-xl shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A] p-6 overflow-hidden max-w-full">
                 <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-[#706f6c]" data-translate-key="{{ $stat['label'] }}">{{ __($stat['label']) }}</p>
+                    <div class="min-w-0">
+                        <p class="text-sm font-medium text-[#706f6c] break-words" data-translate-key="{{ $stat['label'] }}">{{ __($stat['label']) }}</p>
                         <p class="mt-1 text-3xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]">{{ $stat['count'] }}</p>
                     </div>
                     <div class="w-12 h-12 {{ $stat['color'] }} rounded-lg flex items-center justify-center">

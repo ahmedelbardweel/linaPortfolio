@@ -30,14 +30,14 @@
                         </svg>
                     @endif
                 </div>
-                <div class="p-3">
+                <div class="p-3 max-w-full overflow-hidden">
                     <div class="flex items-center justify-between mb-1">
                         <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-purple-100 text-purple-700">
                             {{ $story->type ?? 'default' }}
                         </span>
-                        <span class="text-[10px] text-[#706f6c]">#{{ $story->order }}</span>
+                        <span class="text-[10px] text-[#706f6c] shrink-0">#{{ $story->order }}</span>
                     </div>
-                    <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC]">{{ $story->title }}</h3>
+                    <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC] break-words">{{ $story->title }}</h3>
                     <div class="flex items-center justify-between mt-2 pt-2 border-t border-[#e3e3e0] dark:border-[#3E3E3A]">
                         <form method="POST" action="{{ route('admin.stories.toggle', $story) }}">
                             @csrf

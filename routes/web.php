@@ -31,7 +31,8 @@ Route::get('/reels', function () {
 Route::get('/explore', function () {
     $tips = \App\Models\Tip::where('is_active', true)->orderBy('order')->get();
     $portfolios = \App\Models\Portfolio::where('is_active', true)->orderBy('order')->get();
-    return view('explore', compact('tips', 'portfolios'));
+    $stories = \App\Models\Story::where('is_active', true)->orderBy('order')->get();
+    return view('explore', compact('tips', 'portfolios', 'stories'));
 })->name('explore');
 
 Route::get('/dashboard', function () {

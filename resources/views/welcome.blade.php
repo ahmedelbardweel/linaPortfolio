@@ -455,7 +455,7 @@
             </div>
             <div class="grid gap-3" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
                 @forelse ($portfolios as $portfolio)
-                    <div class="rounded-[3px] overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                    <div class="rounded-[3px] overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] {{ $loop->iteration > 2 ? 'hidden md:block' : '' }}">
                         <div class="aspect-[4/3] relative flex items-center justify-center overflow-hidden"
                             style="background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
                             @if ($portfolio->image_path)
@@ -466,9 +466,9 @@
                                 </svg>
                             @endif
                         </div>
-                        <div class="p-3">
-                            <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC]">{{ $portfolio->title }}</h3>
-                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5 leading-relaxed">{{ $portfolio->description }}</p>
+                        <div class="p-3 max-w-full overflow-hidden">
+                            <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC] break-words">{{ $portfolio->title }}</h3>
+                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5 leading-relaxed break-words overflow-hidden max-h-[3.3em]">{{ $portfolio->description }}</p>
                         </div>
                     </div>
                 @empty
@@ -495,14 +495,14 @@
                     class="text-[#706f6c] dark:text-[#A1A09A] text-sm mt-1.5">
                     {{ __("Behind the scenes & daily design moments") }}</p>
             </div>
-            <div class="story-card-row flex gap-4 overflow-x-auto pb-4" style="scrollbar-width:none;-ms-overflow-style:none">
+            <div class="story-card-row flex gap-4 overflow-x-auto pb-4 md:pb-4" style="scrollbar-width:none;-ms-overflow-style:none">
                 <style>
                     .story-card-row::-webkit-scrollbar {
                         display: none
                     }
                 </style>
-                @forelse ($stories as $story)
-                    <div class="story-card shrink-0 w-48 rounded-[3px] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A]"
+                @forelse ($stories->take(4) as $story)
+                    <div class="story-card shrink-0 w-48 rounded-[3px] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A] {{ $loop->iteration > 2 ? 'hidden md:block' : '' }}"
                         onclick="openWelcomeStory(this)"
                         data-title="{{ $story->title }}"
                         data-content="{{ $story->content }}"
@@ -525,15 +525,21 @@
                                 </svg>
                             @endif
                         </div>
-                        <div class="p-3">
-                            <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC]">{{ $story->title }}</h3>
-                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5">{{ Str::limit($story->content, 60) }}</p>
+                        <div class="p-3 max-w-full overflow-hidden">
+                            <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC] break-words">{{ $story->title }}</h3>
+                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5 break-words">{{ Str::limit($story->content, 60) }}</p>
                         </div>
                     </div>
                 @empty
                     <p class="text-[#706f6c] text-sm">{{ __('No stories yet.') }}</p>
                 @endforelse
             </div>
+            @if (count($stories) > 2)
+                <a href="{{ route('explore') }}#stories"
+                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
+                    style="background:linear-gradient(135deg,#f53003,#ff8a66)"
+                    data-translate-key="View All">{{ __("View All") }}</a>
+            @endif
         </section>
 
         <!-- ===== STORY MODAL ===== -->
@@ -565,11 +571,11 @@
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
                 @forelse ($tips as $tip)
-                    <div class="rounded-[3px] p-3 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                    <div class="rounded-[3px] p-3 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden max-w-full {{ $loop->iteration > 2 ? 'hidden md:block' : '' }}">
                         <span class="inline-block px-2 py-0.5 rounded text-[10px] font-medium text-white mb-2"
                             style="background:#f53003">{{ $tip->category }}</span>
-                        <h3 class="font-medium text-xs mb-1 text-[#1b1b18] dark:text-[#EDEDEC]">{{ $tip->title }}</h3>
-                        <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] leading-relaxed">{{ $tip->content }}</p>
+                        <h3 class="font-medium text-xs mb-1 text-[#1b1b18] dark:text-[#EDEDEC] break-words">{{ $tip->title }}</h3>
+                        <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] leading-relaxed break-words max-h-[3.3em] overflow-hidden">{{ $tip->content }}</p>
                     </div>
                 @empty
                     <p class="text-[#706f6c] text-sm">{{ __('No tips yet.') }}</p>

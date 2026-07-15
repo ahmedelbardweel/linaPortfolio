@@ -21,10 +21,10 @@
                         <svg class="w-12 h-12 text-[#706f6c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     @endif
                 </div>
-                <div class="p-3">
+                <div class="p-3 max-w-full overflow-hidden">
                     <div class="flex items-center justify-between mb-1">
-                        <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC]">{{ $reel->title }}</h3>
-                        <span class="text-[10px] text-[#706f6c]">#{{ $reel->order }}</span>
+                        <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC] break-words max-w-[80%]">{{ $reel->title }}</h3>
+                        <span class="text-[10px] text-[#706f6c] shrink-0">#{{ $reel->order }}</span>
                     </div>
                     <div class="flex items-center justify-between mt-2 pt-2 border-t border-[#e3e3e0] dark:border-[#3E3E3A]">
                         <form method="POST" action="{{ route('admin.reels.toggle', $reel) }}">

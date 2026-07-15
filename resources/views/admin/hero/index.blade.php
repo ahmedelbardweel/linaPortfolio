@@ -24,10 +24,10 @@
                         </svg>
                     @endif
                 </div>
-                <div class="p-3">
-                    <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC]">{{ $hero->title }}</h3>
+                <div class="p-3 max-w-full overflow-hidden">
+                    <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC] break-words">{{ $hero->title }}</h3>
                     @if ($hero->description)
-                        <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5 leading-relaxed">{{ Str::limit($hero->description, 80) }}</p>
+                        <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5 leading-relaxed break-words">{{ Str::limit($hero->description, 80) }}</p>
                     @endif
                     <div class="flex items-center justify-between mt-2 pt-2 border-t border-[#e3e3e0] dark:border-[#3E3E3A]">
                         <form method="POST" action="{{ route('admin.hero.toggle', $hero) }}">
