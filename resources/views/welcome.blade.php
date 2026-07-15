@@ -160,15 +160,17 @@
         </style>
         <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5"
             style="background:rgba(253,253,252,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
-            <div class="flex items-center gap-4 w-full max-w-6xl px-0 lg:px-8">
+            <div class="flex items-center w-full max-w-6xl px-0 lg:px-8 relative">
                 <a href="#hero-section"
-                    class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] me-auto">
+                    class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
                     <span
                         class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold"
                         style="font-family:Georgia,serif;border-radius:3px">L</span>
                     <span data-translate-key="Lina">{{ __("Lina") }}</span>
                 </a>
-                <div class="hidden md:flex items-center gap-3 text-sm">
+
+                {{-- Center nav links --}}
+                <div class="hidden md:flex items-center gap-3 absolute left-1/2 -translate-x-1/2">
                     <button data-target="hero-section" data-translate-key="Hero" class="island-item text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors text-xs font-medium">{{ __("Hero") }}</button>
                     <button data-target="about" data-translate-key="About" class="island-item text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors text-xs font-medium">{{ __("About") }}</button>
                     <button data-target="portfolio" data-translate-key="Portfolio" class="island-item text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors text-xs font-medium">{{ __("Portfolio") }}</button>
@@ -176,7 +178,10 @@
                     <a href="/reels" data-translate-key="Reels" class="text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors text-xs font-medium">{{ __("Reels") }}</a>
                     <button data-target="tips" data-translate-key="Tips" class="island-item text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors text-xs font-medium">{{ __("Tips") }}</button>
                     <button data-target="contact" data-translate-key="Contact" class="island-item text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors text-xs font-medium">{{ __("Contact") }}</button>
-                    <span class="w-px h-4 bg-[#e3e3e0] dark:bg-[#3E3E3A]"></span>
+                </div>
+
+                {{-- Right side actions --}}
+                <div class="hidden md:flex items-center gap-3 ms-auto">
                     <button onclick="toggleDark()"
                         class="w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all"
                         title="Toggle theme">
