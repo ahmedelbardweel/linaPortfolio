@@ -3,45 +3,38 @@
 namespace App\Traits;
 
 use Illuminate\Http\UploadedFile;
-use function imagecreatefromstring;
-use function imagesx;
-use function imagesy;
-use function imagecreatetruecolor;
-use function imagecopyresampled;
-use function imagedestroy;
-use function imagewebp;
 
 trait HandlesImages
 {
     protected function storeImage(UploadedFile $file, string $disk = 'public', int $maxW = 800, int $maxH = 800): array
     {
-        $img = @imagecreatefromstring(file_get_contents($file->getRealPath()));
+        $img = @\imagecreatefromstring(\file_get_contents($file->getRealPath()));
         if (!$img) {
             return ['path' => $file->store('images', $disk), 'data' => ''];
         }
 
-        $ow = imagesx($img);
-        $oh = imagesy($img);
-        $scale = min($maxW / $ow, $maxH / $oh, 1);
-        $nw = (int)round($ow * $scale);
-        $nh = (int)round($oh * $scale);
+        $ow = \imagesx($img);
+        $oh = \imagesy($img);
+        $scale = \min($maxW / $ow, $maxH / $oh, 1);
+        $nw = (int)\round($ow * $scale);
+        $nh = (int)\round($oh * $scale);
 
         if ($scale < 1) {
-            $resized = imagecreatetruecolor($nw, $nh);
-            imagecopyresampled($resized, $img, 0, 0, 0, 0, $nw, $nh, $ow, $oh);
-            imagedestroy($img);
+            $resized = \imagecreatetruecolor($nw, $nh);
+            \imagecopyresampled($resized, $img, 0, 0, 0, 0, $nw, $nh, $ow, $oh);
+            \imagedestroy($img);
             $img = $resized;
         }
 
         $webp = '';
-        $tmp = @fopen('php://temp', 'r+');
+        $tmp = @\fopen('php://temp', 'r+');
         if ($tmp) {
-            imagewebp($img, $tmp, 60);
-            rewind($tmp);
-            $webp = stream_get_contents($tmp);
-            fclose($tmp);
+            \imagewebp($img, $tmp, 60);
+            \rewind($tmp);
+            $webp = \stream_get_contents($tmp);
+            \fclose($tmp);
         }
-        imagedestroy($img);
+        \imagedestroy($img);
 
         $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $webpPath = 'images/' . $name . '_' . time() . '.webp';
@@ -55,8 +48,8 @@ trait HandlesImages
     protected function cacheImageData(string $table, $model): void
     {
         $cacheDir = env('VERCEL') ? '/tmp/img-cache' : storage_path('framework/cache/img');
-        if (!is_dir($cacheDir)) {
-            @mkdir($cacheDir, 0755, true);
+        if (!\is_dir($cacheDir)) {
+            @\mkdir($cacheDir, 0755, true);
         }
 
         $pairs = match ($table) {
@@ -71,10 +64,10 @@ trait HandlesImages
             $data = $model->{$pair['col']} ?? '';
             if (!$data) continue;
 
-            $binary = base64_decode(explode(',', $data, 2)[1] ?? '');
+            $binary = \base64_decode(\explode(',', $data, 2)[1] ?? '');
             if (!$binary) continue;
 
-            file_put_contents("$cacheDir/$table.{$model->id}.{$pair['id']}", $binary);
+            \file_put_contents("$cacheDir/$table.{$model->id}.{$pair['id']}", $binary);
         }
     }
 
@@ -84,8 +77,8 @@ trait HandlesImages
         if (!$token) return null;
 
         $path = "images/$name";
-        $body = json_encode(['path' => $path, 'options' => ['access' => 'public']]);
-        $ctx = stream_context_create([
+        $body = \json_encode(['path' => $path, 'options' => ['access' => 'public']]);
+        $ctx = \stream_context_create([
             'http' => [
                 'method' => 'POST',
                 'header' => "Authorization: Bearer $token\r\nContent-Type: application/json\r\n",
@@ -95,13 +88,13 @@ trait HandlesImages
             ],
         ]);
 
-        $response = @file_get_contents('https://api.vercel.com/v1/blob/upload-url', false, $ctx);
+        $response = @\file_get_contents('https://api.vercel.com/v1/blob/upload-url', false, $ctx);
         if ($response === false) return null;
 
-        $data = json_decode($response, true);
+        $data = \json_decode($response, true);
         if (!$data || !isset($data['uploadUrl'], $data['url'])) return null;
 
-        $putCtx = stream_context_create([
+        $putCtx = \stream_context_create([
             'http' => [
                 'method' => 'PUT',
                 'header' => "Content-Type: image/webp\r\n",
@@ -111,7 +104,7 @@ trait HandlesImages
             ],
         ]);
 
-        $putResult = @file_get_contents($data['uploadUrl'], false, $putCtx);
+        $putResult = @\file_get_contents($data['uploadUrl'], false, $putCtx);
         if ($putResult === false) return null;
 
         return $data['url'];
