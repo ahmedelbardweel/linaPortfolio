@@ -490,8 +490,8 @@
             </div>
             @if (count($portfolios) > 2)
                 <a href="{{ route('portfolios') }}"
-                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
-                    style="background:linear-gradient(135deg,#f53003,#ff8a66)"
+                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-[3px] text-xs font-medium text-white transition-all duration-300 block text-center"
+                    style="background:#c42802"
                     data-translate-key="View All" onclick="window.location.href='{{ route('portfolios') }}'">{{ __("View All") }}</a>
             @endif
         </section>
@@ -549,8 +549,8 @@
             </div>
             @if (count($stories) > 2)
                 <a href="{{ route('stories') }}"
-                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
-                    style="background:linear-gradient(135deg,#f53003,#ff8a66)"
+                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-[3px] text-xs font-medium text-white transition-all duration-300 block text-center"
+                    style="background:#c42802"
                     data-translate-key="View All" onclick="window.location.href='{{ route('stories') }}'">{{ __("View All") }}</a>
             @endif
         </section>
@@ -596,8 +596,8 @@
             </div>
             @if (count($tips) > 2)
                 <a href="{{ route('tips') }}"
-                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
-                    style="background:linear-gradient(135deg,#f53003,#ff8a66)"
+                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-[3px] text-xs font-medium text-white transition-all duration-300 block text-center"
+                    style="background:#c42802"
                     data-translate-key="View All" onclick="window.location.href='{{ route('tips') }}'">{{ __("View All") }}</a>
             @endif
         </section>
