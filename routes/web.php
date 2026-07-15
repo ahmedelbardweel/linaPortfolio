@@ -96,8 +96,11 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
     };
     if (!$dataColumn) abort(404);
 
+    // ?s=sm → serve a smaller image for mobile devices
+    $isSmall = request()->get('s') === 'sm';
+
     $cacheDir = env('VERCEL') ? '/tmp/img-cache' : storage_path('framework/cache/img');
-    $cacheFile = "$cacheDir/$table.$id.$col";
+    $cacheFile = "$cacheDir/$table.$id.$col" . ($isSmall ? '.sm' : '');
 
     if (file_exists($cacheFile)) {
         $binary = file_get_contents($cacheFile);
@@ -140,17 +143,17 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
             $maxW = 640;
             $maxH = 640;
             if ($table === 'hero' && $col === 'main') {
-                $maxW = 800; // Hero image max width
-                $maxH = 600;
+                $maxW = $isSmall ? 400 : 800; // Mobile: 400px, Desktop: 800px
+                $maxH = $isSmall ? 300 : 600;
             } elseif ($table === 'hero' && $col === 'right') {
-                $maxW = 400; // Small side hero image
-                $maxH = 400;
+                $maxW = $isSmall ? 200 : 400; // Small side hero image
+                $maxH = $isSmall ? 200 : 400;
             } elseif ($table === 'portfolio') {
-                $maxW = 480; // Portfolio grid cards
-                $maxH = 360;
+                $maxW = $isSmall ? 240 : 480; // Portfolio grid cards
+                $maxH = $isSmall ? 180 : 360;
             } elseif ($table === 'story') {
-                $maxW = 320; // Story circle/cards
-                $maxH = 240;
+                $maxW = $isSmall ? 160 : 320; // Story circle/cards
+                $maxH = $isSmall ? 120 : 240;
             }
 
             $scale = min($maxW / $ow, $maxH / $oh, 1);

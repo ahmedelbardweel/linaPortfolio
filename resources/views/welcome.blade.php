@@ -12,9 +12,11 @@
     <!-- Font preloads (self-hosted, critical above-the-fold only) -->
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/playfair-display-700.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-400.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-600.woff2">
     @if (!$mainImageInline && $h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
-        <link rel="preload" as="image" href="{{ $h->main_image_url }}" fetchpriority="high">
+        {{-- Desktop: preload full-size hero --}}
+        <link rel="preload" as="image" href="{{ $h->main_image_url }}" fetchpriority="high" media="(min-width: 769px)">
+        {{-- Mobile: preload smaller hero image for faster LCP --}}
+        <link rel="preload" as="image" href="{{ $h->main_image_url }}?s=sm" fetchpriority="high" media="(max-width: 768px)">
     @endif
     <style>
         @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-400.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-500.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-600.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-700.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-400.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-700.woff2') format('woff2')}
@@ -33,11 +35,7 @@
                 if (isset($viteManifest['resources/css/app.css']['file'])) {
                     $cssFiles[] = 'build/' . $viteManifest['resources/css/app.css']['file'];
                 }
-                if (isset($viteManifest['resources/js/app.js']['css'])) {
-                    foreach ($viteManifest['resources/js/app.js']['css'] as $c) {
-                        $cssFiles[] = 'build/' . $c;
-                    }
-                }
+                // NOTE: Intentionally skip app.js CSS (Plyr) — not used on welcome page, saves ~32KB
                 foreach ($cssFiles as $cssPath) {
                     $read = @file_get_contents(public_path($cssPath));
                     if ($read) $cssContent .= $read;
@@ -351,8 +349,14 @@
                     <div class="w-full h-full rounded-sm overflow-hidden"
                         style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
-                            <img src="{{ $mainImageInline ?: $h->main_image_url }}" alt="Hero" width="760" height="440" fetchpriority="high"
-                                class="w-full h-full object-cover">
+                            <picture>
+                                {{-- Mobile: serve half-size image for faster LCP --}}
+                                <source media="(max-width: 768px)" srcset="{{ $h->main_image_url }}?s=sm">
+                                {{-- Desktop: full-size --}}
+                                <source media="(min-width: 769px)" srcset="{{ $mainImageInline ?: $h->main_image_url }}">
+                                <img src="{{ $mainImageInline ?: $h->main_image_url }}" alt="Hero" width="760" height="440" fetchpriority="high"
+                                    class="w-full h-full object-cover">
+                            </picture>
                         @else
                             <svg class="w-full h-full text-[#1b1b18]/15 dark:text-white/10 p-8" viewBox="0 0 100 120"
                                 fill="none">
