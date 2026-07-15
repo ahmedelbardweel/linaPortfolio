@@ -8,6 +8,16 @@ trait HandlesImages
 {
     protected function storeImage(UploadedFile $file, string $disk = 'public', int $maxW = 800, int $maxH = 800): array
     {
+        if (!\function_exists('imagecreatefromstring')) {
+            $path = $file->store('images', $disk);
+            $data = '';
+            $binary = \file_get_contents($file->getRealPath());
+            if ($binary) {
+                $data = 'data:' . $file->getMimeType() . ';base64,' . \base64_encode($binary);
+            }
+            return ['path' => $path, 'data' => $data];
+        }
+
         $img = @\imagecreatefromstring(\file_get_contents($file->getRealPath()));
         if (!$img) {
             return ['path' => $file->store('images', $disk), 'data' => ''];
