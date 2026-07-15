@@ -152,4 +152,16 @@ Route::get('/lang/{locale}', function (string $locale) {
     return redirect()->back();
 })->name('lang.switch');
 
+Route::get('/debug-paths', function () {
+    return response()->json([
+        'base_path' => base_path(),
+        'public_path' => public_path(),
+        'base_files' => scandir(base_path()),
+        'public_exists' => is_dir(public_path()),
+        'public_files' => is_dir(public_path()) ? scandir(public_path()) : null,
+        'build_exists' => is_dir(public_path('build')) ? scandir(public_path('build')) : null,
+        'env' => $_ENV,
+    ]);
+});
+
 require __DIR__.'/auth.php';
