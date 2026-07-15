@@ -452,7 +452,7 @@
                     class="mt-10 pt-6 border-t border-[#e3e3e0] dark:border-[#3E3E3A] flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8">
                     <div>
                         <p data-translate-key="Title"
-                            class="text-xs font-semibold text-[#A0A0A0] dark:text-[#A1A09A] uppercase tracking-[1px]">
+                            class="text-xs font-semibold text-[#707070] dark:text-[#A1A09A] uppercase tracking-[1px]">
                             {{ __("Title") }}</p>
                         <p data-translate-key="Interior Design Engineer | Al-Aqsa University Graduate"
                             class="text-sm text-[#111111] dark:text-[#EDEDEC] mt-0.5">
@@ -461,7 +461,7 @@
                     <div class="hidden sm:block w-px h-8 bg-[#e3e3e0] dark:bg-[#3E3E3A]"></div>
                     <div>
                         <p data-translate-key="Specialty"
-                            class="text-xs font-semibold text-[#A0A0A0] dark:text-[#A1A09A] uppercase tracking-[1px]">
+                            class="text-xs font-semibold text-[#707070] dark:text-[#A1A09A] uppercase tracking-[1px]">
                             {{ __("Specialty") }}</p>
                         <p data-translate-key="Interior Design under constraint & adaptive spatial design"
                             class="text-sm text-[#111111] dark:text-[#EDEDEC] mt-0.5">
@@ -603,8 +603,7 @@
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
                 @forelse ($tips as $tip)
                     <div class="rounded-[3px] p-3 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden max-w-full {{ $loop->iteration > 4 ? 'hidden md:block' : '' }}">
-                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-medium text-white mb-2"
-                            style="background:#f53003">{{ $tip->category }}</span>
+                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-[#fdf0ed] text-[#c42802] dark:bg-[#FF4433]/15 dark:text-[#FF4433] mb-2">{{ $tip->category }}</span>
                         <h3 class="font-medium text-xs mb-1 text-[#1b1b18] dark:text-[#EDEDEC] break-words">{{ $tip->title }}</h3>
                         <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] leading-relaxed break-words max-h-[3.3em] overflow-hidden">{{ $tip->content }}</p>
                     </div>

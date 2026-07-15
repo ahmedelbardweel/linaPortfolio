@@ -22,7 +22,7 @@
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
         @forelse ($tips as $tip)
             <div style="border-radius:3px;padding:0.75rem;background:#161615;overflow:hidden;word-break:break-word;">
-                <span style="display:inline-block;padding:0.125rem 0.5rem;border-radius:3px;font-size:10px;font-weight:500;color:white;margin-bottom:0.5rem;background:#f53003;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $tip->category }}</span>
+                <span style="display:inline-block;padding:0.125rem 0.5rem;border-radius:3px;font-size:10px;font-weight:600;color:#FF4433;margin-bottom:0.5rem;background:rgba(255,68,51,0.15);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $tip->category }}</span>
                 <h3 style="font-size:0.75rem;font-weight:500;margin:0 0 0.25rem;word-break:break-word;overflow-wrap:break-word;overflow:hidden;">{{ $tip->title }}</h3>
                 <p style="color:#A1A09A;font-size:11px;line-height:1.625;word-break:break-word;margin:0;">{{ $tip->content }}</p>
             </div>
