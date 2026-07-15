@@ -162,9 +162,12 @@
             <div class="flex items-center w-full max-w-6xl px-0 lg:px-8 relative">
                 <a href="#hero-section"
                     class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
-                    <span
-                        class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold"
-                        style="font-family:Georgia,serif;border-radius:3px">L</span>
+                    <?php $logoPath = \App\Models\Setting::get('logo'); ?>
+                    @if ($logoPath)
+                        <img src="{{ asset('storage/' . $logoPath) }}" alt="Logo" class="h-6 w-auto">
+                    @else
+                        <span class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold" style="font-family:Georgia,serif;border-radius:3px">L</span>
+                    @endif
                     <span data-translate-key="Lina">{{ __("Lina") }}</span>
                 </a>
 
@@ -611,9 +614,12 @@
                     <div>
                         <a href="/"
                             class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] mb-3">
-                            <span
-                                class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold"
-                                style="font-family:Georgia,serif;border-radius:3px">L</span>
+                            <?php $logoPath = \App\Models\Setting::get('logo'); ?>
+                            @if ($logoPath)
+                                <img src="{{ asset('storage/' . $logoPath) }}" alt="Logo" class="h-6 w-auto">
+                            @else
+                                <span class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold" style="font-family:Georgia,serif;border-radius:3px">L</span>
+                            @endif
                             <span data-translate-key="Lina">{{ __("Lina") }}</span>
                         </a>
                         <p data-translate-key="Interior design & decoration studio crafting elegant, functional spaces that tell your unique story."
