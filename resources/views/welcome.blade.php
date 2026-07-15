@@ -158,7 +158,7 @@
             html.rtl .anim-left { animation: slideInRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both; }
             html.rtl .anim-right { animation: slideInLeft 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; }
         </style>
-        <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 bg-[#fdfdfc] dark:bg-[#0a0a0a] border-b border-[#e3e3e0] dark:border-[#3E3E3A]">
+        <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 bg-[#fdfdfc] dark:bg-[#0a0a0a]">
             <div class="flex items-center w-full max-w-6xl px-0 lg:px-8 relative">
                 <a href="#hero-section"
                     class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
@@ -224,7 +224,7 @@
             </div>
         </nav>
 
-        <div id="mobileMenu" class="mobile-menu fixed top-14 left-0 right-0 z-40 hidden flex-col px-6 pb-8 pt-4 text-[15px] bg-[#fdfdfc] dark:bg-[#0a0a0a] border-b border-[#e3e3e0] dark:border-[#3E3E3A]"
+        <div id="mobileMenu" class="mobile-menu fixed top-14 left-0 right-0 z-40 hidden flex-col px-6 pb-8 pt-4 text-[15px] bg-[#fdfdfc] dark:bg-[#0a0a0a]"
             style="transform:translateY(-100%);transition:transform .3s ease">
             <div class="w-full h-px bg-[#e3e3e0] dark:bg-[#3E3E3A] mb-4"></div>
             <div class="flex items-center justify-between px-4">
