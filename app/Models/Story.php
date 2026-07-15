@@ -11,8 +11,8 @@ class Story extends Model
 
     public function getImageUrlAttribute(): string
     {
-        if ($this->image_data) return url('img/story/' . $this->id . '/image');
-        if ($this->image_path) return asset('storage/' . $this->image_path);
-        return '';
+        if (!$this->image_path) return '';
+        if (str_starts_with($this->image_path, 'https://')) return $this->image_path;
+        return url('img/story/' . $this->id . '/image');
     }
 }

@@ -11,21 +11,15 @@ class HeroSection extends Model
 
     public function getMainImageUrlAttribute(): string
     {
-        if ($this->main_image && str_starts_with($this->main_image, 'https://')) {
-            return $this->main_image;
-        }
-        if ($this->main_image_data) return url('img/hero/' . $this->id . '/main');
-        if ($this->main_image) return asset('storage/' . $this->main_image);
-        return '';
+        if (!$this->main_image) return '';
+        if (str_starts_with($this->main_image, 'https://')) return $this->main_image;
+        return url('img/hero/' . $this->id . '/main');
     }
 
     public function getRightImageUrlAttribute(): string
     {
-        if ($this->right_image && str_starts_with($this->right_image, 'https://')) {
-            return $this->right_image;
-        }
-        if ($this->right_image_data) return url('img/hero/' . $this->id . '/right');
-        if ($this->right_image) return asset('storage/' . $this->right_image);
-        return '';
+        if (!$this->right_image) return '';
+        if (str_starts_with($this->right_image, 'https://')) return $this->right_image;
+        return url('img/hero/' . $this->id . '/right');
     }
 }
