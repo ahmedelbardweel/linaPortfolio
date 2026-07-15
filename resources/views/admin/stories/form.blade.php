@@ -63,7 +63,7 @@
                         <img src="{{ $story->image_url }}" alt="{{ __("Current image") }}" class="w-24 h-24 rounded-lg object-cover">
                     </div>
                 @endif
-                <input type="file" id="image" name="image" accept="image/*" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
+                <input type="file" id="image" name="image" accept="image/*" onchange="compressImage(this, 800, 800, 0.6)" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
                 @error('image')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -92,5 +92,35 @@
                 <a href="{{ route('admin.stories.index') }}" class="px-4 py-2 text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] hover:text-[#1b1b18] dark:text-[#EDEDEC] transition-colors" data-translate-key="Cancel">{{ __("Cancel") }}</a>
             </div>
         </form>
+
+        <script>
+        function compressImage(input, maxW, maxH, quality) {
+            if (!input.files || !input.files[0]) return;
+            var file = input.files[0];
+            if (file.size < 1024 * 1024) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = new Image();
+                img.onload = function() {
+                    var canvas = document.createElement('canvas');
+                    var w = img.width, h = img.height;
+                    var scale = Math.min(maxW / w, maxH / h, 1);
+                    canvas.width = Math.round(w * scale);
+                    canvas.height = Math.round(h * scale);
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    canvas.toBlob(function(blob) {
+                        if (!blob) return;
+                        var compressed = new File([blob], file.name, { type: 'image/webp' });
+                        var dt = new DataTransfer();
+                        dt.items.add(compressed);
+                        input.files = dt.files;
+                    }, 'image/webp', quality);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        </script>
     </div>
 @endsection
