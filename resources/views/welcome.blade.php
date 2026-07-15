@@ -158,8 +158,7 @@
             html.rtl .anim-left { animation: slideInRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both; }
             html.rtl .anim-right { animation: slideInLeft 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; }
         </style>
-        <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5"
-            style="background:rgba(253,253,252,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
+        <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 bg-[#fdfdfc] dark:bg-[#0a0a0a] border-b border-[#e3e3e0] dark:border-[#3E3E3A]">
             <div class="flex items-center w-full max-w-6xl px-0 lg:px-8 relative">
                 <a href="#hero-section"
                     class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
@@ -214,7 +213,7 @@
                             class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white hover:opacity-90 transition-opacity shadow-[0_0_0_1px_rgba(26,26,0,0.08)] bg-[#c42802] dark:bg-[#FF4433]">{{ __("Register") }}</a>
                     @endauth
                 </div>
-                <button onclick="toggleMobileMenu()" class="md:hidden flex items-center justify-center w-8 h-8 rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-all" aria-label="Toggle menu">
+                <button onclick="toggleMobileMenu()" class="md:hidden ms-auto flex items-center justify-center w-8 h-8 rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-all" aria-label="Toggle menu">
                     <svg id="menuIconOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
@@ -225,8 +224,8 @@
             </div>
         </nav>
 
-        <div id="mobileMenu" class="mobile-menu fixed top-14 left-0 right-0 z-40 hidden flex-col px-6 pb-8 pt-4 text-[15px]"
-            style="background:rgba(253,253,252,.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transform:translateY(-100%);transition:transform .3s ease">
+        <div id="mobileMenu" class="mobile-menu fixed top-14 left-0 right-0 z-40 hidden flex-col px-6 pb-8 pt-4 text-[15px] bg-[#fdfdfc] dark:bg-[#0a0a0a] border-b border-[#e3e3e0] dark:border-[#3E3E3A]"
+            style="transform:translateY(-100%);transition:transform .3s ease">
             <div class="w-full h-px bg-[#e3e3e0] dark:bg-[#3E3E3A] mb-4"></div>
             <div class="flex items-center justify-between px-4">
                 <div class="flex items-center gap-3">
