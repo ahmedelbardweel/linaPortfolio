@@ -20,8 +20,21 @@
         @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-400.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-500.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-600.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-700.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-400.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-700.woff2') format('woff2')}
     </style>
 
-    <!-- Styles / Scripts -->
-    @vite(['resources/css/app.css'])
+    <!-- Styles: load non-render-blocking to improve FCP/LCP -->
+    @php
+        try {
+            $viteManifest = json_decode(file_get_contents(public_path('build/.vite/manifest.json')), true)
+                ?? json_decode(file_get_contents(public_path('build/manifest.json')), true);
+            $welcomeCssUrl = isset($viteManifest['resources/css/app.css']['file'])
+                ? '/build/' . $viteManifest['resources/css/app.css']['file'] : null;
+        } catch (\Exception $e) { $welcomeCssUrl = null; }
+    @endphp
+    @if ($welcomeCssUrl)
+        <link rel="preload" href="{{ $welcomeCssUrl }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ $welcomeCssUrl }}"></noscript>
+    @else
+        @vite(['resources/css/app.css'])
+    @endif
 </head>
 
 <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] m-0">
@@ -159,7 +172,7 @@
             <div class="flex items-center w-full max-w-6xl px-0 lg:px-8 relative">
                 <a href="#hero-section"
                     class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
-                    <?php $logoPath = \App\Models\Setting::get('logo'); ?>
+                    <?php $logoPath = $settingsAll['logo'] ?? null; ?>
                     @if ($logoPath)
                         <img src="{{ $logoPath }}" alt="Logo" width="24" height="24" class="h-6 w-auto">
                     @else
@@ -597,7 +610,7 @@
                     <div>
                         <a href="/"
                             class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] mb-3">
-                            <?php $logoPath = \App\Models\Setting::get('logo'); ?>
+                            <?php $logoPath = $settingsAll['logo'] ?? null; ?>
                             @if ($logoPath)
                                 <img src="{{ $logoPath }}" alt="Logo" width="24" height="24" class="h-6 w-auto">
                             @else
@@ -610,7 +623,7 @@
                             {{ __("Interior design & decoration studio crafting elegant, functional spaces that tell your unique story.") }}
                         </p>
                         <div class="flex items-center gap-3 mt-5">
-                            <?php $fb = \App\Models\Setting::get('facebook_url'); if ($fb): ?>
+                            <?php $fb = $settingsAll['facebook_url'] ?? null; if ($fb): ?>
                             <a href="{{ $fb }}" target="_blank" aria-label="Facebook"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
@@ -619,7 +632,7 @@
                                 </svg>
                             </a>
                             <?php endif; ?>
-                            <?php $ig = \App\Models\Setting::get('instagram_url'); if ($ig): ?>
+                            <?php $ig = $settingsAll['instagram_url'] ?? null; if ($ig): ?>
                             <a href="{{ $ig }}" target="_blank" aria-label="Instagram"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
@@ -628,7 +641,7 @@
                                 </svg>
                             </a>
                             <?php endif; ?>
-                            <?php $tw = \App\Models\Setting::get('twitter_url'); if ($tw): ?>
+                            <?php $tw = $settingsAll['twitter_url'] ?? null; if ($tw): ?>
                             <a href="{{ $tw }}" target="_blank" aria-label="Twitter"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
@@ -637,7 +650,7 @@
                                 </svg>
                             </a>
                             <?php endif; ?>
-                            <?php $li = \App\Models\Setting::get('linkedin_url'); if ($li): ?>
+                            <?php $li = $settingsAll['linkedin_url'] ?? null; if ($li): ?>
                             <a href="{{ $li }}" target="_blank" aria-label="LinkedIn"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
@@ -686,7 +699,7 @@
                         </h4>
                         <ul class="space-y-2.5">
                             @for ($i = 1; $i <= 5; $i++)
-                                @php $svc = \App\Models\Setting::get('service_' . $i); @endphp
+                                @php $svc = $settingsAll['service_' . $i] ?? null; @endphp
                                 @if ($svc)
                                 <li><span class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ $svc }}</span></li>
                                 @endif
@@ -700,7 +713,7 @@
                             class="text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC] mb-4">{{ __("Contact") }}
                         </h4>
                         <ul class="space-y-3">
-                            <?php $addr = \App\Models\Setting::get('address'); if ($addr): ?>
+                            <?php $addr = $settingsAll['address'] ?? null; if ($addr): ?>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 text-[#f53003] dark:text-[#FF4433] mt-0.5 shrink-0"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -711,7 +724,7 @@
                                 <span class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ $addr }}</span>
                             </li>
                             <?php endif; ?>
-                            <?php $email = \App\Models\Setting::get('email'); if ($email): ?>
+                            <?php $email = $settingsAll['email'] ?? null; if ($email): ?>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 text-[#f53003] dark:text-[#FF4433] mt-0.5 shrink-0"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -722,7 +735,7 @@
                                 <a href="mailto:{{ $email }}" class="text-sm text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ $email }}</a>
                             </li>
                             <?php endif; ?>
-                            <?php $phone = \App\Models\Setting::get('phone'); if ($phone): ?>
+                            <?php $phone = $settingsAll['phone'] ?? null; if ($phone): ?>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 text-[#f53003] dark:text-[#FF4433] mt-0.5 shrink-0"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

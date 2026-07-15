@@ -14,12 +14,18 @@ use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     $hero = HeroSection::where('is_active', true)->latest()->first();
-    $stories = \App\Models\Story::where('is_active', true)->orderBy('order')->get();
+    $stories = \App\Models\Story::where('is_active', true)->orderBy('order')
+        ->select(['id','title','content','type','bg_color','image_path','is_active','order'])->get();
     $tips = \App\Models\Tip::where('is_active', true)->orderBy('order')->get();
-    $portfolios = \App\Models\Portfolio::where('is_active', true)->orderBy('order')->get();
+    $portfolios = \App\Models\Portfolio::where('is_active', true)->orderBy('order')
+        ->select(['id','title','description','image_path','is_active','order'])->get();
 
     // Inline the LCP hero image as base64 to eliminate extra HTTP round-trip and improve LCP
     $mainImageInline = ($hero && $hero->main_image_data) ? $hero->main_image_data : null;
+
+    // Load all settings in one query instead of 10+ individual queries from the template
+    $settingsAll = \App\Models\Setting::all()->pluck('value', 'key');
+    \Illuminate\Support\Facades\View::share('settingsAll', $settingsAll);
 
     return view('welcome', compact('hero', 'stories', 'tips', 'portfolios', 'mainImageInline'));
 });
