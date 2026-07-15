@@ -81,21 +81,11 @@
         <main class="relative z-10 w-full max-w-sm mx-4">
             <div class="bg-white/60 dark:bg-[#161615]/60 backdrop-blur-lg shadow-lg border border-[#e3e3e0] dark:border-[#3E3E3A] p-8"
                 style="border-radius:3px">
-                <div class="text-center mb-8">
-                    <a href="/" class="inline-flex items-center gap-2.5">
-                        <span class="w-10 h-10 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-lg font-bold"
-                            style="font-family:Georgia,serif;border-radius:3px">L</span>
-                        <span class="text-xl font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">Lina</span>
-                    </a>
-                </div>
-
                 {{ $slot }}
             </div>
         </main>
 
         <style>
-            html.dark nav { background: rgba(10, 10, 10, .25) !important; }
-        </style>
     </body>
 
     <script>

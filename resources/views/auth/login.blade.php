@@ -28,7 +28,7 @@
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">
 <input id="remember_me" type="checkbox" class="rounded border-[#e3e3e0] dark:border-[#3E3E3A] text-[#c42802] shadow-sm focus:ring-[#c42802]/30" name="remember">
-                            <span class="ms-2 text-sm text-[#706f6c]">{{ __('Remember me') }}</span>
+                            <span class="ms-2 text-sm text-[#706f6c]" data-translate-key="Remember me">{{ __('Remember me') }}</span>
             </label>
         </div>
 
@@ -39,7 +39,7 @@
                 </a>
             @endif
 
-            <x-primary-button class="ms-3">
+            <x-primary-button class="ms-3" data-translate-key="Log in">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>

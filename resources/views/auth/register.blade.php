@@ -18,7 +18,7 @@
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('Password')" data-translate-key="Password" />
 
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
@@ -30,7 +30,7 @@
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" data-translate-key="Confirm Password" />
 
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                             type="password"
@@ -40,11 +40,11 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c42802]/30" href="{{ route('login') }}">
+            <a class="underline text-sm text-[#706f6c] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c42802]/30" href="{{ route('login') }}" data-translate-key="Already registered?">
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ms-4">
+            <x-primary-button class="ms-4" data-translate-key="Register">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
