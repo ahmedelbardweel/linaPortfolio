@@ -15,14 +15,12 @@
         *, :before, :after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; background: #000; color: #fff; min-height: 100vh; overflow: hidden; }
         .reels-feed::-webkit-scrollbar { display: none; }
-        .reel-video { width: 100%; height: 100%; object-fit: cover; }
-        .plyr { height: 100% !important; }
-        .plyr__controls { background: linear-gradient(transparent, rgba(0,0,0,.6)) !important; padding-bottom: 60px !important; }
-        .plyr--video .plyr__control--overlaid { display: none !important; }
-        .plyr__controls__item.plyr__progress,
-        .plyr__controls__item.plyr__time,
-        .plyr__controls__item.plyr__volume { display: none !important; }
-        .plyr--full-ui .plyr__control[data-plyr="play"] { display: flex !important; }
+        .reel-video { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+        /* Custom play overlay */
+        .play-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:15; cursor:pointer; background:rgba(0,0,0,.15); transition:opacity .2s; }
+        .play-overlay.hidden { opacity:0; pointer-events:none; }
+        .play-overlay svg { width:64px; height:64px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.6)); }
+        .mute-btn { position:absolute; top:60px; right:12px; z-index:20; width:36px; height:36px; border-radius:50%; background:rgba(0,0,0,.5); border:none; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; }
     </style>
 </head>
 <body>
@@ -61,13 +59,22 @@
     <div class="reel-slide" style="scroll-snap-align:start;height:100vh;display:flex;align-items:center;justify-content:center;background:#000">
         <div class="relative w-full h-full flex items-center justify-center" style="max-width:400px;margin:0 auto;padding:0 2px">
             <div class="w-full h-full relative overflow-hidden" style="aspect-ratio:9/16;max-height:100vh;background:#1a1a1a">
-                 <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}" controls
-                        @if($reel->thumbnail_data || $reel->thumbnail) poster="{{ $reel->thumbnail_url }}" @endif>
+                 <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}"
+                        @if($reel->thumbnail_data || $reel->thumbnail) poster="{{ $reel->thumbnail_url }}" @endif
+                        onclick="toggleVideo(this)">
                      <source src="{{ $videoSrc }}" type="video/mp4">
                  </video>
-                 @if ($reel->thumbnail_data || $reel->thumbnail)
-                 <img src="{{ $reel->thumbnail_url }}" alt="" class="absolute inset-0 w-full h-full object-cover" style="display:none">
-                @endif
+                 <!-- Tap-to-play overlay -->
+                 <div class="play-overlay" onclick="toggleVideo(this.previousElementSibling)">
+                     <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <circle cx="40" cy="40" r="38" fill="rgba(0,0,0,0.45)" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+                         <polygon points="32,25 60,40 32,55" fill="white"/>
+                     </svg>
+                 </div>
+                 <!-- Mute toggle -->
+                 <button class="mute-btn" onclick="toggleMute(this)" title="Mute/Unmute">
+                     <svg id="mute-icon-{{ $i }}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                 </button>
                 <div class="absolute bottom-0 left-0 right-0 p-4 z-10" style="background:linear-gradient(transparent,rgba(0,0,0,.7))">
                     <div class="flex items-center gap-2 mb-1">
                         <span class="w-6 h-6 rounded-full bg-[#f53003] text-white flex items-center justify-center text-[10px] font-bold" style="font-family:Georgia,serif">L</span>
@@ -235,39 +242,61 @@ function shareReel(btn) {
 }
 function bookReel(btn) { alert(getTranslation('Booking consultation coming soon!')); }
 
+// Toggle play/pause when tapping the video
+function toggleVideo(video) {
+    const overlay = video.nextElementSibling;
+    if (video.paused) {
+        // Pause all other videos first
+        document.querySelectorAll('.reel-video').forEach(v => { if (v !== video) { v.pause(); const o = v.nextElementSibling; if (o && o.classList.contains('play-overlay')) o.classList.remove('hidden'); } });
+        video.play().then(() => {
+            if (overlay && overlay.classList.contains('play-overlay')) overlay.classList.add('hidden');
+        }).catch(() => {});
+    } else {
+        video.pause();
+        if (overlay && overlay.classList.contains('play-overlay')) overlay.classList.remove('hidden');
+    }
+}
+
+// Mute/unmute all videos
+function toggleMute(btn) {
+    const container = btn.closest('div[style*="aspect-ratio"]');
+    const video = container ? container.querySelector('.reel-video') : null;
+    if (!video) return;
+    video.muted = !video.muted;
+    // Update all mute buttons to reflect global state
+    const isMuted = video.muted;
+    document.querySelectorAll('.reel-video').forEach(v => v.muted = isMuted);
+    document.querySelectorAll('.mute-btn svg').forEach(svg => {
+        svg.innerHTML = isMuted
+            ? '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>'
+            : '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>';
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     switchLanguage(document.documentElement.lang || 'en');
 
-    const plyrLib = window.Plyr || (typeof Plyr !== 'undefined' ? Plyr : null);
-    if (!plyrLib) { return; }
-
-    const players = [];
-    document.querySelectorAll('.reel-video').forEach((el) => {
-        const p = new plyrLib(el, {
-            controls: ['play', 'mute', 'fullscreen'],
-            settings: [],
-            clickToPlay: true,
-            hideControls: true,
-            muted: true,
-        });
-        players.push(p);
-    });
-
-    const feed = document.querySelector('.reels-feed');
-    if (!feed) return;
-    let currentIndex = -1;
+    // Auto-play/pause based on scroll position using IntersectionObserver
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
+            const video = entry.target.querySelector('.reel-video');
+            const overlay = video ? video.nextElementSibling : null;
+            if (!video) return;
             if (entry.isIntersecting) {
-                const idx = parseInt(entry.target.querySelector('.reel-video')?.dataset.reelIndex ?? '-1');
-                if (idx >= 0 && idx !== currentIndex) {
-                    if (currentIndex >= 0 && players[currentIndex]) players[currentIndex].pause();
-                    currentIndex = idx;
-                    if (players[idx]) { players[idx].play().catch(() => {}); }
-                }
+                // Pause all others first
+                document.querySelectorAll('.reel-video').forEach(v => { if (v !== video) { v.pause(); const o = v.nextElementSibling; if (o && o.classList.contains('play-overlay')) o.classList.remove('hidden'); } });
+                video.play().then(() => {
+                    if (overlay && overlay.classList.contains('play-overlay')) overlay.classList.add('hidden');
+                }).catch(() => {
+                    // Autoplay blocked — show play button, user must tap
+                    if (overlay && overlay.classList.contains('play-overlay')) overlay.classList.remove('hidden');
+                });
+            } else {
+                video.pause();
+                if (overlay && overlay.classList.contains('play-overlay')) overlay.classList.remove('hidden');
             }
         });
-    }, { threshold: 0.7 });
+    }, { threshold: 0.75 });
 
     document.querySelectorAll('.reel-slide').forEach((el) => observer.observe(el));
 });
