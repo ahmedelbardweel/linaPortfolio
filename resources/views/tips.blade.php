@@ -1,17 +1,7 @@
 <x-guest-layout>
     <div dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-        <nav class="fixed top-0 left-0 right-0 z-50 h-12 flex items-center px-5"
-            style="background:rgba(10,10,10,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
-            <div class="flex items-center w-full max-w-6xl mx-auto">
-                <a href="/#tips" class="flex items-center gap-2 text-[#A1A09A] hover:text-[#EDEDEC] transition-colors">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-                    <span class="text-xs uppercase tracking-wider font-medium">{{ __('Back') }}</span>
-                </a>
-            </div>
-        </nav>
-
-        <main class="min-h-screen bg-[#0a0a0a] pt-16 pb-14 px-6 lg:px-10 max-w-6xl mx-auto">
-            <div class="mb-10 mt-6">
+        <main class="min-h-screen bg-[#0a0a0a] pb-14 px-6 lg:px-10 max-w-6xl mx-auto">
+            <div class="pt-10 mb-8">
                 <h1 data-translate-key="Tips & Insights"
                     class="text-2xl lg:text-3xl font-semibold tracking-tight text-[#EDEDEC]">
                     {{ __("Tips & Insights") }}</h1>
