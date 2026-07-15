@@ -19,5 +19,10 @@ export default {
         },
     },
 
+    // Only inject CSS custom-properties into * for utilities actually used — reduces 12KB of unused vars
+    experimental: {
+        optimizeUniversalDefaults: true,
+    },
+
     plugins: [forms],
 };
