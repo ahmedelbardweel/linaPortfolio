@@ -1,43 +1,41 @@
-<x-guest-layout>
-    <div dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-        <main class="min-h-screen bg-[#0a0a0a] pb-14 px-6 lg:px-10 max-w-6xl mx-auto">
-            <div class="pt-10 mb-8">
-                <h1 data-translate-key="Tips & Insights"
-                    class="text-2xl lg:text-3xl font-semibold tracking-tight text-[#EDEDEC]">
-                    {{ __("Tips & Insights") }}</h1>
-                <p data-translate-key="Short design ideas and inspiration"
-                    class="text-[#A1A09A] text-sm mt-1.5">
-                    {{ __("Short design ideas and inspiration") }}</p>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ __('Tips & Insights') }} — {{ config('app.name', 'Lina') }}</title>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-600-normal.woff2">
+    <style>@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-500-normal.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url(https://fonts.bunny.net/instrument-sans/files/instrument-sans-latin-600-normal.woff2) format('woff2')}</style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        body { background: #0a0a0a; color: #EDEDEC; font-family: 'Instrument Sans', sans-serif; margin: 0; padding: 2.5rem 1.5rem 3.5rem; max-width: 72rem; margin-inline: auto; }
+        * { box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <h1 style="font-size:1.5rem;font-weight:600;letter-spacing:-0.025em;margin:0 0 0.375rem;">{{ __("Tips & Insights") }}</h1>
+    <p style="color:#A1A09A;font-size:0.875rem;margin:0 0 2rem;">{{ __("Short design ideas and inspiration") }}</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
+        @forelse ($tips as $tip)
+            <div style="border-radius:3px;padding:0.75rem;background:#161615;">
+                <span style="display:inline-block;padding:0.125rem 0.5rem;border-radius:3px;font-size:10px;font-weight:500;color:white;margin-bottom:0.5rem;background:#f53003;">{{ $tip->category }}</span>
+                <h3 style="font-size:0.75rem;font-weight:500;margin:0 0 0.25rem;word-break:break-word;">{{ $tip->title }}</h3>
+                <p style="color:#A1A09A;font-size:11px;line-height:1.625;word-break:break-word;margin:0;">{{ $tip->content }}</p>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
-                @forelse ($tips as $tip)
-                    <div class="rounded-[3px] p-3 transition-transform duration-300 hover:-translate-y-1 bg-[#161615] border border-[#3E3E3A] overflow-hidden max-w-full">
-                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-medium text-white mb-2"
-                            style="background:#f53003">{{ $tip->category }}</span>
-                        <h3 class="font-medium text-xs mb-1 text-[#EDEDEC] break-words">{{ $tip->title }}</h3>
-                        <p class="text-[#A1A09A] text-[11px] leading-relaxed break-words max-h-[3.3em] overflow-hidden">{{ $tip->content }}</p>
-                    </div>
-                @empty
-                    <p class="text-[#A1A09A] text-sm">{{ __('No tips yet.') }}</p>
-                @endforelse
-            </div>
-        </main>
-
-        <style>
-            html { scrollbar-width: none; -ms-overflow-style: none; }
-            html::-webkit-scrollbar { display: none; }
-        </style>
-
-        <script>
-            (function() {
-                var lang = localStorage.getItem('lang') || '{{ app()->getLocale() }}';
-                if (lang === 'ar') { document.documentElement.dir = 'rtl'; document.documentElement.lang = 'ar'; document.documentElement.classList.add('rtl'); }
-                else { document.documentElement.dir = 'ltr'; document.documentElement.lang = 'en'; document.documentElement.classList.remove('rtl'); }
-                document.querySelectorAll('[data-translate-key]').forEach(function(el) {
-                    var key = el.getAttribute('data-translate-key');
-                    el.textContent = (lang === 'ar' && window.translations && window.translations[key]) ? window.translations[key] : key;
-                });
-            })();
-        </script>
+        @empty
+            <p style="color:#A1A09A;font-size:0.875rem;">{{ __('No tips yet.') }}</p>
+        @endforelse
     </div>
-</x-guest-layout>
+    <script>
+        (function() {
+            var lang = localStorage.getItem('lang') || '{{ app()->getLocale() }}';
+            if (lang === 'ar') { document.documentElement.dir = 'rtl'; document.documentElement.lang = 'ar'; document.documentElement.classList.add('rtl'); }
+            else { document.documentElement.dir = 'ltr'; document.documentElement.lang = 'en'; document.documentElement.classList.remove('rtl'); }
+        })();
+    </script>
+</body>
+</html>
