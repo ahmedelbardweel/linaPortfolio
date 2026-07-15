@@ -28,12 +28,20 @@ Route::get('/reels', function () {
     return view('reels', compact('reels'));
 })->name('reels');
 
-Route::get('/explore', function () {
-    $tips = \App\Models\Tip::where('is_active', true)->orderBy('order')->get();
+Route::get('/portfolios', function () {
     $portfolios = \App\Models\Portfolio::where('is_active', true)->orderBy('order')->get();
+    return view('portfolios', compact('portfolios'));
+})->name('portfolios');
+
+Route::get('/stories', function () {
     $stories = \App\Models\Story::where('is_active', true)->orderBy('order')->get();
-    return view('explore', compact('tips', 'portfolios', 'stories'));
-})->name('explore');
+    return view('stories', compact('stories'));
+})->name('stories');
+
+Route::get('/tips', function () {
+    $tips = \App\Models\Tip::where('is_active', true)->orderBy('order')->get();
+    return view('tips', compact('tips'));
+})->name('tips');
 
 Route::get('/dashboard', function () {
     if (Auth::user()?->is_admin) {

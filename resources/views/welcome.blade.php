@@ -489,10 +489,10 @@
                 @endforelse
             </div>
             @if (count($portfolios) > 2)
-                <a href="{{ route('explore') }}#portfolio"
+                <a href="{{ route('portfolios') }}"
                     class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
                     style="background:linear-gradient(135deg,#f53003,#ff8a66)"
-                    data-translate-key="View All" onclick="window.location.href='{{ route('explore') }}#portfolio'">{{ __("View All") }}</a>
+                    data-translate-key="View All" onclick="window.location.href='{{ route('portfolios') }}'">{{ __("View All") }}</a>
             @endif
         </section>
 
@@ -548,10 +548,10 @@
                 @endforelse
             </div>
             @if (count($stories) > 2)
-                <a href="{{ route('explore') }}#stories"
+                <a href="{{ route('stories') }}"
                     class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
                     style="background:linear-gradient(135deg,#f53003,#ff8a66)"
-                    data-translate-key="View All" onclick="window.location.href='{{ route('explore') }}#stories'">{{ __("View All") }}</a>
+                    data-translate-key="View All" onclick="window.location.href='{{ route('stories') }}'">{{ __("View All") }}</a>
             @endif
         </section>
 
@@ -595,10 +595,10 @@
                 @endforelse
             </div>
             @if (count($tips) > 2)
-                <a href="{{ route('explore') }}#tips"
+                <a href="{{ route('tips') }}"
                     class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
                     style="background:linear-gradient(135deg,#f53003,#ff8a66)"
-                    data-translate-key="View All" onclick="window.location.href='{{ route('explore') }}#tips'">{{ __("View All") }}</a>
+                    data-translate-key="View All" onclick="window.location.href='{{ route('tips') }}'">{{ __("View All") }}</a>
             @endif
         </section>
 
