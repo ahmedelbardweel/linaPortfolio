@@ -1,37 +1,34 @@
 <x-guest-layout>
     <div dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-        <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5"
+        <nav class="fixed top-0 left-0 right-0 z-50 h-12 flex items-center px-5"
             style="background:rgba(10,10,10,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
-            <div class="flex items-center w-full max-w-6xl px-0 lg:px-8">
-                <a href="/#stories"
-                    class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#EDEDEC]">
-                    <span class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold"
-                        style="font-family:Georgia,serif;border-radius:3px">L</span>
-                    <span>Lina</span>
+            <div class="flex items-center w-full max-w-6xl mx-auto">
+                <a href="/#stories" class="flex items-center gap-2 text-[#A1A09A] hover:text-[#EDEDEC] transition-colors">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                    <span class="text-xs uppercase tracking-wider font-medium">{{ __('Back') }}</span>
                 </a>
-                <div class="ms-auto flex items-center gap-3">
-                    <a href="/" class="text-xs text-white/70 hover:text-white transition-colors uppercase tracking-wider">{{ __('← Back') }}</a>
-                </div>
             </div>
         </nav>
 
-        <main class="min-h-screen bg-[#0a0a0a] pt-20 pb-16 px-6 lg:px-10 max-w-6xl mx-auto">
-            <h1 data-translate-key="Stories"
-                class="text-2xl lg:text-3xl font-semibold tracking-tight text-[#EDEDEC] mb-2">
-                {{ __("Stories") }}</h1>
-            <p data-translate-key="Behind the scenes & daily design moments"
-                class="text-[#A1A09A] text-sm mb-8">
-                {{ __("Behind the scenes & daily design moments") }}</p>
-            <div class="grid gap-4" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+        <main class="min-h-screen bg-[#0a0a0a] pt-16 pb-14 px-6 lg:px-10 max-w-6xl mx-auto">
+            <div class="mb-10 mt-6">
+                <h1 data-translate-key="Stories"
+                    class="text-2xl lg:text-3xl font-semibold tracking-tight text-[#EDEDEC]">
+                    {{ __("Stories") }}</h1>
+                <p data-translate-key="Behind the scenes & daily design moments"
+                    class="text-[#A1A09A] text-sm mt-1.5">
+                    {{ __("Behind the scenes & daily design moments") }}</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
                 @forelse ($stories as $story)
-                    <div class="rounded-[3px] overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-[#161615] border border-[#3E3E3A] cursor-pointer"
+                    <div class="rounded-[3px] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#3E3E3A]"
                         onclick="openAllStory(this)"
                         data-title="{{ $story->title }}"
                         data-content="{{ $story->content }}"
                         data-bg="{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}"
                         data-type="{{ $story->type }}"
                         data-image="{{ $story->image_url }}">
-                        <div class="h-36 flex items-center justify-center"
+                        <div class="h-32 flex items-center justify-center"
                             style="background:{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}">
                             @if ($story->image_path)
                                 <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" class="w-full h-full object-cover">
@@ -47,9 +44,9 @@
                                 </svg>
                             @endif
                         </div>
-                        <div class="p-4 max-w-full overflow-hidden">
-                            <h3 class="font-medium text-sm text-[#EDEDEC] break-words">{{ $story->title }}</h3>
-                            <p class="text-[#A1A09A] text-xs mt-1 leading-relaxed break-words overflow-hidden max-h-[3em]">{{ $story->content }}</p>
+                        <div class="p-3 max-w-full overflow-hidden bg-[#161615]">
+                            <h3 class="font-medium text-xs text-[#EDEDEC] break-words">{{ $story->title }}</h3>
+                            <p class="text-[#A1A09A] text-[11px] mt-0.5 leading-relaxed break-words overflow-hidden max-h-[3.3em]">{{ Str::limit($story->content, 60) }}</p>
                         </div>
                     </div>
                 @empty
@@ -82,16 +79,15 @@
             function openAllStory(el) {
                 var modal = document.getElementById('allStoryModal');
                 var content = document.getElementById('allStoryModalContent');
-                var title = el.getAttribute('data-title') || '';
                 var text = el.getAttribute('data-content') || '';
                 var bg = el.getAttribute('data-bg') || 'linear-gradient(135deg, #161615, #3E3E3A)';
                 var type = el.getAttribute('data-type') || 'text';
                 var image = el.getAttribute('data-image') || '';
                 var html = '';
                 if (type === 'image' && image) {
-                    html = '<img src="' + image + '" alt="' + title + '" class="w-full h-full object-cover absolute inset-0">';
+                    html = '<img src="' + image + '" alt="" class="w-full h-full object-cover absolute inset-0">';
                 } else if (type === 'mixed' && image) {
-                    html = '<img src="' + image + '" alt="' + title + '" class="w-full h-full object-cover absolute inset-0 opacity-40">';
+                    html = '<img src="' + image + '" alt="" class="w-full h-full object-cover absolute inset-0 opacity-40">';
                     html += '<div class="relative z-[1] text-center p-6 text-white text-sm leading-relaxed max-w-xs">' + text + '</div>';
                 } else {
                     html = '<div class="text-white text-sm leading-relaxed max-w-xs">' + text + '</div>';
@@ -115,19 +111,11 @@
             });
             (function() {
                 var lang = localStorage.getItem('lang') || '{{ app()->getLocale() }}';
-                if (lang === 'ar') {
-                    document.documentElement.dir = 'rtl';
-                    document.documentElement.lang = 'ar';
-                    document.documentElement.classList.add('rtl');
-                } else {
-                    document.documentElement.dir = 'ltr';
-                    document.documentElement.lang = 'en';
-                    document.documentElement.classList.remove('rtl');
-                }
+                if (lang === 'ar') { document.documentElement.dir = 'rtl'; document.documentElement.lang = 'ar'; document.documentElement.classList.add('rtl'); }
+                else { document.documentElement.dir = 'ltr'; document.documentElement.lang = 'en'; document.documentElement.classList.remove('rtl'); }
                 document.querySelectorAll('[data-translate-key]').forEach(function(el) {
                     var key = el.getAttribute('data-translate-key');
-                    var t = (lang === 'ar' && window.translations && window.translations[key]) ? window.translations[key] : key;
-                    el.textContent = t;
+                    el.textContent = (lang === 'ar' && window.translations && window.translations[key]) ? window.translations[key] : key;
                 });
             })();
         </script>
