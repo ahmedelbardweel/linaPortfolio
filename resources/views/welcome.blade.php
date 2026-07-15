@@ -315,22 +315,7 @@
                 foreach ($stories->take(4) as $s) { if ($s->image_url) $bgImages[] = $s->image_url; }
             @endphp
             @if (count($bgImages))
-            <div class="hidden lg:block absolute inset-0 pointer-events-none overflow-hidden">
-                @for ($i = 0; $i < 20; $i++)
-                @php
-                    $img = $bgImages[array_rand($bgImages)];
-                    $x = rand(0, 92);
-                    $y = rand(0, 92);
-                    $w = rand(60, 120);
-                    $imgH = round($w * rand(65, 80) / 100);
-                    $rot = rand(-15, 15);
-                    $op = rand(5, 12) / 100;
-                @endphp
-                <img src="{{ $img }}" alt="" loading="lazy"
-                    style="position:absolute;left:{{ $x }}%;top:{{ $y }}%;width:{{ $w }}px;height:{{ $imgH }}px;object-fit:cover;border-radius:2px;--bg-op:{{ $op }};--rot:{{ $rot }}deg;--anim-delay:{{ $i * 0.04 }}s"
-                    class="bg-img-anim">
-                @endfor
-            </div>
+            <div id="desktopCollage" class="hidden lg:block absolute inset-0 pointer-events-none overflow-hidden" data-images="{{ json_encode($bgImages) }}"></div>
             @endif
             <div
                 class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 py-6 lg:py-20 relative">
@@ -510,9 +495,7 @@
                     {{ __("Behind the scenes & daily design moments") }}</p>
             </div>
             <div class="story-card-row flex gap-4 overflow-x-auto pb-4 md:pb-4" style="scrollbar-width:none;-ms-overflow-style:none">
-        @if ($h && $h->main_image_url)
-        <link rel="preload" as="image" href="{{ $mainImageInline ?: $h->main_image_url }}" fetchpriority="high">
-        @endif
+
         <style>
                     .story-card-row::-webkit-scrollbar {
                         display: none
@@ -1032,12 +1015,56 @@
         }
 
         // Apply on DOMContentLoaded if localStorage has a different lang than server
+        // Apply on DOMContentLoaded if localStorage has a different lang than server
         document.addEventListener('DOMContentLoaded', () => {
             const serverLang = document.documentElement.getAttribute('lang') || 'en';
             const savedLang = localStorage.getItem('lang');
             // If saved lang differs from server-rendered lang, apply client-side
             if (savedLang && savedLang !== serverLang) {
                 switchLanguage(savedLang);
+            }
+        });
+
+        // Load desktop background collage dynamically after page load to save bandwidth & optimize LCP/FCP
+        window.addEventListener('load', () => {
+            if (window.innerWidth >= 1024) {
+                const container = document.getElementById('desktopCollage');
+                if (container) {
+                    const urls = JSON.parse(container.getAttribute('data-images') || '[]');
+                    if (urls.length > 0) {
+                        const fragment = document.createDocumentFragment();
+                        for (let i = 0; i < 20; i++) {
+                            const url = urls[Math.floor(Math.random() * urls.length)];
+                            const img = document.createElement('img');
+                            img.src = url;
+                            img.alt = "";
+                            img.loading = "lazy";
+                            img.className = "bg-img-anim";
+                            
+                            const x = Math.floor(Math.random() * 93);
+                            const y = Math.floor(Math.random() * 93);
+                            const w = Math.floor(Math.random() * 61) + 60;
+                            const imgH = Math.round(w * (Math.floor(Math.random() * 16) + 65) / 100);
+                            const rot = Math.floor(Math.random() * 31) - 15;
+                            const op = (Math.floor(Math.random() * 8) + 5) / 100;
+                            const delay = (i * 0.04).toFixed(2);
+                            
+                            img.style.position = "absolute";
+                            img.style.left = `${x}%`;
+                            img.style.top = `${y}%`;
+                            img.style.width = `${w}px`;
+                            img.style.height = `${imgH}px`;
+                            img.style.objectFit = "cover";
+                            img.style.borderRadius = "2px";
+                            img.style.setProperty('--bg-op', op);
+                            img.style.setProperty('--rot', `${rot}deg`);
+                            img.style.setProperty('--anim-delay', `${delay}s`);
+                            
+                            fragment.appendChild(img);
+                        }
+                        container.appendChild(fragment);
+                    }
+                }
             }
         });
     </script>

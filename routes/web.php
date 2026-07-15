@@ -94,8 +94,10 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
 
     if (file_exists($cacheFile)) {
         $binary = file_get_contents($cacheFile);
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->buffer($binary) ?: 'image/webp';
         return response($binary, 200, [
-            'Content-Type' => 'image/webp',
+            'Content-Type' => $mime,
             'Cache-Control' => 'public, max-age=31536000, immutable',
         ]);
     }
