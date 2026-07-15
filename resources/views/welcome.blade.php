@@ -20,18 +20,32 @@
         @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-400.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-500.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-600.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-700.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-400.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-700.woff2') format('woff2')}
     </style>
 
-    <!-- Styles: load non-render-blocking to improve FCP/LCP -->
+    <!-- Inline CSS to eliminate render-blocking stylesheet requests and achieve instant FCP -->
     @php
         try {
             $viteManifest = json_decode(file_get_contents(public_path('build/.vite/manifest.json')), true)
                 ?? json_decode(file_get_contents(public_path('build/manifest.json')), true);
-            $welcomeCssUrl = isset($viteManifest['resources/css/app.css']['file'])
-                ? '/build/' . $viteManifest['resources/css/app.css']['file'] : null;
-        } catch (\Exception $e) { $welcomeCssUrl = null; }
+            $welcomeCssUrls = [];
+            if (isset($viteManifest['resources/css/app.css']['file'])) {
+                $welcomeCssUrls[] = 'build/' . $viteManifest['resources/css/app.css']['file'];
+            }
+            if (isset($viteManifest['resources/js/app.js']['css'])) {
+                foreach ($viteManifest['resources/js/app.js']['css'] as $cssFile) {
+                    $welcomeCssUrls[] = 'build/' . $cssFile;
+                }
+            }
+            $cssContent = '';
+            foreach ($welcomeCssUrls as $url) {
+                if (file_exists(public_path($url))) {
+                    $cssContent .= file_get_contents(public_path($url));
+                }
+            }
+        } catch (\Exception $e) {
+            $cssContent = null;
+        }
     @endphp
-    @if ($welcomeCssUrl)
-        <link rel="preload" href="{{ $welcomeCssUrl }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="{{ $welcomeCssUrl }}"></noscript>
+    @if ($cssContent)
+        <style>{!! $cssContent !!}</style>
     @else
         @vite(['resources/css/app.css'])
     @endif

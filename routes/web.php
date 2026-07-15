@@ -20,8 +20,8 @@ Route::get('/', function () {
     $portfolios = \App\Models\Portfolio::where('is_active', true)->orderBy('order')
         ->select(['id','title','description','image_path','is_active','order'])->get();
 
-    // Inline the LCP hero image as base64 to eliminate extra HTTP round-trip and improve LCP
-    $mainImageInline = ($hero && $hero->main_image_data) ? $hero->main_image_data : null;
+    // Do not inline the heavy 214KB base64 hero image inside HTML, keeping the document size extremely lightweight for faster mobile load
+    $mainImageInline = null;
 
     // Load all settings in one query instead of 10+ individual queries from the template
     $settingsAll = \App\Models\Setting::all()->pluck('value', 'key');
