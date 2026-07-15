@@ -6,7 +6,7 @@ use Illuminate\Http\UploadedFile;
 
 trait HandlesImages
 {
-    protected function storeImage(UploadedFile $file, string $disk = 'public', int $maxW = 800, int $maxH = 800): array
+    protected function storeImage(UploadedFile $file, string $disk = 'public', int $maxW = 640, int $maxH = 640): array
     {
         if (!\function_exists('imagecreatefromstring')) {
             $path = $file->store('images', $disk);
@@ -39,7 +39,7 @@ trait HandlesImages
         $webp = '';
         $tmp = @\fopen('php://temp', 'r+');
         if ($tmp) {
-            \imagewebp($img, $tmp, 60);
+            \imagewebp($img, $tmp, 50);
             \rewind($tmp);
             $webp = \stream_get_contents($tmp);
             \fclose($tmp);

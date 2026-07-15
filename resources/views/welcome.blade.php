@@ -510,7 +510,10 @@
                     {{ __("Behind the scenes & daily design moments") }}</p>
             </div>
             <div class="story-card-row flex gap-4 overflow-x-auto pb-4 md:pb-4" style="scrollbar-width:none;-ms-overflow-style:none">
-                <style>
+        @if ($h && $h->main_image_url)
+        <link rel="preload" as="image" href="{{ $mainImageInline ?: $h->main_image_url }}" fetchpriority="high">
+        @endif
+        <style>
                     .story-card-row::-webkit-scrollbar {
                         display: none
                     }
