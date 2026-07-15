@@ -37,6 +37,7 @@ class PortfolioController extends Controller
 
         $portfolio = Portfolio::create($data);
         $this->cacheImageData('portfolio', $portfolio);
+        $this->syncImageToBlob($portfolio, 'image_path', 'image_data');
 
         return redirect()->route('admin.portfolios.index')->with('success', 'Portfolio created successfully.');
     }
@@ -68,6 +69,9 @@ class PortfolioController extends Controller
 
         $portfolio->update($data);
         $this->cacheImageData('portfolio', $portfolio);
+        if ($request->hasFile('image')) {
+            $this->syncImageToBlob($portfolio->fresh(), 'image_path', 'image_data');
+        }
 
         return redirect()->route('admin.portfolios.index')->with('success', 'Portfolio updated successfully.');
     }

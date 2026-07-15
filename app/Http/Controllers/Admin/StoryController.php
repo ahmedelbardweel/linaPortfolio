@@ -40,6 +40,9 @@ class StoryController extends Controller
 
         $story = Story::create($data);
         $this->cacheImageData('story', $story);
+        if ($request->hasFile('image')) {
+            $this->syncImageToBlob($story, 'image_path', 'image_data');
+        }
 
         return redirect()->route('admin.stories.index')->with('success', 'Story created successfully.');
     }
@@ -72,6 +75,9 @@ class StoryController extends Controller
 
         $story->update($data);
         $this->cacheImageData('story', $story);
+        if ($request->hasFile('image')) {
+            $this->syncImageToBlob($story->fresh(), 'image_path', 'image_data');
+        }
 
         return redirect()->route('admin.stories.index')->with('success', 'Story updated successfully.');
     }

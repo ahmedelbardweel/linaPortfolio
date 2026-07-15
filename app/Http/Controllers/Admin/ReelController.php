@@ -55,6 +55,7 @@ class ReelController extends Controller
         $reel = Reel::create($data);
         if ($request->hasFile('thumbnail')) {
             $this->cacheImageData('reel', $reel);
+            $this->syncImageToBlob($reel, 'thumbnail', 'thumbnail_data');
         }
 
         return redirect()->route('admin.reels.index')->with('success', 'Reel created successfully.');
@@ -110,6 +111,7 @@ class ReelController extends Controller
         $reel->update($data);
         if ($request->hasFile('thumbnail')) {
             $this->cacheImageData('reel', $reel);
+            $this->syncImageToBlob($reel->fresh(), 'thumbnail', 'thumbnail_data');
         }
 
         return redirect()->route('admin.reels.index')->with('success', 'Reel updated successfully.');

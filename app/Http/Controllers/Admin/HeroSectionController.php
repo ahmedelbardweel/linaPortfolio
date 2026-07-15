@@ -53,7 +53,7 @@ class HeroSectionController extends Controller
                     'main_image' => 'main_image_data',
                     'right_image' => 'right_image_data',
                 };
-                $this->syncBlobUrl($hero->fresh(), $col, $dataCol);
+                $this->syncImageToBlob($hero->fresh(), $col, $dataCol);
             }
         }
 
@@ -98,7 +98,7 @@ class HeroSectionController extends Controller
                     'main_image' => 'main_image_data',
                     'right_image' => 'right_image_data',
                 };
-                $this->syncBlobUrl($hero->fresh(), $col, $dataCol);
+                $this->syncImageToBlob($hero->fresh(), $col, $dataCol);
             }
         }
 
@@ -124,21 +124,4 @@ class HeroSectionController extends Controller
         return back()->with('success', 'Status updated.');
     }
 
-    private function syncBlobUrl($hero, string $pathCol, string $dataCol): void
-    {
-        $binary = null;
-        if ($data = $hero->{$dataCol} ?? '') {
-            $binary = base64_decode(explode(',', $data, 2)[1] ?? '');
-        }
-        if (!$binary && ($path = $hero->{$pathCol} ?? '') && !str_starts_with($path, 'https://')) {
-            $binary = Storage::disk('public')->get($path);
-        }
-        if (!$binary) return;
-
-        $name = Str::slug(class_basename($hero)) . '-' . $hero->id . '-' . Str::random(8) . '.webp';
-        $url = $this->uploadToBlob($binary, $name);
-        if ($url) {
-            $hero->update([$pathCol => $url]);
-        }
-    }
 }

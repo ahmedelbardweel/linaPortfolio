@@ -61,6 +61,33 @@ trait HandlesImages
         return ['path' => $webpPath, 'data' => $data];
     }
 
+    /**
+     * Upload image binary to Vercel Blob CDN and update the model column with the returned URL.
+     * After sync, the model's image_url accessor returns the CDN URL directly (fast, no DB query).
+     */
+    protected function syncImageToBlob($model, string $pathCol, string $dataCol): void
+    {
+        $data = $model->{$dataCol} ?? '';
+        $binary = $data ? @base64_decode(explode(',', $data, 2)[1] ?? '') : null;
+
+        if (!$binary) {
+            $path = $model->{$pathCol} ?? '';
+            if ($path && !str_starts_with($path, 'https://')) {
+                try {
+                    $binary = \Illuminate\Support\Facades\Storage::disk('public')->get($path);
+                } catch (\Exception $e) {}
+            }
+        }
+        if (!$binary) return;
+
+        $slug = strtolower(class_basename($model));
+        $name = $slug . '-' . $model->id . '-' . substr(md5($pathCol), 0, 8) . '.webp';
+        $url  = $this->uploadToBlob($binary, $name);
+        if ($url) {
+            $model->update([$pathCol => $url]);
+        }
+    }
+
     protected function cacheImageData(string $table, $model): void
     {
         $cacheDir = env('VERCEL') ? '/tmp/img-cache' : storage_path('framework/cache/img');
