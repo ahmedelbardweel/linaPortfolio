@@ -492,7 +492,7 @@
                 <a href="{{ route('explore') }}#portfolio"
                     class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
                     style="background:linear-gradient(135deg,#f53003,#ff8a66)"
-                    data-translate-key="View All">{{ __("View All") }}</a>
+                    data-translate-key="View All" onclick="window.location.href='{{ route('explore') }}#portfolio'">{{ __("View All") }}</a>
             @endif
         </section>
 
@@ -551,7 +551,7 @@
                 <a href="{{ route('explore') }}#stories"
                     class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
                     style="background:linear-gradient(135deg,#f53003,#ff8a66)"
-                    data-translate-key="View All">{{ __("View All") }}</a>
+                    data-translate-key="View All" onclick="window.location.href='{{ route('explore') }}#stories'">{{ __("View All") }}</a>
             @endif
         </section>
 
@@ -598,7 +598,7 @@
                 <a href="{{ route('explore') }}#tips"
                     class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-full text-xs font-medium text-white transition-all duration-300 block text-center"
                     style="background:linear-gradient(135deg,#f53003,#ff8a66)"
-                    data-translate-key="View All">{{ __("View All") }}</a>
+                    data-translate-key="View All" onclick="window.location.href='{{ route('explore') }}#tips'">{{ __("View All") }}</a>
             @endif
         </section>
 
