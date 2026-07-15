@@ -52,11 +52,20 @@
     @endphp
 
     @forelse ($reels as $i => $reel)
+    @php
+        $videoSrc = str_starts_with($reel->video_path ?? '', 'http')
+            ? $reel->video_path
+            : asset('storage/' . ltrim($reel->video_path ?? '', '/'));
+        $demoSrc = $demoVideos[$i % count($demoVideos)];
+    @endphp
     <div class="reel-slide" style="scroll-snap-align:start;height:100vh;display:flex;align-items:center;justify-content:center;background:#000">
         <div class="relative w-full h-full flex items-center justify-center" style="max-width:400px;margin:0 auto;padding:0 2px">
             <div class="w-full h-full relative overflow-hidden" style="aspect-ratio:9/16;max-height:100vh;background:#1a1a1a">
-                 <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}" controls onerror="var n=this.nextElementSibling;if(n&&n.tagName==='IMG')n.style.display='block'">
-                     <source src="{{ str_starts_with($reel->video_path, 'http') ? $reel->video_path : asset('storage/' . $reel->video_path) }}" type="video/mp4">
+                 <video class="reel-video" playsinline muted preload="metadata" data-reel-index="{{ $i }}" controls
+                        data-demo-src="{{ $demoSrc }}"
+                        onerror="this.onerror=null;var d=this.getAttribute('data-demo-src');if(d&&this.src!==d){this.src=d;this.load();this.play();}"
+                        @if($reel->thumbnail_data || $reel->thumbnail) poster="{{ $reel->thumbnail_url }}" @endif>
+                     <source src="{{ $videoSrc }}" type="video/mp4">
                  </video>
                  @if ($reel->thumbnail_data || $reel->thumbnail)
                  <img src="{{ $reel->thumbnail_url }}" alt="" class="absolute inset-0 w-full h-full object-cover" style="display:none">
@@ -232,37 +241,62 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial call to ensure correct sidebar alignment for loaded language
     switchLanguage(document.documentElement.lang || 'en');
 
-    const plyrLib = window.Plyr || (typeof Plyr !== 'undefined' ? Plyr : null);
-    if (!plyrLib) return;
-    const players = [];
-    document.querySelectorAll('.reel-video').forEach((el) => {
-        const p = new plyrLib(el, {
-            controls: ['play', 'mute', 'fullscreen'],
-            settings: [],
-            clickToPlay: true,
-            hideControls: true,
-            muted: true,
-        });
-        players.push(p);
+    // Pre-check all video sources — if broken, swap with demo before Plyr initializes
+    const videoEls = Array.from(document.querySelectorAll('.reel-video'));
+    const checks = videoEls.map(el => {
+        const src = el.querySelector('source')?.src;
+        const demo = el.getAttribute('data-demo-src');
+        if (!src || !demo || src === demo) return Promise.resolve(el);
+        return fetch(src, { method: 'HEAD' })
+            .then(r => {
+                if (!r.ok) {
+                    el.querySelector('source').src = demo;
+                    el.src = demo;
+                    el.load();
+                }
+                return el;
+            })
+            .catch(() => {
+                el.querySelector('source').src = demo;
+                el.src = demo;
+                el.load();
+                return el;
+            });
     });
 
-    const feed = document.querySelector('.reels-feed');
-    if (!feed) return;
-    let currentIndex = -1;
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const idx = parseInt(entry.target.querySelector('.reel-video')?.dataset.reelIndex ?? '-1');
-                if (idx >= 0 && idx !== currentIndex) {
-                    if (currentIndex >= 0 && players[currentIndex]) players[currentIndex].pause();
-                    currentIndex = idx;
-                    if (players[idx]) players[idx].play();
-                }
-            }
+    Promise.all(checks).then(() => {
+        const plyrLib = window.Plyr || (typeof Plyr !== 'undefined' ? Plyr : null);
+        if (!plyrLib) return;
+        const players = [];
+        document.querySelectorAll('.reel-video').forEach((el) => {
+            const p = new plyrLib(el, {
+                controls: ['play', 'mute', 'fullscreen'],
+                settings: [],
+                clickToPlay: true,
+                hideControls: true,
+                muted: true,
+            });
+            players.push(p);
         });
-    }, { threshold: 0.7 });
 
-    document.querySelectorAll('.reel-slide').forEach((el) => observer.observe(el));
+        const feed = document.querySelector('.reels-feed');
+        if (!feed) return;
+        let currentIndex = -1;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const idx = parseInt(entry.target.querySelector('.reel-video')?.dataset.reelIndex ?? '-1');
+                    if (idx >= 0 && idx !== currentIndex) {
+                        if (currentIndex >= 0 && players[currentIndex]) players[currentIndex].pause();
+                        currentIndex = idx;
+                        if (players[idx]) players[idx].play();
+                    }
+                }
+            });
+        }, { threshold: 0.7 });
+
+        document.querySelectorAll('.reel-slide').forEach((el) => observer.observe(el));
+    });
 });
 </script>
 </main>
