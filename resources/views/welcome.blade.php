@@ -621,34 +621,42 @@
                             {{ __("Interior design & decoration studio crafting elegant, functional spaces that tell your unique story.") }}
                         </p>
                         <div class="flex items-center gap-3 mt-5">
-                            <a href="#" aria-label="Instagram"
-                                class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
-                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M7.8 2H16.2C19.4 2 22 4.6 22 7.8V16.2C22 19.4 19.4 22 16.2 22H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2ZM7.6 4C5.6 4 4 5.6 4 7.6V16.4C4 18.4 5.6 20 7.6 20H16.4C18.4 20 20 18.4 20 16.4V7.6C20 5.6 18.4 4 16.4 4H7.6ZM17.3 5.5C17.9 5.5 18.3 5.9 18.3 6.5C18.3 7.1 17.9 7.5 17.3 7.5C16.7 7.5 16.3 7.1 16.3 6.5C16.3 5.9 16.7 5.5 17.3 5.5ZM12 7C15.3 7 18 9.7 18 13C18 16.3 15.3 19 12 19C8.7 19 6 16.3 6 13C6 9.7 8.7 7 12 7ZM12 9C9.8 9 8 10.8 8 13C8 15.2 9.8 17 12 17C14.2 17 16 15.2 16 13C16 10.8 14.2 9 12 9Z" />
-                                </svg>
-                            </a>
-                            <a href="#" aria-label="Facebook"
+                            <?php $fb = \App\Models\Setting::get('facebook_url'); if ($fb): ?>
+                            <a href="{{ $fb }}" target="_blank" aria-label="Facebook"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                                     <path
                                         d="M22 12C22 6.5 17.5 2 12 2S2 6.5 2 12C2 17 5.5 21.1 10.1 21.9V14.9H7.7V12H10.1V9.8C10.1 7.3 11.7 5.9 14 5.9C15.1 5.9 16.2 6.1 16.2 6.1V8.6H15C13.8 8.6 13.4 9.4 13.4 10.2V12H16.1L15.6 14.9H13.5V22C18.5 21.1 22 17 22 12Z" />
                                 </svg>
                             </a>
-                            <a href="#" aria-label="Twitter"
+                            <?php endif; ?>
+                            <?php $ig = \App\Models\Setting::get('instagram_url'); if ($ig): ?>
+                            <a href="{{ $ig }}" target="_blank" aria-label="Instagram"
+                                class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M7.8 2H16.2C19.4 2 22 4.6 22 7.8V16.2C22 19.4 19.4 22 16.2 22H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2ZM7.6 4C5.6 4 4 5.6 4 7.6V16.4C4 18.4 5.6 20 7.6 20H16.4C18.4 20 20 18.4 20 16.4V7.6C20 5.6 18.4 4 16.4 4H7.6ZM17.3 5.5C17.9 5.5 18.3 5.9 18.3 6.5C18.3 7.1 17.9 7.5 17.3 7.5C16.7 7.5 16.3 7.1 16.3 6.5C16.3 5.9 16.7 5.5 17.3 5.5ZM12 7C15.3 7 18 9.7 18 13C18 16.3 15.3 19 12 19C8.7 19 6 16.3 6 13C6 9.7 8.7 7 12 7ZM12 9C9.8 9 8 10.8 8 13C8 15.2 9.8 17 12 17C14.2 17 16 15.2 16 13C16 10.8 14.2 9 12 9Z" />
+                                </svg>
+                            </a>
+                            <?php endif; ?>
+                            <?php $tw = \App\Models\Setting::get('twitter_url'); if ($tw): ?>
+                            <a href="{{ $tw }}" target="_blank" aria-label="Twitter"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                                     <path
                                         d="M23.5 6.2c-.8.4-1.7.6-2.6.7.9-.6 1.7-1.4 2.1-2.5-.9.5-1.8.9-2.8 1.1-.8-.9-2-1.5-3.3-1.5-2.5 0-4.5 2-4.5 4.5 0 .4 0 .7.1 1.1C7.8 9.3 4.7 7.6 2.6 5.1c-.4.7-.6 1.4-.6 2.3 0 1.6.8 2.9 2 3.7-.7 0-1.4-.2-2-.6v.1c0 2.2 1.6 4 3.6 4.4-.4.1-.8.2-1.2.2-.3 0-.6 0-.9-.1.6 1.8 2.2 3.1 4.2 3.1-1.5 1.2-3.5 1.9-5.6 1.9-.4 0-.7 0-1-.1 2 1.3 4.4 2 6.9 2 8.3 0 12.8-6.9 12.8-12.8 0-.2 0-.4 0-.6.9-.6 1.7-1.4 2.3-2.3z" />
                                 </svg>
                             </a>
-                            <a href="#" aria-label="LinkedIn"
+                            <?php endif; ?>
+                            <?php $li = \App\Models\Setting::get('linkedin_url'); if ($li): ?>
+                            <a href="{{ $li }}" target="_blank" aria-label="LinkedIn"
                                 class="w-8 h-8 rounded-full border border-[#e3e3e0] dark:border-[#3E3E3A] flex items-center justify-center text-[#706f6c] dark:text-[#A1A09A] hover:text-[#f53003] dark:hover:text-[#FF4433] hover:border-[#f53003] dark:hover:border-[#FF4433] transition-colors">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                                     <path
                                         d="M19.6 2H4.4C3.1 2 2 3.1 2 4.4v15.2C2 20.9 3.1 22 4.4 22h15.2c1.3 0 2.4-1.1 2.4-2.4V4.4C22 3.1 20.9 2 19.6 2zM8.4 18.4H5.6V9.8h2.8v8.6zM7 8.6c-.9 0-1.6-.7-1.6-1.6S6.1 5.4 7 5.4s1.6.7 1.6 1.6S7.9 8.6 7 8.6zm11.4 9.8h-2.8v-4.2c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2v4.3H9.8V9.8h2.7v1.2h.1c.4-.7 1.3-1.4 2.6-1.4 2.8 0 3.3 1.8 3.3 4.2v4.6z" />
                                 </svg>
                             </a>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -688,21 +696,12 @@
                             class="text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC] mb-4">{{ __("Services") }}
                         </h4>
                         <ul class="space-y-2.5">
-                            <li><span data-translate-key="Interior Design"
-                                    class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ __("Interior Design") }}</span>
-                            </li>
-                            <li><span data-translate-key="Space Planning"
-                                    class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ __("Space Planning") }}</span>
-                            </li>
-                            <li><span data-translate-key="Dashboard Makeover"
-                                    class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ __("Dashboard Makeover") }}</span>
-                            </li>
-                            <li><span data-translate-key="Furniture Selection"
-                                    class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ __("Furniture Selection") }}</span>
-                            </li>
-                            <li><span data-translate-key="Lighting Design"
-                                    class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ __("Lighting Design") }}</span>
-                            </li>
+                            @for ($i = 1; $i <= 5; $i++)
+                                @php $svc = \App\Models\Setting::get('service_' . $i); @endphp
+                                @if ($svc)
+                                <li><span class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ $svc }}</span></li>
+                                @endif
+                            @endfor
                         </ul>
                     </div>
 
@@ -712,6 +711,7 @@
                             class="text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC] mb-4">{{ __("Contact") }}
                         </h4>
                         <ul class="space-y-3">
+                            <?php $addr = \App\Models\Setting::get('address'); if ($addr): ?>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 text-[#f53003] dark:text-[#FF4433] mt-0.5 shrink-0"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -719,31 +719,30 @@
                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                                     <circle cx="12" cy="10" r="3" />
                                 </svg>
-                                <span data-translate-key="Amman, Jordan"
-                                    class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ __("Amman, Jordan") }}</span>
+                                <span class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ $addr }}</span>
                             </li>
+                            <?php endif; ?>
+                            <?php $email = \App\Models\Setting::get('email'); if ($email): ?>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 text-[#f53003] dark:text-[#FF4433] mt-0.5 shrink-0"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
-                                    <path
-                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                                     <polyline points="22,6 12,13 2,6" />
                                 </svg>
-                                <a href="mailto:hello@lina.design"
-                                    class="text-sm text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">hello@lina.design</a>
+                                <a href="mailto:{{ $email }}" class="text-sm text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ $email }}</a>
                             </li>
+                            <?php endif; ?>
+                            <?php $phone = \App\Models\Setting::get('phone'); if ($phone): ?>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 text-[#f53003] dark:text-[#FF4433] mt-0.5 shrink-0"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                                 </svg>
-                                <a href="tel:+962791234567"
-                                    class="text-sm text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">+962
-                                    7 9123 4567</a>
+                                <a href="tel:{{ $phone }}" class="text-sm text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ $phone }}</a>
                             </li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </div>

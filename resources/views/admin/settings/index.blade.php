@@ -110,6 +110,15 @@
                     @enderror
                 </div>
 
+                {{-- LinkedIn --}}
+                <div>
+                    <label for="linkedin_url" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1" data-translate-key="LinkedIn URL">{{ __("LinkedIn URL") }}</label>
+                    <input type="url" id="linkedin_url" name="linkedin_url" value="{{ old('linkedin_url', $settings['linkedin_url'] ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                    @error('linkedin_url')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 {{-- Email --}}
                 <div>
                     <label for="email" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1" data-translate-key="Email">{{ __("Email") }}</label>
@@ -136,6 +145,20 @@
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
+            </div>
+
+            <h2 class="text-lg font-semibold text-[#1b1b18] dark:text-[#EDEDEC] pb-2 border-b border-[#e3e3e0] dark:border-[#3E3E3A] pt-4" data-translate-key="Services">{{ __("Services") }}</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                @for ($i = 1; $i <= 5; $i++)
+                <div>
+                    <label for="service_{{ $i }}" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1">{{ __("Service") }} {{ $i }}</label>
+                    <input type="text" id="service_{{ $i }}" name="service_{{ $i }}" value="{{ old('service_' . $i, $settings['service_' . $i] ?? '') }}" class="w-full rounded-lg border-[#e3e3e0] dark:border-[#3E3E3A] dark:bg-[#2a2a28] dark:text-[#EDEDEC] shadow-sm focus:border-[#c42802] focus:ring-[#c42802]/30 text-sm">
+                    @error('service_' . $i)
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                @endfor
             </div>
 
             {{-- Submit --}}

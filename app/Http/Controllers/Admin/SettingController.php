@@ -10,11 +10,7 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $settings = Setting::all()->groupBy(function ($setting) {
-            $parts = explode('.', $setting->key);
-            return $parts[0] ?? 'general';
-        });
-
+        $settings = Setting::pluck('value', 'key')->toArray();
         return view('admin.settings.index', compact('settings'));
     }
 
