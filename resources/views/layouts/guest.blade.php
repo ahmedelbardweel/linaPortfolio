@@ -65,8 +65,7 @@
         @endif
 
         {{-- Nav --}}
-        <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5"
-            style="background:rgba(253,253,252,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
+        <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 bg-[#fdfdfc] dark:bg-[#0a0a0a]">
             <div class="flex items-center gap-4 w-full max-w-6xl px-0 lg:px-8">
                 <a href="/"
                     class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] me-auto">
