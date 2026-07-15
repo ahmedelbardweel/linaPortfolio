@@ -152,28 +152,4 @@ Route::get('/lang/{locale}', function (string $locale) {
     return redirect()->back();
 })->name('lang.switch');
 
-Route::get('/debug-paths', function () {
-    $manifestPath = public_path('build/manifest.json');
-    $manifest = file_exists($manifestPath) ? json_decode(file_get_contents($manifestPath), true) : null;
-    $checkedFiles = [];
-    if ($manifest) {
-        foreach ($manifest as $key => $val) {
-            if (isset($val['file'])) {
-                $checkedFiles[$val['file']] = file_exists(public_path('build/' . $val['file']));
-            }
-            if (isset($val['css'])) {
-                foreach ($val['css'] as $css) {
-                    $checkedFiles[$css] = file_exists(public_path('build/' . $css));
-                }
-            }
-        }
-    }
-    return response()->json([
-        'manifest' => $manifest,
-        'checked_files' => $checkedFiles,
-        'public_path' => public_path(),
-        'assets_scandir' => is_dir(public_path('build/assets')) ? scandir(public_path('build/assets')) : null,
-    ]);
-});
-
 require __DIR__.'/auth.php';
