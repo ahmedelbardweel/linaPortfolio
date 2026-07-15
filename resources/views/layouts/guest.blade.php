@@ -47,7 +47,7 @@
 
         @if (count($authBgImages))
         <div class="absolute inset-0 pointer-events-none overflow-hidden">
-            @for ($i = 0; $i < 100; $i++)
+            @for ($i = 0; $i < 20; $i++)
             @php
                 $img = $authBgImages[array_rand($authBgImages)];
                 $x = rand(0, 92);

@@ -136,9 +136,8 @@
             }
             .bg-img-anim {
                 opacity: 0;
-                animation: dropIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-                           bgFloat 6s ease-in-out infinite;
-                animation-delay: var(--anim-delay, 0s), calc(var(--anim-delay, 0s) + 0.8s);
+                animation: dropIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                animation-delay: var(--anim-delay, 0s);
             }
             @keyframes slideInLeft {
                 0% { transform: translateX(-80px); opacity: 0; }
@@ -164,7 +163,7 @@
                     class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
                     <?php $logoPath = \App\Models\Setting::get('logo'); ?>
                     @if ($logoPath)
-                        <img src="{{ $logoPath }}" alt="Logo" class="h-6 w-auto">
+                        <img src="{{ $logoPath }}" alt="Logo" width="24" height="24" class="h-6 w-auto">
                     @else
                         <span class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold" style="font-family:Georgia,serif;border-radius:3px">L</span>
                     @endif
@@ -317,7 +316,7 @@
             @endphp
             @if (count($bgImages))
             <div class="hidden lg:block absolute inset-0 pointer-events-none overflow-hidden">
-                @for ($i = 0; $i < 100; $i++)
+                @for ($i = 0; $i < 20; $i++)
                 @php
                     $img = $bgImages[array_rand($bgImages)];
                     $x = rand(0, 92);
@@ -474,7 +473,7 @@
                         <div class="aspect-[4/3] relative flex items-center justify-center overflow-hidden"
                             style="background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
                             @if ($portfolio->image_path)
-                                <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" loading="lazy" class="w-full h-full object-cover">
+                                <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" loading="lazy" width="320" height="240" class="w-full h-full object-cover">
                             @else
                                 <svg class="w-12 h-12 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
                                     <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
@@ -527,7 +526,7 @@
                         <div class="h-32 flex items-center justify-center"
                             style="background:{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}">
                             @if ($story->image_path)
-                                <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" class="w-full h-full object-cover">
+                                <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" width="192" height="128" class="w-full h-full object-cover">
                             @else
                                 <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                     @if ($story->type === 'text')
@@ -616,7 +615,7 @@
                             class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] mb-3">
                             <?php $logoPath = \App\Models\Setting::get('logo'); ?>
                             @if ($logoPath)
-                                <img src="{{ $logoPath }}" alt="Logo" class="h-6 w-auto">
+                                <img src="{{ $logoPath }}" alt="Logo" width="24" height="24" class="h-6 w-auto">
                             @else
                                 <span class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold" style="font-family:Georgia,serif;border-radius:3px">L</span>
                             @endif
