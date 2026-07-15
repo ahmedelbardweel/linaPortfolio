@@ -56,7 +56,11 @@ class PortfolioController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($portfolio->image_path);
+            try {
+                if ($portfolio->image_path) {
+                    Storage::disk('public')->delete($portfolio->image_path);
+                }
+            } catch (\Exception $e) {}
             $result = $this->storeImage($request->file('image'), 'public');
             $data['image_path'] = $result['path'];
             $data['image_data'] = $result['data'];
@@ -70,7 +74,11 @@ class PortfolioController extends Controller
 
     public function destroy(Portfolio $portfolio)
     {
-        Storage::disk('public')->delete($portfolio->image_path);
+        try {
+            if ($portfolio->image_path) {
+                Storage::disk('public')->delete($portfolio->image_path);
+            }
+        } catch (\Exception $e) {}
 
         $portfolio->delete();
 

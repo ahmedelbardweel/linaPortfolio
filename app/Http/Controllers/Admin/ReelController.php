@@ -85,14 +85,20 @@ class ReelController extends Controller
                 $data['video_path'] = $request->input('video_path');
             }
         } elseif ($request->hasFile('video')) {
-            Storage::disk('public')->delete($reel->video_path);
+            try {
+                if ($reel->video_path) {
+                    Storage::disk('public')->delete($reel->video_path);
+                }
+            } catch (\Exception $e) {}
             $data['video_path'] = $request->file('video')->store('reels', 'public');
         }
 
         if ($request->hasFile('thumbnail')) {
-            if ($reel->thumbnail) {
-                Storage::disk('public')->delete($reel->thumbnail);
-            }
+            try {
+                if ($reel->thumbnail) {
+                    Storage::disk('public')->delete($reel->thumbnail);
+                }
+            } catch (\Exception $e) {}
             $result = $this->storeImage($request->file('thumbnail'), 'public');
             $data['thumbnail'] = $result['path'];
             $data['thumbnail_data'] = $result['data'];
@@ -111,11 +117,17 @@ class ReelController extends Controller
 
     public function destroy(Reel $reel)
     {
-        Storage::disk('public')->delete($reel->video_path);
+        try {
+            if ($reel->video_path) {
+                Storage::disk('public')->delete($reel->video_path);
+            }
+        } catch (\Exception $e) {}
 
-        if ($reel->thumbnail) {
-            Storage::disk('public')->delete($reel->thumbnail);
-        }
+        try {
+            if ($reel->thumbnail) {
+                Storage::disk('public')->delete($reel->thumbnail);
+            }
+        } catch (\Exception $e) {}
 
         $reel->delete();
 

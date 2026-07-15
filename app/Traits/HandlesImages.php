@@ -48,7 +48,13 @@ trait HandlesImages
 
         $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $webpPath = 'images/' . $name . '_' . time() . '.webp';
-        \Illuminate\Support\Facades\Storage::disk($disk)->put($webpPath, $webp);
+        try {
+            if (!env('VERCEL')) {
+                \Illuminate\Support\Facades\Storage::disk($disk)->put($webpPath, $webp);
+            }
+        } catch (\Exception $e) {
+            // Ignore write errors on read-only environments
+        }
 
         $data = 'data:image/webp;base64,' . base64_encode($webp);
 

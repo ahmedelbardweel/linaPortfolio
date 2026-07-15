@@ -101,8 +101,11 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
 
     if (file_exists($cacheFile)) {
         $binary = file_get_contents($cacheFile);
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
-        $mime = $finfo->buffer($binary) ?: 'image/webp';
+        $mime = 'image/webp';
+        if (class_exists('finfo')) {
+            $finfo = new \finfo(FILEINFO_MIME_TYPE);
+            $mime = $finfo->buffer($binary) ?: 'image/webp';
+        }
         return response($binary, 200, [
             'Content-Type' => $mime,
             'Cache-Control' => 'public, max-age=31536000, immutable',
@@ -180,8 +183,12 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
         }
     }
 
-    @mkdir($cacheDir, 0755, true);
-    file_put_contents($cacheFile, $binary);
+    try {
+        @mkdir($cacheDir, 0755, true);
+        @file_put_contents($cacheFile, $binary);
+    } catch (\Exception $e) {
+        // Ignore cache write errors
+    }
 
     return response($binary, 200, [
         'Content-Type' => $mime,
@@ -229,7 +236,27 @@ Route::get('storage/{path}', function (string $path) {
         }
 
         if ($binary) {
-            Storage::disk('public')->put($path, $binary);
+            try {
+                if (!env('VERCEL')) {
+                    Storage::disk('public')->put($path, $binary);
+                }
+            } catch (\Exception $e) {
+                // Ignore write errors
+            }
+
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
+            $mime = match (strtolower($extension)) {
+                'webp' => 'image/webp',
+                'png' => 'image/png',
+                'jpg', 'jpeg' => 'image/jpeg',
+                'gif' => 'image/gif',
+                'svg' => 'image/svg+xml',
+                default => 'image/webp',
+            };
+            return response($binary, 200, [
+                'Content-Type' => $mime,
+                'Cache-Control' => 'public, max-age=31536000, immutable',
+            ]);
         } else {
             abort(404);
         }

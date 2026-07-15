@@ -60,9 +60,11 @@ class StoryController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($story->image_path) {
-                Storage::disk('public')->delete($story->image_path);
-            }
+            try {
+                if ($story->image_path) {
+                    Storage::disk('public')->delete($story->image_path);
+                }
+            } catch (\Exception $e) {}
             $result = $this->storeImage($request->file('image'), 'public');
             $data['image_path'] = $result['path'];
             $data['image_data'] = $result['data'];
@@ -76,9 +78,11 @@ class StoryController extends Controller
 
     public function destroy(Story $story)
     {
-        if ($story->image_path) {
-            Storage::disk('public')->delete($story->image_path);
-        }
+        try {
+            if ($story->image_path) {
+                Storage::disk('public')->delete($story->image_path);
+            }
+        } catch (\Exception $e) {}
 
         $story->delete();
 
