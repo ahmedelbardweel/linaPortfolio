@@ -27,18 +27,93 @@
         @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-400.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-500.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-600.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-700.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-400.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-700.woff2') format('woff2')}
     </style>
 
-    <!-- Inline Critical CSS for instant FCP (only essential layout & theme styling) -->
+    <!-- Inline Critical CSS (all above-the-fold styles → no CLS even with deferred full CSS) -->
     <style>
-        body { background-color: #FDFDFC; color: #1b1b18; margin: 0; font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; }
-        .dark body { background-color: #0a0a0a; color: #EDEDEC; }
-        .snap-container { overflow-y: auto; scroll-snap-type: y mandatory; scrollbar-width: none; -ms-overflow-style: none; }
-        .snap-container::-webkit-scrollbar { display: none; }
-        .snap-section { scroll-snap-align: start; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
-        .hero-layout { display: flex; flex-direction: column; width: 100%; height: 100%; min-height: 100vh; justify-content: space-between; padding: 5rem 1.5rem 2.5rem; max-width: 72rem; margin-inline: auto; }
-        @media (min-width: 1024px) { .hero-layout { flex-direction: row; align-items: stretch; } }
-        .content-vis-auto { content-visibility: auto; contain-intrinsic-size: 600px; }
-        .img-container { position: relative; overflow: hidden; }
-        .img-container img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        body{background-color:#FDFDFC;color:#1b1b18;margin:0;font-family:'Instrument Sans',ui-sans-serif,system-ui,sans-serif}
+        .dark, .dark body{background-color:#0a0a0a;color:#EDEDEC}
+        .snap-container{overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;-ms-overflow-style:none}
+        .snap-container::-webkit-scrollbar{display:none}
+        .snap-section{scroll-snap-align:start;min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative}
+        .content-vis-auto{content-visibility:auto;contain-intrinsic-size:600px}
+        .fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}
+        .inset-0{inset:0}.top-0{top:0}.left-0{left:0}.right-0{right:0}
+        .z-50{z-index:50}.z-\[1\]{z-index:1}.z-\[2\]{z-index:2}
+        .overflow-hidden{overflow:hidden}.pointer-events-none{pointer-events:none}
+        .flex{display:flex}.hidden{display:none}.block{display:block}.inline-block{display:inline-block}
+        .flex-col{flex-direction:column}
+        .items-center{align-items:center}.items-start{align-items:flex-start}
+        .justify-center{justify-content:center}.justify-between{justify-content:space-between}
+        .shrink-0{flex-shrink:0}.order-1{order:1}.order-2{order:2}.order-3{order:3}
+        .gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-6{gap:1.5rem}.gap-2\\.5{gap:.625rem}
+        .w-full{width:100%}.w-auto{width:auto}.w-6{width:1.5rem}.w-8{width:2rem}.w-4{width:1rem}
+        .h-14{height:3.5rem}.h-6{height:1.5rem}.h-8{height:2rem}.h-4{height:1rem}.h-full{height:100%}
+        .max-w-6xl{max-width:72rem}.max-w-full{max-width:100%}
+        .mx-auto{margin-left:auto;margin-right:auto}.ms-auto{margin-inline-start:auto}
+        .mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}
+        .mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}
+        .px-0{padding-left:0;padding-right:0}.px-5{padding-left:1.25rem;padding-right:1.25rem}
+        .px-6{padding-left:1.5rem;padding-right:1.5rem}
+        .px-3\\.5{padding-left:.875rem;padding-right:.875rem}
+        .py-1\\.5{padding-top:.375rem;padding-bottom:.375rem}
+        .py-2\\.5{padding-top:.625rem;padding-bottom:.625rem}
+        .py-6{padding-top:1.5rem;padding-bottom:1.5rem}.p-8{padding:2rem}
+        .border{border-width:1px}.rounded-full{border-radius:9999px}.rounded-sm{border-radius:.125rem}
+        .text-base{font-size:1rem;line-height:1.5rem}.text-xs{font-size:.75rem;line-height:1rem}
+        .text-3xl{font-size:1.875rem;line-height:2.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}
+        .text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}
+        .font-bold{font-weight:700}.font-semibold{font-weight:600}.font-medium{font-weight:500}
+        .font-\[\'Playfair_Display\'\,serif\]{font-family:'Playfair Display',serif}
+        .tracking-tight{letter-spacing:-.025em}.tracking-\[1\\.5px\]{letter-spacing:1.5px}.tracking-\[0\\.5px\]{letter-spacing:.5px}
+        .leading-relaxed{line-height:1.625}.leading-\[1\\.05\]{line-height:1.05}.leading-\[1\\.4\]{line-height:1.4}
+        .text-center{text-align:center}.no-underline{text-decoration-line:none}.uppercase{text-transform:uppercase}
+        .text-\[\#1b1b18\]{--tw-text-opacity:1;color:rgb(27 27 24/var(--tw-text-opacity,1))}
+        .text-\[\#333\]{--tw-text-opacity:1;color:rgb(51 51 51/var(--tw-text-opacity,1))}
+        .text-\[\#000\]{--tw-text-opacity:1;color:rgb(0 0 0/var(--tw-text-opacity,1))}
+        .text-\[\#706f6c\]{--tw-text-opacity:1;color:rgb(112 111 108/var(--tw-text-opacity,1))}
+        .text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}
+        .text-\[\#1b1b18\]\\/15{color:#1b1b1826}
+        .bg-\[\#fdfdfc\]{--tw-bg-opacity:1;background-color:rgb(253 253 252/var(--tw-bg-opacity,1))}
+        .bg-\[\#FFFFFF\]{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}
+        .bg-\[\#f53003\]{--tw-bg-opacity:1;background-color:rgb(245 48 3/var(--tw-bg-opacity,1))}
+        .bg-\[\#c42802\]{--tw-bg-opacity:1;background-color:rgb(196 40 2/var(--tw-bg-opacity,1))}
+        .bg-transparent{background-color:transparent}
+        .border-\[\#333\]{--tw-border-opacity:1;border-color:rgb(51 51 51/var(--tw-border-opacity,1))}
+        .object-cover{object-fit:cover}
+        .transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}
+        .transition-colors{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}
+        .transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}
+        .duration-300{transition-duration:.3s}
+        .-translate-x-1\\/2{--tw-translate-x:-50%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}
+        .shadow-\[0_0_0_1px_rgba\(26\,26\,0\,0\\.08\)\]{--tw-shadow:0 0 0 1px rgba(26,26,0,.08);--tw-shadow-colored:0 0 0 1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}
+        .hover\\:text-\[\#1b1b18\]:hover{--tw-text-opacity:1;color:rgb(27 27 24/var(--tw-text-opacity,1))}
+        .hover\\:bg-\[\#f0f0ef\]:hover{--tw-bg-opacity:1;background-color:rgb(240 240 239/var(--tw-bg-opacity,1))}
+        .hover\\:bg-\[\#333\]:hover{--tw-bg-opacity:1;background-color:rgb(51 51 51/var(--tw-bg-opacity,1))}
+        .hover\\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}
+        .hover\\:opacity-90:hover{opacity:.9}
+        .dark\\:hidden:is(.dark *){display:none}.dark\\:block:is(.dark *){display:block}
+        .dark\\:bg-\[\#0a0a0a\]:is(.dark *){--tw-bg-opacity:1;background-color:rgb(10 10 10/var(--tw-bg-opacity,1))}
+        .dark\\:bg-\[\#FF4433\]:is(.dark *){--tw-bg-opacity:1;background-color:rgb(255 68 51/var(--tw-bg-opacity,1))}
+        .dark\\:text-\[\#EDEDEC\]:is(.dark *){--tw-text-opacity:1;color:rgb(237 237 236/var(--tw-text-opacity,1))}
+        .dark\\:text-\[\#A1A09A\]:is(.dark *){--tw-text-opacity:1;color:rgb(161 160 154/var(--tw-text-opacity,1))}
+        .dark\\:text-white\\/10:is(.dark *){color:#ffffff1a}
+        .dark\\:border-\[\#62605b\]:is(.dark *){--tw-border-opacity:1;border-color:rgb(98 96 91/var(--tw-border-opacity,1))}
+        .dark\\:hover\\:bg-\[\#2a2a28\]:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(42 42 40/var(--tw-bg-opacity,1))}
+        .dark\\:hover\\:bg-\[\#EDEDEC\]:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(237 237 236/var(--tw-bg-opacity,1))}
+        .dark\\:hover\\:text-\[\#EDEDEC\]:hover:is(.dark *){--tw-text-opacity:1;color:rgb(237 237 236/var(--tw-text-opacity,1))}
+        .dark\\:hover\\:text-\[\#1b1b18\]:hover:is(.dark *){--tw-text-opacity:1;color:rgb(27 27 24/var(--tw-text-opacity,1))}
+        @media(min-width:640px){.sm\\:text-6xl{font-size:3.75rem;line-height:1}.sm\\:text-2xl{font-size:1.5rem;line-height:2rem}}
+        @media(min-width:768px){.md\\:flex{display:flex}.md\\:hidden{display:none}.md\\:text-sm{font-size:.875rem;line-height:1.25rem}}
+        @media(min-width:1024px){
+            .lg\\:block{display:block}.lg\\:hidden{display:none}.lg\\:inline-block{display:inline-block}
+            .lg\\:flex-row{flex-direction:row}.lg\\:items-start{align-items:flex-start}.lg\\:text-start{text-align:start}
+            .lg\\:order-1{order:1}.lg\\:order-2{order:2}
+            .lg\\:px-8{padding-left:2rem;padding-right:2rem}.lg\\:px-10{padding-left:2.5rem;padding-right:2.5rem}
+            .lg\\:py-20{padding-top:5rem;padding-bottom:5rem}.lg\\:gap-10{gap:2.5rem}
+            .lg\\:w-\[380px\]{width:380px}.lg\\:max-w-\[280px\]{max-width:280px}.lg\\:max-w-\[320px\]{max-width:320px}.lg\\:max-w-\[220px\]{max-width:220px}
+            .lg\\:mt-10{margin-top:2.5rem}.lg\\:mt-5{margin-top:1.25rem}
+            .lg\\:mb-0{margin-bottom:0}.lg\\:mb-3{margin-bottom:.75rem}.lg\\:mb-5{margin-bottom:1.25rem}.lg\\:mb-8{margin-bottom:2rem}
+            .lg\\:text-7xl{font-size:4.5rem;line-height:1}
+        }
     </style>
 
     @php
@@ -54,7 +129,8 @@
     @endphp
     @if ($cssUrl)
         <link rel="preload" as="style" href="{{ $cssUrl }}" fetchpriority="high">
-        <link rel="stylesheet" href="{{ $cssUrl }}">
+        <link rel="stylesheet" href="{{ $cssUrl }}" media="print" onload="this.media='all'" fetchpriority="low">
+        <noscript><link rel="stylesheet" href="{{ $cssUrl }}"></noscript>
     @else
         @vite(['resources/css/app.css'])
     @endif
