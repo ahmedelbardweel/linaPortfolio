@@ -15,4 +15,14 @@ class Story extends Model
         if (str_starts_with($this->image_path, 'https://')) return $this->image_path;
         return url('img/story/' . $this->id . '/image');
     }
+
+    public function getImageUrlSmAttribute(): string
+    {
+        $url = $this->image_url;
+        if (!$url || str_contains($url, 'data:')) return $url;
+        if (str_starts_with($url, 'https://') && str_ends_with($url, '.webp')) {
+            return str_replace('.webp', '-sm.webp', $url);
+        }
+        return $url . '?s=sm';
+    }
 }

@@ -22,4 +22,24 @@ class HeroSection extends Model
         if (str_starts_with($this->right_image, 'https://')) return $this->right_image;
         return url('img/hero/' . $this->id . '/right');
     }
+
+    public function getMainImageUrlSmAttribute(): string
+    {
+        $url = $this->main_image_url;
+        if (!$url || str_contains($url, 'data:')) return $url;
+        if (str_starts_with($url, 'https://') && str_ends_with($url, '.webp')) {
+            return str_replace('.webp', '-sm.webp', $url);
+        }
+        return $url . '?s=sm';
+    }
+
+    public function getRightImageUrlSmAttribute(): string
+    {
+        $url = $this->right_image_url;
+        if (!$url || str_contains($url, 'data:')) return $url;
+        if (str_starts_with($url, 'https://') && str_ends_with($url, '.webp')) {
+            return str_replace('.webp', '-sm.webp', $url);
+        }
+        return $url . '?s=sm';
+    }
 }

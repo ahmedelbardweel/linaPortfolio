@@ -11,7 +11,7 @@
 
     {{-- LCP hero image: FIRST link in <head> so browser discovers it immediately --}}
     @if (!$mainImageInline && $h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
-        <link rel="preload" as="image" href="{{ $h->main_image_url }}?s=sm" fetchpriority="high">
+        <link rel="preload" as="image" href="{{ $h->main_image_url_sm }}" fetchpriority="high">
     @endif
 
     {{-- Font preloads: ONLY Playfair Display (used above the fold for hero heading).
@@ -438,11 +438,11 @@
                         style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
                             <picture>
-                                {{-- Mobile: serve half-size image for faster LCP --}}
-                                <source media="(max-width: 768px)" srcset="{{ $h->main_image_url }}?s=sm">
+                                {{-- Mobile: pre-generated -sm.webp variant --}}
+                                <source media="(max-width: 768px)" srcset="{{ $h->main_image_url_sm }}">
                                 {{-- Desktop: full-size --}}
                                 <source media="(min-width: 769px)" srcset="{{ $mainImageInline ?: $h->main_image_url }}">
-                                <img src="{{ $h->main_image_url }}?s=sm" srcset="{{ $h->main_image_url }}?s=sm 380w, {{ $h->main_image_url }} 800w" sizes="(max-width: 768px) 100vw, 380px" alt="Hero" width="760" height="440" fetchpriority="high"
+                                <img src="{{ $h->main_image_url_sm }}" srcset="{{ $h->main_image_url_sm }} 380w, {{ $h->main_image_url }} 800w" sizes="(max-width: 768px) 100vw, 380px" alt="Hero" width="760" height="440" fetchpriority="high"
                                     class="w-full h-full object-cover">
                             </picture>
                         @else
@@ -491,8 +491,8 @@
                             style="background:{{ $h && $h->right_image ? 'none' : 'linear-gradient(135deg,#e8f0fe,#d4e4f7)' }}">
                             @if ($h && $h->right_image)
                                 <picture>
-                                    <source media="(max-width: 640px)" srcset="{{ $h->right_image_url }}?s=sm">
-                                    <img src="{{ $h->right_image_url }}?s=sm" srcset="{{ $h->right_image_url }}?s=sm 380w, {{ $h->right_image_url }} 640w" sizes="(max-width: 640px) 100vw, 320px" alt="Work" width="640" height="360" loading="lazy" decoding="async"
+                                    <source media="(max-width: 640px)" srcset="{{ $h->right_image_url_sm }}">
+                                    <img src="{{ $h->right_image_url_sm }}" srcset="{{ $h->right_image_url_sm }} 380w, {{ $h->right_image_url }} 640w" sizes="(max-width: 640px) 100vw, 320px" alt="Work" width="640" height="360" loading="lazy" decoding="async"
                                         class="w-full h-full object-cover">
                                 </picture>
                             @else
@@ -581,8 +581,8 @@
                             style="aspect-ratio:4/3;background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
                             @if ($portfolio->image_path)
                                 <picture>
-                                    <source media="(max-width: 640px)" srcset="{{ $portfolio->image_url }}?s=sm">
-                                    <img src="{{ $portfolio->image_url }}?s=sm" srcset="{{ $portfolio->image_url }}?s=sm 180w, {{ $portfolio->image_url }} 320w" sizes="(max-width: 640px) 50vw, 320px" alt="{{ $portfolio->title }}" loading="lazy" decoding="async" width="320" height="240" class="w-full h-full object-cover">
+                                    <source media="(max-width: 640px)" srcset="{{ $portfolio->image_url_sm }}">
+                                    <img src="{{ $portfolio->image_url_sm }}" srcset="{{ $portfolio->image_url_sm }} 180w, {{ $portfolio->image_url }} 320w" sizes="(max-width: 640px) 50vw, 320px" alt="{{ $portfolio->title }}" loading="lazy" decoding="async" width="320" height="240" class="w-full h-full object-cover">
                                 </picture>
                             @else
                                 <svg class="w-12 h-12 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
@@ -638,8 +638,8 @@
                             style="background:{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}">
                             @if ($story->image_path)
                                 <picture>
-                                    <source media="(max-width: 640px)" srcset="{{ $story->image_url }}?s=sm">
-                                    <img src="{{ $story->image_url }}?s=sm" srcset="{{ $story->image_url }}?s=sm 160w, {{ $story->image_url }} 192w" sizes="(max-width: 640px) 160px, 192px" alt="{{ $story->title }}" loading="lazy" decoding="async" width="192" height="128" class="w-full h-full object-cover">
+                                    <source media="(max-width: 640px)" srcset="{{ $story->image_url_sm }}">
+                                    <img src="{{ $story->image_url_sm }}" srcset="{{ $story->image_url_sm }} 160w, {{ $story->image_url }} 192w" sizes="(max-width: 640px) 160px, 192px" alt="{{ $story->title }}" loading="lazy" decoding="async" width="192" height="128" class="w-full h-full object-cover">
                                 </picture>
                             @else
                                 <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

@@ -25,7 +25,7 @@
                 <div style="aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(135deg,#1a1a1a,#2a2a28);">
                     @if ($portfolio->image_path)
                         <picture>
-                            <source media="(max-width: 640px)" srcset="{{ $portfolio->image_url }}?s=sm">
+                            <source media="(max-width: 640px)" srcset="{{ $portfolio->image_url_sm }}">
                             <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" loading="lazy" width="320" height="240" style="width:100%;height:100%;object-fit:cover;">
                         </picture>
                     @else

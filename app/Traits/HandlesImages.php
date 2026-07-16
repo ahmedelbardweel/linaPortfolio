@@ -63,7 +63,7 @@ trait HandlesImages
 
     /**
      * Upload image binary to Vercel Blob CDN and update the model column with the returned URL.
-     * After sync, the model's image_url accessor returns the CDN URL directly (fast, no DB query).
+     * Also generates and uploads a mobile-optimized variant (-sm.webp) for faster LCP on mobile.
      */
     protected function syncImageToBlob($model, string $pathCol, string $dataCol): void
     {
@@ -81,11 +81,62 @@ trait HandlesImages
         if (!$binary) return;
 
         $slug = strtolower(class_basename($model));
-        $name = $slug . '-' . $model->id . '-' . substr(md5($pathCol), 0, 8) . '.webp';
+        $hash = substr(md5($pathCol), 0, 8);
+        $name = "$slug-{$model->id}-$hash.webp";
         $url  = $this->uploadToBlob($binary, $name);
         if ($url) {
             $model->update([$pathCol => $url]);
         }
+
+        $smBinary = $this->generateMobileWebp($binary, $pathCol);
+        if ($smBinary) {
+            $this->uploadToBlob($smBinary, "$slug-{$model->id}-$hash-sm.webp");
+        }
+    }
+
+    /**
+     * Generate a mobile-optimized WebP from raw image binary.
+     * Returns null if GD is unavailable or processing fails.
+     */
+    protected function generateMobileWebp(string $binary, string $pathCol): ?string
+    {
+        if (!\function_exists('imagecreatefromstring')) return null;
+
+        $img = @\imagecreatefromstring($binary);
+        if (!$img) return null;
+
+        $ow = \imagesx($img);
+        $oh = \imagesy($img);
+
+        [$maxW, $maxH] = match (true) {
+            str_contains($pathCol, 'main')      => [380, 220],
+            str_contains($pathCol, 'right')     => [380, 200],
+            str_contains($pathCol, 'thumbnail') => [180, 135],
+            default                             => [160, 128],
+        };
+
+        $scale = \min($maxW / $ow, $maxH / $oh, 1);
+        if ($scale < 1) {
+            $nw = (int)\round($ow * $scale);
+            $nh = (int)\round($oh * $scale);
+            $resized = \imagecreatetruecolor($nw, $nh);
+            \imagealphablending($resized, false);
+            \imagesavealpha($resized, true);
+            \imagecopyresampled($resized, $img, 0, 0, 0, 0, $nw, $nh, $ow, $oh);
+            \imagedestroy($img);
+            $img = $resized;
+        }
+
+        $tmp = @\fopen('php://temp', 'r+');
+        if (!$tmp) { \imagedestroy($img); return null; }
+
+        \imagewebp($img, $tmp, 35);
+        \rewind($tmp);
+        $webp = \stream_get_contents($tmp);
+        \fclose($tmp);
+        \imagedestroy($img);
+
+        return $webp ?: null;
     }
 
     protected function cacheImageData(string $table, $model): void

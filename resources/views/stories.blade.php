@@ -31,7 +31,7 @@
                 <div style="height:8rem;display:flex;align-items:center;justify-content:center;background:{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }};">
                     @if ($story->image_path)
                         <picture>
-                            <source media="(max-width: 640px)" srcset="{{ $story->image_url }}?s=sm">
+                            <source media="(max-width: 640px)" srcset="{{ $story->image_url_sm }}">
                             <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" width="192" height="128" style="width:100%;height:100%;object-fit:cover;">
                         </picture>
                     @else
