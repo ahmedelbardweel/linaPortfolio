@@ -173,7 +173,7 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
             
             $tmp = fopen('php://temp', 'r+');
             if ($tmp) {
-                imagewebp($img, $tmp, 60); // 60% quality WebP is highly optimized and virtually indistinguishable
+                imagewebp($img, $tmp, 45); // 45% quality WebP is highly optimized, reduces size significantly and has no noticeable quality loss
                 rewind($tmp);
                 $webpBinary = stream_get_contents($tmp);
                 fclose($tmp);

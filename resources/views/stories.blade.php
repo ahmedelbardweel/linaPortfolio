@@ -30,7 +30,10 @@
                 data-image="{{ $story->image_url }}">
                 <div style="height:8rem;display:flex;align-items:center;justify-content:center;background:{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }};">
                     @if ($story->image_path)
-                        <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                        <picture>
+                            <source media="(max-width: 640px)" srcset="{{ $story->image_url }}?s=sm">
+                            <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                        </picture>
                     @else
                         <svg style="width:2.5rem;height:2.5rem;color:rgba(255,255,255,.6);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                             @if ($story->type === 'text')
