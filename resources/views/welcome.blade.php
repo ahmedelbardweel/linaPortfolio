@@ -783,9 +783,9 @@
 
                     <!-- Quick Links -->
                     <div>
-                        <h4 data-translate-key="Quick Links"
+                        <p data-translate-key="Quick Links"
                             class="text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC] mb-4">
-                            {{ __("Quick Links") }}</h4>
+                            {{ __("Quick Links") }}</p>
                         <ul class="space-y-2.5">
                             <li><a href="#about" data-translate-key="About Me"
                                     class="text-sm text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-colors">{{ __("About Me") }}</a>
