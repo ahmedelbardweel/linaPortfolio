@@ -158,17 +158,17 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
             $maxW = 640;
             $maxH = 640;
             if ($table === 'hero' && $col === 'main') {
-                $maxW = $isSmall ? 400 : 800; // Mobile: 400px, Desktop: 800px
-                $maxH = $isSmall ? 300 : 600;
+                $maxW = $isSmall ? 380 : 800; // Mobile: match viewport width, Desktop: 800px
+                $maxH = $isSmall ? 220 : 600;
             } elseif ($table === 'hero' && $col === 'right') {
-                $maxW = $isSmall ? 200 : 400; // Small side hero image
+                $maxW = $isSmall ? 380 : 400; // Mobile: match viewport width
                 $maxH = $isSmall ? 200 : 400;
             } elseif ($table === 'portfolio') {
-                $maxW = $isSmall ? 240 : 480; // Portfolio grid cards
-                $maxH = $isSmall ? 180 : 360;
+                $maxW = $isSmall ? 180 : 480; // Mobile: match grid cell, Desktop: 480px
+                $maxH = $isSmall ? 135 : 360;
             } elseif ($table === 'story') {
                 $maxW = $isSmall ? 160 : 320; // Story circle/cards
-                $maxH = $isSmall ? 120 : 240;
+                $maxH = $isSmall ? 128 : 240;
             }
 
             $scale = min($maxW / $ow, $maxH / $oh, 1);
@@ -188,7 +188,7 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
             
             $tmp = fopen('php://temp', 'r+');
             if ($tmp) {
-                imagewebp($img, $tmp, 45); // 45% quality WebP is highly optimized, reduces size significantly and has no noticeable quality loss
+                imagewebp($img, $tmp, $isSmall ? 35 : 45); // Mobile: q35 for speed, Desktop: q45 for quality
                 rewind($tmp);
                 $webpBinary = stream_get_contents($tmp);
                 fclose($tmp);

@@ -442,7 +442,7 @@
                                 <source media="(max-width: 768px)" srcset="{{ $h->main_image_url }}?s=sm">
                                 {{-- Desktop: full-size --}}
                                 <source media="(min-width: 769px)" srcset="{{ $mainImageInline ?: $h->main_image_url }}">
-                                <img src="{{ $h->main_image_url }}?s=sm" alt="Hero" width="760" height="440" fetchpriority="high"
+                                <img src="{{ $h->main_image_url }}?s=sm" srcset="{{ $h->main_image_url }}?s=sm 380w, {{ $h->main_image_url }} 800w" sizes="(max-width: 768px) 100vw, 380px" alt="Hero" width="760" height="440" fetchpriority="high"
                                     class="w-full h-full object-cover">
                             </picture>
                         @else
@@ -492,7 +492,7 @@
                             @if ($h && $h->right_image)
                                 <picture>
                                     <source media="(max-width: 640px)" srcset="{{ $h->right_image_url }}?s=sm">
-                                    <img src="{{ $h->right_image_url }}" alt="Work" width="640" height="360" loading="lazy" decoding="async"
+                                    <img src="{{ $h->right_image_url }}?s=sm" srcset="{{ $h->right_image_url }}?s=sm 380w, {{ $h->right_image_url }} 640w" sizes="(max-width: 640px) 100vw, 320px" alt="Work" width="640" height="360" loading="lazy" decoding="async"
                                         class="w-full h-full object-cover">
                                 </picture>
                             @else
@@ -582,7 +582,7 @@
                             @if ($portfolio->image_path)
                                 <picture>
                                     <source media="(max-width: 640px)" srcset="{{ $portfolio->image_url }}?s=sm">
-                                    <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" loading="lazy" decoding="async" width="320" height="240" class="w-full h-full object-cover">
+                                    <img src="{{ $portfolio->image_url }}?s=sm" srcset="{{ $portfolio->image_url }}?s=sm 180w, {{ $portfolio->image_url }} 320w" sizes="(max-width: 640px) 50vw, 320px" alt="{{ $portfolio->title }}" loading="lazy" decoding="async" width="320" height="240" class="w-full h-full object-cover">
                                 </picture>
                             @else
                                 <svg class="w-12 h-12 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
@@ -639,7 +639,7 @@
                             @if ($story->image_path)
                                 <picture>
                                     <source media="(max-width: 640px)" srcset="{{ $story->image_url }}?s=sm">
-                                    <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" decoding="async" width="192" height="128" class="w-full h-full object-cover">
+                                    <img src="{{ $story->image_url }}?s=sm" srcset="{{ $story->image_url }}?s=sm 160w, {{ $story->image_url }} 192w" sizes="(max-width: 640px) 160px, 192px" alt="{{ $story->title }}" loading="lazy" decoding="async" width="192" height="128" class="w-full h-full object-cover">
                                 </picture>
                             @else
                                 <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -950,7 +950,10 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Smooth scroll for anchor links
+            // Mobile: skip ALL desktop page-turn JS — zero DOM queries, no forced layout
+            if (window.innerWidth <= 768) return;
+
+            // Desktop-only: smooth scroll for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -962,7 +965,6 @@
             });
 
             // Nav island + anchor: book-style horizontal page turn on desktop
-            const isDesktop = window.innerWidth > 768;
             const sectionIds = ['hero-section', 'about', 'portfolio', 'stories', 'tips', 'contact'];
             let currentIndex = 0;
             let isAnimating = false;
@@ -983,41 +985,33 @@
                 const prevIndex = currentIndex;
                 currentIndex = index;
 
-                if (isDesktop) {
-                    const prev = document.getElementById(sectionIds[prevIndex]);
-                    const next = document.getElementById(sectionIds[currentIndex]);
-                    const isRtl = document.documentElement.dir === 'rtl';
+                const prev = document.getElementById(sectionIds[prevIndex]);
+                const next = document.getElementById(sectionIds[currentIndex]);
+                const isRtl = document.documentElement.dir === 'rtl';
 
-                    // Single rAF: all writes batched — no interleaved reads
+                requestAnimationFrame(() => {
+                    sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
+                    if (index > prevIndex) {
+                        prev && prev.classList.add(isRtl ? 'page-exit-right' : 'page-exit-left');
+                        next && next.classList.add(isRtl ? 'page-enter-left' : 'page-enter-right');
+                    } else {
+                        prev && prev.classList.add(isRtl ? 'page-exit-left' : 'page-exit-right');
+                        next && next.classList.add(isRtl ? 'page-enter-right' : 'page-enter-left');
+                    }
+                });
+
+                setTimeout(() => {
                     requestAnimationFrame(() => {
                         sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
-                        if (index > prevIndex) {
-                            prev && prev.classList.add(isRtl ? 'page-exit-right' : 'page-exit-left');
-                            next && next.classList.add(isRtl ? 'page-enter-left' : 'page-enter-right');
-                        } else {
-                            prev && prev.classList.add(isRtl ? 'page-exit-left' : 'page-exit-right');
-                            next && next.classList.add(isRtl ? 'page-enter-right' : 'page-enter-left');
-                        }
+                        if (next) next.classList.add('page-active');
+                        isAnimating = false;
                     });
-
-                    setTimeout(() => {
-                        requestAnimationFrame(() => {
-                            sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
-                            if (next) next.classList.add('page-active');
-                            isAnimating = false;
-                        });
-                    }, 650);
-                } else {
-                    const el = document.getElementById(sectionIds[index]);
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    setTimeout(() => { isAnimating = false; }, 600);
-                }
+                }, 650);
 
                 Object.values(items).forEach(i => i && i.classList.remove('active'));
                 if (items[sectionIds[index]]) items[sectionIds[index]].classList.add('active');
             }
 
-            // Island click
             document.querySelectorAll('.island-item').forEach(item => {
                 item.addEventListener('click', function () {
                     const id = this.getAttribute('data-target');
@@ -1026,7 +1020,6 @@
                 });
             });
 
-            // Anchor links → page turn on desktop, smooth scroll on mobile
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     const href = this.getAttribute('href');
@@ -1036,7 +1029,6 @@
                         e.preventDefault();
                         goToSection(idx);
                     } else if (id) {
-                        // Non-section anchors (e.g. #contact, #privacy)
                         e.preventDefault();
                         const el = document.getElementById(id);
                         if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -1044,16 +1036,13 @@
                 });
             });
 
-            // Init: set first section active (batch writes in single rAF)
-            if (isDesktop) {
-                requestAnimationFrame(() => {
-                    sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
-                    const first = document.getElementById(sectionIds[0]);
-                    if (first) first.classList.add('page-active');
-                    if (items[sectionIds[0]]) items[sectionIds[0]].classList.add('active');
-                });
-                document.body.style.overflow = 'hidden';
-            }
+            requestAnimationFrame(() => {
+                sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
+                const first = document.getElementById(sectionIds[0]);
+                if (first) first.classList.add('page-active');
+                if (items[sectionIds[0]]) items[sectionIds[0]].classList.add('active');
+            });
+            document.body.style.overflow = 'hidden';
         });
     </script>
 
