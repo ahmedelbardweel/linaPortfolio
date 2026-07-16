@@ -22,30 +22,32 @@
         @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-400.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-500.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-600.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-700.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-400.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-700.woff2') format('woff2')}
     </style>
 
-    <!-- Inline CSS to eliminate render-blocking stylesheet requests and achieve instant FCP -->
+    <!-- Inline Critical CSS for instant FCP (only essential layout & theme styling) -->
+    <style>
+        body { background-color: #FDFDFC; color: #1b1b18; margin: 0; font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; }
+        .dark body { background-color: #0a0a0a; color: #EDEDEC; }
+        .snap-container { overflow-y: auto; scroll-snap-type: y mandatory; scrollbar-width: none; -ms-overflow-style: none; }
+        .snap-container::-webkit-scrollbar { display: none; }
+        .snap-section { scroll-snap-align: start; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        .hero-layout { display: flex; flex-direction: column; width: 100%; height: 100%; min-height: 100vh; justify-content: space-between; padding: 5rem 1.5rem 2.5rem; max-width: 72rem; margin-inline: auto; }
+        @media (min-width: 1024px) { .hero-layout { flex-direction: row; align-items: stretch; } }
+    </style>
+
     @php
-        $cssContent = null;
+        $cssUrl = null;
         $manifestRaw = @file_get_contents(public_path('build/.vite/manifest.json'))
             ?: @file_get_contents(public_path('build/manifest.json'));
         if ($manifestRaw) {
             $viteManifest = json_decode($manifestRaw, true);
-            if ($viteManifest) {
-                $cssContent = '';
-                $cssFiles = [];
-                if (isset($viteManifest['resources/css/app.css']['file'])) {
-                    $cssFiles[] = 'build/' . $viteManifest['resources/css/app.css']['file'];
-                }
-                // NOTE: Intentionally skip app.js CSS (Plyr) — not used on welcome page, saves ~32KB
-                foreach ($cssFiles as $cssPath) {
-                    $read = @file_get_contents(public_path($cssPath));
-                    if ($read) $cssContent .= $read;
-                }
-                if (!$cssContent) $cssContent = null;
+            if ($viteManifest && isset($viteManifest['resources/css/app.css']['file'])) {
+                $cssUrl = asset('build/' . $viteManifest['resources/css/app.css']['file']);
             }
         }
     @endphp
-    @if ($cssContent)
-        <style>{!! $cssContent !!}</style>
+    @if ($cssUrl)
+        {{-- Load full CSS asynchronously without blocking the browser parser/renderer --}}
+        <link rel="stylesheet" href="{{ $cssUrl }}" media="print" onload="this.media='all'">
+        <noscript><link rel="stylesheet" href="{{ $cssUrl }}"></noscript>
     @else
         @vite(['resources/css/app.css'])
     @endif
@@ -354,7 +356,7 @@
                                 <source media="(max-width: 768px)" srcset="{{ $h->main_image_url }}?s=sm">
                                 {{-- Desktop: full-size --}}
                                 <source media="(min-width: 769px)" srcset="{{ $mainImageInline ?: $h->main_image_url }}">
-                                <img src="{{ $mainImageInline ?: $h->main_image_url }}" alt="Hero" width="760" height="440" fetchpriority="high"
+                                <img src="{{ $h->main_image_url }}?s=sm" alt="Hero" width="760" height="440" fetchpriority="high"
                                     class="w-full h-full object-cover">
                             </picture>
                         @else
