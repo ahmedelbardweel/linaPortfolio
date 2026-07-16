@@ -9,9 +9,14 @@
     <title>{{ __("Lina - Interior Design & Decoration") }}</title>
     <meta name="description" content="{{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}">
 
-    <!-- Font preloads (self-hosted, critical above-the-fold only) -->
+    <!-- Font preloads (self-hosted, all weights used above the fold) -->
+    <link rel="preconnect" href="/fonts" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/playfair-display-400.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/playfair-display-700.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-400.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-500.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-600.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-700.woff2">
     @if (!$mainImageInline && $h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
         {{-- Desktop: preload full-size hero --}}
         <link rel="preload" as="image" href="{{ $h->main_image_url }}" fetchpriority="high" media="(min-width: 769px)">
@@ -31,6 +36,9 @@
         .snap-section { scroll-snap-align: start; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
         .hero-layout { display: flex; flex-direction: column; width: 100%; height: 100%; min-height: 100vh; justify-content: space-between; padding: 5rem 1.5rem 2.5rem; max-width: 72rem; margin-inline: auto; }
         @media (min-width: 1024px) { .hero-layout { flex-direction: row; align-items: stretch; } }
+        .content-vis-auto { content-visibility: auto; contain-intrinsic-size: 600px; }
+        .img-container { position: relative; overflow: hidden; }
+        .img-container img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     </style>
 
     @php
@@ -45,9 +53,8 @@
         }
     @endphp
     @if ($cssUrl)
-        {{-- Load full CSS asynchronously without blocking the browser parser/renderer --}}
-        <link rel="stylesheet" href="{{ $cssUrl }}" media="print" onload="this.media='all'">
-        <noscript><link rel="stylesheet" href="{{ $cssUrl }}"></noscript>
+        <link rel="preload" as="style" href="{{ $cssUrl }}" fetchpriority="high">
+        <link rel="stylesheet" href="{{ $cssUrl }}">
     @else
         @vite(['resources/css/app.css'])
     @endif
@@ -347,7 +354,8 @@
             <div
                 class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 py-6 lg:py-20 relative">
                 <!-- Center Image (Mobile order 1, Desktop order 2) -->
-                <div class="anim-center relative max-w-full shrink-0 z-[1] order-1 lg:order-2 w-full lg:w-[380px] h-[200px] lg:h-[320px]">
+                <div class="anim-center relative max-w-full shrink-0 z-[1] order-1 lg:order-2 w-full lg:w-[380px]"
+                    style="aspect-ratio:760/440">
                     <div class="w-full h-full rounded-sm overflow-hidden"
                         style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
@@ -400,7 +408,7 @@
                         class="lg:hidden inline-block px-6 py-2.5 border border-[#333] dark:border-[#62605b] text-[10px] font-semibold text-[#333] dark:text-[#EDEDEC] no-underline uppercase tracking-[1.5px] transition-all duration-300 bg-transparent hover:bg-[#333] dark:hover:bg-[#EDEDEC] hover:text-white dark:hover:text-[#1b1b18] mt-3 mb-3">
                         {{ __("View Project") }}
                     </a>
-                    <div class="w-full max-w-full h-[180px] lg:h-[240px]">
+                    <div class="w-full max-w-full" style="aspect-ratio:640/360">
                         <div class="w-full h-full rounded-sm overflow-hidden"
                             style="background:{{ $h && $h->right_image ? 'none' : 'linear-gradient(135deg,#e8f0fe,#d4e4f7)' }}">
                             @if ($h && $h->right_image)
@@ -424,7 +432,7 @@
         </section>
 
         <!-- ===== ABOUT ME ===== -->
-        <section id="about" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] lg:pb-5"
+        <section id="about" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] lg:pb-5 content-vis-auto"
             style="scroll-snap-align:start">
             <div class="max-w-4xl mx-auto px-6 lg:px-10 w-full py-12 md:py-20">
                 <h1 data-translate-key="About Me"
@@ -478,7 +486,7 @@
 
         <!-- ===== PORTFOLIO ===== -->
         <section id="portfolio"
-            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28"
+            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28 content-vis-auto"
             style="scroll-snap-align:start;min-height:80dvh">
             <div class="mb-10">
                 <h2 data-translate-key="Portfolio"
@@ -491,8 +499,8 @@
             <div class="grid gap-3" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
                 @forelse ($portfolios as $portfolio)
                     <div class="rounded-[3px] overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] {{ $loop->iteration > 4 ? 'hidden md:block' : '' }}">
-                        <div class="aspect-[4/3] relative flex items-center justify-center overflow-hidden"
-                            style="background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
+                        <div class="relative flex items-center justify-center overflow-hidden"
+                            style="aspect-ratio:4/3;background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
                             @if ($portfolio->image_path)
                                 <picture>
                                     <source media="(max-width: 640px)" srcset="{{ $portfolio->image_url }}?s=sm">
@@ -523,7 +531,7 @@
 
         <!-- ===== STORIES ===== -->
         <section id="stories"
-            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28"
+            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28 content-vis-auto"
             style="scroll-snap-align:start;min-height:80dvh">
             <div class="mb-10">
                 <h2 data-translate-key="Stories"
@@ -601,7 +609,7 @@
 
         <!-- ===== TIPS & INSIGHTS ===== -->
         <section id="tips"
-            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28"
+            class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28 content-vis-auto"
             style="scroll-snap-align:start;min-height:80dvh">
             <div class="mb-10">
                 <h2 data-translate-key="Tips & Insights"
