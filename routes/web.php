@@ -328,6 +328,12 @@ Route::get('/run-sync', function () {
     \Illuminate\Support\Facades\Artisan::call('images:sync-blob');
     return '<pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
 });
+
+Route::get('/cleanup-db', function () {
+    if (request()->get('token') !== 'lina_fix_2024') abort(403);
+    \Illuminate\Support\Facades\Artisan::call('db:cleanup');
+    return '<pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
+});
 // --- End maintenance routes ---
 
 require __DIR__.'/auth.php';
