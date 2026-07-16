@@ -414,7 +414,7 @@
                             @if ($h && $h->right_image)
                                 <picture>
                                     <source media="(max-width: 640px)" srcset="{{ $h->right_image_url }}?s=sm">
-                                    <img src="{{ $h->right_image_url }}" alt="Work" width="640" height="360" loading="lazy"
+                                    <img src="{{ $h->right_image_url }}" alt="Work" width="640" height="360" loading="lazy" decoding="async"
                                         class="w-full h-full object-cover">
                                 </picture>
                             @else
@@ -504,7 +504,7 @@
                             @if ($portfolio->image_path)
                                 <picture>
                                     <source media="(max-width: 640px)" srcset="{{ $portfolio->image_url }}?s=sm">
-                                    <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" loading="lazy" width="320" height="240" class="w-full h-full object-cover">
+                                    <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" loading="lazy" decoding="async" width="320" height="240" class="w-full h-full object-cover">
                                 </picture>
                             @else
                                 <svg class="w-12 h-12 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
@@ -561,7 +561,7 @@
                             @if ($story->image_path)
                                 <picture>
                                     <source media="(max-width: 640px)" srcset="{{ $story->image_url }}?s=sm">
-                                    <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" width="192" height="128" class="w-full h-full object-cover">
+                                    <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" decoding="async" width="192" height="128" class="w-full h-full object-cover">
                                 </picture>
                             @else
                                 <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

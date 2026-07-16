@@ -13,18 +13,33 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
-    $hero = HeroSection::where('is_active', true)->latest()->first();
-    $stories = \App\Models\Story::where('is_active', true)->orderBy('order')
-        ->select(['id','title','content','type','bg_color','image_path','is_active','order'])->get();
-    $tips = \App\Models\Tip::where('is_active', true)->orderBy('order')->get();
-    $portfolios = \App\Models\Portfolio::where('is_active', true)->orderBy('order')
-        ->select(['id','title','description','image_path','is_active','order'])->get();
+    $ttl = 300;
+
+    $hero = \Illuminate\Support\Facades\Cache::remember('welcome_hero', $ttl, function () {
+        return \App\Models\HeroSection::where('is_active', true)->latest()->first();
+    });
+
+    $stories = \Illuminate\Support\Facades\Cache::remember('welcome_stories', $ttl, function () {
+        return \App\Models\Story::where('is_active', true)->orderBy('order')
+            ->select(['id','title','content','type','bg_color','image_path','is_active','order'])->get();
+    });
+
+    $tips = \Illuminate\Support\Facades\Cache::remember('welcome_tips', $ttl, function () {
+        return \App\Models\Tip::where('is_active', true)->orderBy('order')->get();
+    });
+
+    $portfolios = \Illuminate\Support\Facades\Cache::remember('welcome_portfolios', $ttl, function () {
+        return \App\Models\Portfolio::where('is_active', true)->orderBy('order')
+            ->select(['id','title','description','image_path','is_active','order'])->get();
+    });
+
+    $settingsAll = \Illuminate\Support\Facades\Cache::remember('welcome_settings', $ttl, function () {
+        return \App\Models\Setting::all()->pluck('value', 'key');
+    });
 
     // Do not inline the heavy 214KB base64 hero image inside HTML, keeping the document size extremely lightweight for faster mobile load
     $mainImageInline = null;
 
-    // Load all settings in one query instead of 10+ individual queries from the template
-    $settingsAll = \App\Models\Setting::all()->pluck('value', 'key');
     \Illuminate\Support\Facades\View::share('settingsAll', $settingsAll);
 
     return view('welcome', compact('hero', 'stories', 'tips', 'portfolios', 'mainImageInline'));
