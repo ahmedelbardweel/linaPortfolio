@@ -26,7 +26,7 @@
                     @if ($portfolio->image_path)
                         <picture>
                             <source media="(max-width: 640px)" srcset="{{ $portfolio->image_url }}?s=sm">
-                            <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                            <img src="{{ $portfolio->image_url }}" alt="{{ $portfolio->title }}" loading="lazy" width="320" height="240" style="width:100%;height:100%;object-fit:cover;">
                         </picture>
                     @else
                         <svg style="width:2.5rem;height:2.5rem;color:rgba(255,255,255,.1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>

@@ -32,7 +32,7 @@
                     @if ($story->image_path)
                         <picture>
                             <source media="(max-width: 640px)" srcset="{{ $story->image_url }}?s=sm">
-                            <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                            <img src="{{ $story->image_url }}" alt="{{ $story->title }}" loading="lazy" width="192" height="128" style="width:100%;height:100%;object-fit:cover;">
                         </picture>
                     @else
                         <svg style="width:2.5rem;height:2.5rem;color:rgba(255,255,255,.6);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

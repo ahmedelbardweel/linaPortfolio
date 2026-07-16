@@ -34,7 +34,7 @@
         .snap-container{overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;-ms-overflow-style:none}
         .snap-container::-webkit-scrollbar{display:none}
         .snap-section{scroll-snap-align:start;min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative}
-        .content-vis-auto{content-visibility:auto;contain-intrinsic-size:600px}
+        .content-vis-auto{content-visibility:auto;contain-intrinsic-size:auto 100vh}
         .fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}
         .inset-0{inset:0}.top-0{top:0}.left-0{left:0}.right-0{right:0}
         .z-50{z-index:50}.z-\[1\]{z-index:1}.z-\[2\]{z-index:2}
