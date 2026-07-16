@@ -414,7 +414,7 @@
 
         <main>
         <!-- ===== HERO SECTION ===== -->
-        <section id="hero-section" class="snap-section flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] relative overflow-hidden"
+        <section id="hero-section" class="snap-section page-active flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] relative overflow-hidden"
             style="scroll-snap-align:start">
             <!-- Background image collage (desktop only) -->
             @php
@@ -430,7 +430,7 @@
             <div
                 class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 py-6 lg:py-20 relative">
                 <!-- Center Image (Mobile order 1, Desktop order 2) -->
-                <div class="anim-center relative max-w-full shrink-0 z-[1] order-1 lg:order-2 w-full lg:w-[380px]"
+                <div class="anim-center relative max-w-full shrink-0 z-[1] order-1 lg:order-2 w-full lg:w-[380px] h-[200px] lg:h-[320px]"
                     style="aspect-ratio:760/440">
                     <div class="w-full h-full rounded-sm overflow-hidden"
                         style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
@@ -484,7 +484,7 @@
                         class="lg:hidden inline-block px-6 py-2.5 border border-[#333] dark:border-[#62605b] text-[10px] font-semibold text-[#333] dark:text-[#EDEDEC] no-underline uppercase tracking-[1.5px] transition-all duration-300 bg-transparent hover:bg-[#333] dark:hover:bg-[#EDEDEC] hover:text-white dark:hover:text-[#1b1b18] mt-3 mb-3">
                         {{ __("View Project") }}
                     </a>
-                    <div class="w-full max-w-full" style="aspect-ratio:640/360">
+                    <div class="w-full max-w-full h-[180px] lg:h-[240px]" style="aspect-ratio:640/360">
                         <div class="w-full h-full rounded-sm overflow-hidden"
                             style="background:{{ $h && $h->right_image ? 'none' : 'linear-gradient(135deg,#e8f0fe,#d4e4f7)' }}">
                             @if ($h && $h->right_image)
