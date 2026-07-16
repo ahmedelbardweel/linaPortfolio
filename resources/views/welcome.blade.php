@@ -218,6 +218,7 @@
                 .snap-section { min-height: auto !important; padding-top: 56px; }
                 .snap-container { scroll-snap-type: none !important; scroll-padding-top: 56px; }
                 #hero-section { height: 80vh !important; min-height: 80vh !important; margin-top: 56px !important; padding-top: 0 !important; }
+                #hero-section .max-w-6xl { min-height: calc(80vh - 4rem); }
                 #hero-section .max-w-6xl { justify-content: center !important; gap: 0.5rem !important; padding-top: 0 !important; padding-bottom: 0 !important; }
                 #hero-section h1 { font-size: 1.5rem !important; margin-top: 20px !important; margin-bottom: 20px !important; }
                 #hero-section h2 { font-size: 0.875rem !important; line-height: 1.3 !important; margin-bottom: 0 !important; }
@@ -813,9 +814,9 @@
 
                     <!-- Services -->
                     <div>
-                        <h4 data-translate-key="Services"
+                        <p data-translate-key="Services"
                             class="text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC] mb-4">{{ __("Services") }}
-                        </h4>
+                        </p>
                         <ul class="space-y-2.5">
                             @for ($i = 1; $i <= 5; $i++)
                                 @php $svc = $settingsAll['service_' . $i] ?? null; @endphp
@@ -828,9 +829,9 @@
 
                     <!-- Contact -->
                     <div>
-                        <h4 data-translate-key="Contact"
+                        <p data-translate-key="Contact"
                             class="text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC] mb-4">{{ __("Contact") }}
-                        </h4>
+                        </p>
                         <ul class="space-y-3">
                             <?php $addr = $settingsAll['address'] ?? null; if ($addr): ?>
                             <li class="flex items-start gap-2.5">
