@@ -176,6 +176,9 @@
                     z-index: 1;
                     backface-visibility: hidden;
                 }
+                #hero-section .max-w-6xl {
+                    min-height: calc(100vh - 10rem);
+                }
                 .snap-section.page-active {
                     opacity: 1;
                     z-index: 2;
@@ -972,6 +975,9 @@
                 items[id] = document.querySelector(`.island-item[data-target="${id}"]`);
             });
 
+            const PAGE_CLASSES = ['page-active','page-enter-right','page-enter-left','page-exit-left','page-exit-right'];
+            function clearPageClasses(el) { if (el) el.classList.remove(...PAGE_CLASSES); }
+
             function goToSection(index) {
                 if (index < 0 || index >= sectionIds.length) return;
                 if (index === currentIndex || isAnimating) return;
@@ -983,45 +989,26 @@
                 if (isDesktop) {
                     const prev = document.getElementById(sectionIds[prevIndex]);
                     const next = document.getElementById(sectionIds[currentIndex]);
+                    const isRtl = document.documentElement.dir === 'rtl';
 
-                    // Remove all classes from all sections
-                    sectionIds.forEach(id => {
-                        const el = document.getElementById(id);
-                        if (el) el.className = el.className
-                            .replace(/ ?page-(active|enter-right|enter-left|exit-left|exit-right)/g, '');
+                    // Single rAF: all writes batched — no interleaved reads
+                    requestAnimationFrame(() => {
+                        sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
+                        if (index > prevIndex) {
+                            prev && prev.classList.add(isRtl ? 'page-exit-right' : 'page-exit-left');
+                            next && next.classList.add(isRtl ? 'page-enter-left' : 'page-enter-right');
+                        } else {
+                            prev && prev.classList.add(isRtl ? 'page-exit-left' : 'page-exit-right');
+                            next && next.classList.add(isRtl ? 'page-enter-right' : 'page-enter-left');
+                        }
                     });
 
-                    // Trigger animation based on direction
-                    const isRtl = document.documentElement.dir === 'rtl';
-                    if (index > prevIndex) {
-                        // Going forward
-                        if (isRtl) {
-                            if (prev) prev.classList.add('page-exit-right');
-                            if (next) next.classList.add('page-enter-left');
-                        } else {
-                            if (prev) prev.classList.add('page-exit-left');
-                            if (next) next.classList.add('page-enter-right');
-                        }
-                    } else {
-                        // Going backward
-                        if (isRtl) {
-                            if (prev) prev.classList.add('page-exit-left');
-                            if (next) next.classList.add('page-enter-right');
-                        } else {
-                            if (prev) prev.classList.add('page-exit-right');
-                            if (next) next.classList.add('page-enter-left');
-                        }
-                    }
-
-                    // After animation, set active state
                     setTimeout(() => {
-                        sectionIds.forEach(id => {
-                            const el = document.getElementById(id);
-                            if (el) el.className = el.className
-                                .replace(/ ?page-(active|enter-right|enter-left|exit-left|exit-right)/g, '');
+                        requestAnimationFrame(() => {
+                            sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
+                            if (next) next.classList.add('page-active');
+                            isAnimating = false;
                         });
-                        if (next) next.classList.add('page-active');
-                        isAnimating = false;
                     }, 650);
                 } else {
                     const el = document.getElementById(sectionIds[index]);
@@ -1029,7 +1016,6 @@
                     setTimeout(() => { isAnimating = false; }, 600);
                 }
 
-                // Update island active
                 Object.values(items).forEach(i => i && i.classList.remove('active'));
                 if (items[sectionIds[index]]) items[sectionIds[index]].classList.add('active');
             }
@@ -1061,16 +1047,14 @@
                 });
             });
 
-            // Init: set first section active
+            // Init: set first section active (batch writes in single rAF)
             if (isDesktop) {
-                sectionIds.forEach((id) => {
-                    const el = document.getElementById(id);
-                    if (el) el.className = el.className
-                        .replace(/ ?page-(active|enter-right|enter-left|exit-left|exit-right)/g, '');
+                requestAnimationFrame(() => {
+                    sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
+                    const first = document.getElementById(sectionIds[0]);
+                    if (first) first.classList.add('page-active');
+                    if (items[sectionIds[0]]) items[sectionIds[0]].classList.add('active');
                 });
-                const first = document.getElementById(sectionIds[0]);
-                if (first) first.classList.add('page-active');
-                if (items[sectionIds[0]]) items[sectionIds[0]].classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
         });
@@ -1105,35 +1089,33 @@
                 document.documentElement.classList.remove('rtl');
             }
 
-            // Translate standard text keys
-            document.querySelectorAll('[data-translate-key]').forEach(el => {
-                const key = el.getAttribute('data-translate-key');
-                let translation = (lang === 'ar' && window.translations && window.translations[key]) ? window.translations[key] : key;
-                if (translation.includes(':year')) {
-                    translation = translation.replace(':year', new Date().getFullYear());
-                }
-                el.textContent = translation;
-            });
+            const dict = (lang === 'ar' && window.translations) ? window.translations : null;
 
-            // Translate HTML keys (innerHTML)
-            document.querySelectorAll('[data-translate-html]').forEach(el => {
-                const key = el.getAttribute('data-translate-html');
-                const translation = (lang === 'ar' && window.translations && window.translations[key]) ? window.translations[key] : key;
-                el.innerHTML = translation;
-            });
+            // Collect all DOM reads first (no writes yet)
+            const keyEls = document.querySelectorAll('[data-translate-key]');
+            const htmlEls = document.querySelectorAll('[data-translate-html]');
+            const attrEls = document.querySelectorAll('[data-translate-attrs]');
+            const langBtns = document.querySelectorAll('.lang-btn');
 
-            // Translate attributes
-            document.querySelectorAll('[data-translate-attrs]').forEach(el => {
-                el.getAttribute('data-translate-attrs').split(',').forEach(attrPair => {
-                    const [attrName, engKey] = attrPair.split(':');
-                    const translation = (lang === 'ar' && window.translations && window.translations[engKey]) ? window.translations[engKey] : engKey;
-                    el.setAttribute(attrName, translation);
+            // Batch all writes in a single rAF
+            requestAnimationFrame(() => {
+                keyEls.forEach(el => {
+                    const k = el.getAttribute('data-translate-key');
+                    let t = dict && dict[k] ? dict[k] : k;
+                    if (t.includes(':year')) t = t.replace(':year', new Date().getFullYear());
+                    el.textContent = t;
                 });
-            });
-
-            // Update language switcher buttons text
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.textContent = lang === 'ar' ? 'AR' : 'EN';
+                htmlEls.forEach(el => {
+                    const k = el.getAttribute('data-translate-html');
+                    el.innerHTML = dict && dict[k] ? dict[k] : k;
+                });
+                attrEls.forEach(el => {
+                    el.getAttribute('data-translate-attrs').split(',').forEach(pair => {
+                        const [a, k] = pair.split(':');
+                        el.setAttribute(a, dict && dict[k] ? dict[k] : k);
+                    });
+                });
+                langBtns.forEach(btn => { btn.textContent = lang === 'ar' ? 'AR' : 'EN'; });
             });
 
             // Persist to localStorage and sync to session
@@ -1145,9 +1127,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             const serverLang = document.documentElement.getAttribute('lang') || 'en';
             const savedLang = localStorage.getItem('lang');
-            // If saved lang differs from server-rendered lang, apply client-side
             if (savedLang && savedLang !== serverLang) {
-                switchLanguage(savedLang);
+                (window.requestIdleCallback || setTimeout)(() => switchLanguage(savedLang), 0);
             }
         });
 
