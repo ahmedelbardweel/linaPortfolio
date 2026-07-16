@@ -273,7 +273,9 @@
                     class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
                     <?php $logoPath = $settingsAll['logo'] ?? null; ?>
                     @if ($logoPath)
-                        <img src="{{ $logoPath }}" alt="Logo" width="24" height="24" class="h-6 w-auto">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;overflow:hidden;flex-shrink:0">
+                        <img src="{{ $logoPath }}" alt="Logo" width="24" height="24" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain">
+                        </span>
                     @else
                         <span class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold" style="font-family:Georgia,serif;border-radius:3px">L</span>
                     @endif
@@ -726,7 +728,7 @@
                             class="flex items-center gap-2 text-base font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC] mb-3">
                             <?php $logoPath = $settingsAll['logo'] ?? null; ?>
                             @if ($logoPath)
-                                <img src="{{ $logoPath }}" alt="Logo" width="24" height="24" class="h-6 w-auto">
+                        <img src="{{ $logoPath }}" alt="Logo" width="24" height="24" style="max-height:24px;width:auto;object-fit:contain">
                             @else
                                 <span class="w-6 h-6 bg-[#f53003] dark:bg-[#FF4433] text-white flex items-center justify-center text-xs font-bold" style="font-family:Georgia,serif;border-radius:3px">L</span>
                             @endif
