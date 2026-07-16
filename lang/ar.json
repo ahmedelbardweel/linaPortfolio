@@ -226,5 +226,6 @@
     "Site logo": "شعار الموقع",
     "Hero image": "صورة الهيرو",
     "Toggle theme": "تبديل السمة",
-    "Toggle language": "تبديل اللغة"
+    "Toggle language": "تبديل اللغة",
+    "Only WebP format is accepted.": "صيغة WebP فقط مقبولة. يرجى تحويل صورتك إلى WebP والمحاولة مرة أخرى."
 }

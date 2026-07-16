@@ -15,7 +15,8 @@
 
             <div>
                 <label for="main_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1" data-translate-key="Main Image (center)">{{ __("Main Image (center)") }}</label>
-                <input type="file" id="main_image" name="main_image" class="w-full text-sm dark:text-[#EDEDEC]">
+                <input type="file" id="main_image" name="main_image" accept=".webp,image/webp" class="w-full text-sm dark:text-[#EDEDEC]">
+                <p class="mt-1 text-xs text-[#706f6c] dark:text-[#A1A09A]" data-translate-key="Only WebP format is accepted.">{{ __("Only WebP format is accepted.") }}</p>
                 @if (isset($hero) && ($hero->main_image_data || $hero->main_image))
                     <img src="{{ $hero->main_image_url }}" class="mt-2 h-32 rounded object-cover">
                 @endif
@@ -24,7 +25,8 @@
 
             <div>
                 <label for="right_image" class="block text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC] mb-1" data-translate-key="Right Image">{{ __("Right Image") }}</label>
-                <input type="file" id="right_image" name="right_image" class="w-full text-sm dark:text-[#EDEDEC]">
+                <input type="file" id="right_image" name="right_image" accept=".webp,image/webp" class="w-full text-sm dark:text-[#EDEDEC]">
+                <p class="mt-1 text-xs text-[#706f6c] dark:text-[#A1A09A]" data-translate-key="Only WebP format is accepted.">{{ __("Only WebP format is accepted.") }}</p>
                 @if (isset($hero) && ($hero->right_image_data || $hero->right_image))
                     <img src="{{ $hero->right_image_url }}" class="mt-2 h-32 rounded object-cover">
                 @endif

@@ -19,6 +19,9 @@ class SettingController extends Controller
     {
         foreach ($request->except('_token', '_method') as $key => $value) {
             if ($request->hasFile($key)) {
+                $request->validate([
+                    $key => 'image|mimes:webp|max:5120',
+                ], ["$key.mimes" => __('Only WebP format is accepted.')]);
                 $file = $request->file($key);
                 $binary = file_get_contents($file->getRealPath());
                 $data = 'data:' . $file->getMimeType() . ';base64,' . base64_encode($binary);
