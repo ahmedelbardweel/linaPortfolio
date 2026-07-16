@@ -9,20 +9,16 @@
     <title>{{ __("Lina - Interior Design & Decoration") }}</title>
     <meta name="description" content="{{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}">
 
-    <!-- Font preloads (self-hosted, all weights used above the fold) -->
+    {{-- LCP hero image: FIRST link in <head> so browser discovers it immediately --}}
+    @if (!$mainImageInline && $h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
+        <link rel="preload" as="image" href="{{ $h->main_image_url }}?s=sm" fetchpriority="high">
+    @endif
+
+    {{-- Font preloads: ONLY Playfair Display (used above the fold for hero heading).
+         Instrument Sans uses font-display:swap and loads lazily after first paint. --}}
     <link rel="preconnect" href="/fonts" crossorigin>
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/playfair-display-400.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/playfair-display-700.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-400.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-500.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-600.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-700.woff2">
-    @if (!$mainImageInline && $h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
-        {{-- Desktop: preload full-size hero --}}
-        <link rel="preload" as="image" href="{{ $h->main_image_url }}" fetchpriority="high" media="(min-width: 769px)">
-        {{-- Mobile: preload smaller hero image for faster LCP --}}
-        <link rel="preload" as="image" href="{{ $h->main_image_url }}?s=sm" fetchpriority="high" media="(max-width: 768px)">
-    @endif
     <style>
         @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-400.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-500.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-600.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-700.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-400.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-700.woff2') format('woff2')}
     </style>
@@ -128,8 +124,8 @@
         }
     @endphp
     @if ($cssUrl)
-        <link rel="preload" as="style" href="{{ $cssUrl }}" fetchpriority="high">
-        <link rel="stylesheet" href="{{ $cssUrl }}" media="print" onload="this.media='all'" fetchpriority="low">
+        <link rel="preload" as="style" href="{{ $cssUrl }}">
+        <link rel="stylesheet" href="{{ $cssUrl }}" media="print" onload="this.media='all'">
         <noscript><link rel="stylesheet" href="{{ $cssUrl }}"></noscript>
     @else
         @vite(['resources/css/app.css'])
