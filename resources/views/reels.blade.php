@@ -286,41 +286,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const feed = document.querySelector('.reels-feed');
     if (!feed) return;
 
+    var scrollRAF = null;
     function getVisibleVideo() {
-        let best = null, bestRatio = 0;
-        document.querySelectorAll('.reel-slide').forEach(slide => {
-            const rect = slide.getBoundingClientRect();
-            const visible = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-            const ratio = Math.max(0, visible / slide.offsetHeight);
+        var slides = document.querySelectorAll('.reel-slide');
+        var best = null, bestRatio = 0, winH = window.innerHeight;
+        for (var si = 0; si < slides.length; si++) {
+            var slide = slides[si];
+            var rect = slide.getBoundingClientRect();
+            var visible = Math.min(rect.bottom, winH) - Math.max(rect.top, 0);
+            var ratio = Math.max(0, visible / rect.height);
             if (ratio > bestRatio) { bestRatio = ratio; best = slide.querySelector('.reel-video'); }
-        });
+        }
         return best;
     }
 
     function syncVideos() {
-        const active = getVisibleVideo();
+        var active = getVisibleVideo();
         if (!active) return;
-        document.querySelectorAll('.reel-video').forEach(v => {
-            const overlay = v.nextElementSibling;
+        var videos = document.querySelectorAll('.reel-video');
+        for (var vi = 0; vi < videos.length; vi++) {
+            var v = videos[vi];
+            var overlay = v.nextElementSibling;
             if (v === active) {
                 if (v.paused) {
-                    v.play().then(() => {
-                        if (overlay && overlay.classList.contains('play-overlay')) overlay.setAttribute('data-playing', '1');
-                    }).catch(() => {});
-                } else {
-                    if (overlay && overlay.classList.contains('play-overlay')) overlay.setAttribute('data-playing', '1');
+                    v.play()['catch'](function () {});
                 }
+                if (overlay && overlay.classList.contains('play-overlay')) overlay.setAttribute('data-playing', '1');
             } else {
                 v.pause();
                 if (overlay && overlay.classList.contains('play-overlay')) overlay.removeAttribute('data-playing');
             }
-        });
+        }
     }
 
-    // Sync on scroll
-    feed.addEventListener('scroll', syncVideos, { passive: true });
+    // Throttle scroll handler with rAF
+    feed.addEventListener('scroll', function () {
+        if (!scrollRAF) {
+            scrollRAF = requestAnimationFrame(function () {
+                scrollRAF = null;
+                syncVideos();
+            });
+        }
+    }, { passive: true });
 
-    // Initial sync — delay 500ms to not conflict with browser autoplay attribute
+    // Initial sync — delay 500ms
     setTimeout(syncVideos, 500);
 });
 </script>
