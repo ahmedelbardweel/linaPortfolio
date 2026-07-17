@@ -10,7 +10,7 @@
 
     <x-font-preloads weights="400,500,600,700" />
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <x-vite />
 </head>
 <body class="font-sans antialiased bg-[#FDFDFC] dark:bg-[#0a0a0a] dark:text-[#EDEDEC]">
 

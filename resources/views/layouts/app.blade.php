@@ -12,7 +12,7 @@
     <x-font-preloads weights="400,500,600" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <x-vite />
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-[#FDFDFC] dark:bg-[#0a0a0a]">

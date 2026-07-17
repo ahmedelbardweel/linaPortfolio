@@ -10,7 +10,7 @@
 
         <x-font-preloads weights="400,500,600" />
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <x-vite />
 
         <style>
             .auth-bg-img {

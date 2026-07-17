@@ -3,76 +3,57 @@
 namespace App\Traits;
 
 use Illuminate\Http\UploadedFile;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 trait HandlesImages
 {
+    protected function manager(): ImageManager
+    {
+        return new ImageManager(new Driver());
+    }
+
     protected function storeImage(UploadedFile $file, string $disk = 'public', int $maxW = 640, int $maxH = 640): array
     {
-        if (!\function_exists('imagecreatefromstring')) {
+        $binary = \file_get_contents($file->getRealPath());
+        if (!$binary) {
             $path = $file->store('images', $disk);
-            $data = '';
-            $binary = \file_get_contents($file->getRealPath());
-            if ($binary) {
-                $data = 'data:' . $file->getMimeType() . ';base64,' . \base64_encode($binary);
-            }
+            return ['path' => $path, 'data' => ''];
+        }
+
+        try {
+            $image = $this->manager()->read($binary);
+            $image->scaleDown(width: $maxW, height: $maxH);
+            $webp = (string) $image->toWebp(quality: 50);
+        } catch (\Exception $e) {
+            $path = $file->store('images', $disk);
+            $data = 'data:' . $file->getMimeType() . ';base64,' . \base64_encode($binary);
             return ['path' => $path, 'data' => $data];
         }
 
-        $img = @\imagecreatefromstring(\file_get_contents($file->getRealPath()));
-        if (!$img) {
-            return ['path' => $file->store('images', $disk), 'data' => ''];
-        }
+        $name = \pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $webpPath = 'images/' . $name . '_' . \time() . '.webp';
 
-        $ow = \imagesx($img);
-        $oh = \imagesy($img);
-        $scale = \min($maxW / $ow, $maxH / $oh, 1);
-        $nw = (int)\round($ow * $scale);
-        $nh = (int)\round($oh * $scale);
-
-        if ($scale < 1) {
-            $resized = \imagecreatetruecolor($nw, $nh);
-            \imagecopyresampled($resized, $img, 0, 0, 0, 0, $nw, $nh, $ow, $oh);
-            \imagedestroy($img);
-            $img = $resized;
-        }
-
-        $webp = '';
-        $tmp = @\fopen('php://temp', 'r+');
-        if ($tmp) {
-            \imagewebp($img, $tmp, 50);
-            \rewind($tmp);
-            $webp = \stream_get_contents($tmp);
-            \fclose($tmp);
-        }
-        \imagedestroy($img);
-
-        $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $webpPath = 'images/' . $name . '_' . time() . '.webp';
         try {
-            if (!env('VERCEL')) {
+            if (!\env('VERCEL')) {
                 \Illuminate\Support\Facades\Storage::disk($disk)->put($webpPath, $webp);
             }
         } catch (\Exception $e) {
-            // Ignore write errors on read-only environments
         }
 
-        $data = 'data:image/webp;base64,' . base64_encode($webp);
+        $data = 'data:image/webp;base64,' . \base64_encode($webp);
 
         return ['path' => $webpPath, 'data' => $data];
     }
 
-    /**
-     * Upload image binary to Vercel Blob CDN and update the model column with the returned URL.
-     * Also generates and uploads a mobile-optimized variant (-sm.webp) for faster LCP on mobile.
-     */
     protected function syncImageToBlob($model, string $pathCol, string $dataCol): void
     {
         $data = $model->{$dataCol} ?? '';
-        $binary = $data ? @base64_decode(explode(',', $data, 2)[1] ?? '') : null;
+        $binary = $data ? @\base64_decode(\explode(',', $data, 2)[1] ?? '') : null;
 
         if (!$binary) {
             $path = $model->{$pathCol} ?? '';
-            if ($path && !str_starts_with($path, 'https://')) {
+            if ($path && !\str_starts_with($path, 'https://')) {
                 try {
                     $binary = \Illuminate\Support\Facades\Storage::disk('public')->get($path);
                 } catch (\Exception $e) {}
@@ -80,8 +61,8 @@ trait HandlesImages
         }
         if (!$binary) return;
 
-        $slug = strtolower(class_basename($model));
-        $hash = substr(md5($pathCol), 0, 8);
+        $slug = \strtolower(\class_basename($model));
+        $hash = \substr(\md5($pathCol), 0, 8);
         $name = "$slug-{$model->id}-$hash.webp";
         $url  = $this->uploadToBlob($binary, $name);
         if ($url) {
@@ -94,49 +75,24 @@ trait HandlesImages
         }
     }
 
-    /**
-     * Generate a mobile-optimized WebP from raw image binary.
-     * Returns null if GD is unavailable or processing fails.
-     */
     protected function generateMobileWebp(string $binary, string $pathCol): ?string
     {
-        if (!\function_exists('imagecreatefromstring')) return null;
-
-        $img = @\imagecreatefromstring($binary);
-        if (!$img) return null;
-
-        $ow = \imagesx($img);
-        $oh = \imagesy($img);
+        try {
+            $image = $this->manager()->read($binary);
+        } catch (\Exception $e) {
+            return null;
+        }
 
         [$maxW, $maxH] = match (true) {
-            str_contains($pathCol, 'main')      => [380, 220],
-            str_contains($pathCol, 'right')     => [380, 200],
-            str_contains($pathCol, 'thumbnail') => [180, 135],
+            \str_contains($pathCol, 'main')      => [380, 220],
+            \str_contains($pathCol, 'right')     => [380, 200],
+            \str_contains($pathCol, 'thumbnail') => [180, 135],
             default                             => [160, 128],
         };
 
-        $scale = \min($maxW / $ow, $maxH / $oh, 1);
-        if ($scale < 1) {
-            $nw = (int)\round($ow * $scale);
-            $nh = (int)\round($oh * $scale);
-            $resized = \imagecreatetruecolor($nw, $nh);
-            \imagealphablending($resized, false);
-            \imagesavealpha($resized, true);
-            \imagecopyresampled($resized, $img, 0, 0, 0, 0, $nw, $nh, $ow, $oh);
-            \imagedestroy($img);
-            $img = $resized;
-        }
+        $image->scaleDown(width: $maxW, height: $maxH);
 
-        $tmp = @\fopen('php://temp', 'r+');
-        if (!$tmp) { \imagedestroy($img); return null; }
-
-        \imagewebp($img, $tmp, 35);
-        \rewind($tmp);
-        $webp = \stream_get_contents($tmp);
-        \fclose($tmp);
-        \imagedestroy($img);
-
-        return $webp ?: null;
+        return (string) $image->toWebp(quality: 35);
     }
 
     protected function cacheImageData(string $table, $model): void

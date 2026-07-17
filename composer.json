@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "intervention/image-laravel": "*",
         "laravel/framework": "^13.0",
         "laravel/tinker": "^3.0",
         "spatie/image-optimizer": "*"
@@ -34,11 +35,15 @@
     },
     "scripts": {
         "setup": [
-            "composer install",
+            "composer install --optimize-autoloader --no-dev",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
             "@php artisan migrate --force",
-            "npm install",
+            "@php artisan config:cache",
+            "@php artisan route:cache",
+            "@php artisan view:cache",
+            "@php artisan optimize",
+            "npm ci",
             "npm run build"
         ],
         "dev": [

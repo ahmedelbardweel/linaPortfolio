@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ __('Tips & Insights') }} — {{ config('app.name', 'Lina') }}</title>
     <x-font-preloads weights="400,500,600" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <x-vite />
     <style>
         body { background: #0a0a0a; color: #EDEDEC; font-family: 'Instrument Sans', sans-serif; margin: 0; padding: 2.5rem 1.5rem 3.5rem; max-width: 72rem; margin-inline: auto; }
         * { box-sizing: border-box; }

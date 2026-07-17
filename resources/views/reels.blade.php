@@ -6,7 +6,7 @@
     <title data-translate-key="Lina - Reels | Interior Design & Decoration">{{ __('Lina - Reels | Interior Design & Decoration') }}</title>
     <meta name="description" content="{{ __('Short design reels showcasing interior design inspiration, transformations, and daily creative moments.') }}">
     <x-font-preloads weights="400,500,700" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <x-vite />
     <style>
         *, :before, :after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; background: #000; color: #fff; min-height: 100vh; overflow: hidden; }

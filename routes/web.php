@@ -147,58 +147,31 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
     $binary = base64_decode(explode(',', $data, 2)[1] ?? '');
     if (!$binary) abort(404);
 
-    // Dynamic Image Resizing & WebP Compression to optimize payload for PageSpeed
-    if (function_exists('imagecreatefromstring')) {
-        $img = @imagecreatefromstring($binary);
-        if ($img) {
-            $ow = imagesx($img);
-            $oh = imagesy($img);
-            
-            // Define targeted resolutions based on where the image is displayed
-            $maxW = 640;
-            $maxH = 640;
-            if ($table === 'hero' && $col === 'main') {
-                $maxW = $isSmall ? 380 : 800; // Mobile: match viewport width, Desktop: 800px
-                $maxH = $isSmall ? 220 : 600;
-            } elseif ($table === 'hero' && $col === 'right') {
-                $maxW = $isSmall ? 380 : 400; // Mobile: match viewport width
-                $maxH = $isSmall ? 200 : 400;
-            } elseif ($table === 'portfolio') {
-                $maxW = $isSmall ? 180 : 480; // Mobile: match grid cell, Desktop: 480px
-                $maxH = $isSmall ? 135 : 360;
-            } elseif ($table === 'story') {
-                $maxW = $isSmall ? 160 : 320; // Story circle/cards
-                $maxH = $isSmall ? 128 : 240;
-            }
+    // Dynamic Image Resizing & WebP Compression via Intervention Image
+    try {
+        $img = \Intervention\Image\ImageManager::usingDriver('gd')->read($binary);
 
-            $scale = min($maxW / $ow, $maxH / $oh, 1);
-            if ($scale < 1) {
-                $nw = (int)round($ow * $scale);
-                $nh = (int)round($oh * $scale);
-                $resized = imagecreatetruecolor($nw, $nh);
-                
-                // Maintain transparency for PNGs
-                imagealphablending($resized, false);
-                imagesavealpha($resized, true);
-                
-                imagecopyresampled($resized, $img, 0, 0, 0, 0, $nw, $nh, $ow, $oh);
-                imagedestroy($img);
-                $img = $resized;
-            }
-            
-            $tmp = fopen('php://temp', 'r+');
-            if ($tmp) {
-                imagewebp($img, $tmp, $isSmall ? 35 : 45); // Mobile: q35 for speed, Desktop: q45 for quality
-                rewind($tmp);
-                $webpBinary = stream_get_contents($tmp);
-                fclose($tmp);
-                if ($webpBinary) {
-                    $binary = $webpBinary;
-                    $mime = 'image/webp';
-                }
-            }
-            imagedestroy($img);
+        $maxW = 640;
+        $maxH = 640;
+        if ($table === 'hero' && $col === 'main') {
+            $maxW = $isSmall ? 380 : 800;
+            $maxH = $isSmall ? 220 : 600;
+        } elseif ($table === 'hero' && $col === 'right') {
+            $maxW = $isSmall ? 380 : 400;
+            $maxH = $isSmall ? 200 : 400;
+        } elseif ($table === 'portfolio') {
+            $maxW = $isSmall ? 180 : 480;
+            $maxH = $isSmall ? 135 : 360;
+        } elseif ($table === 'story') {
+            $maxW = $isSmall ? 160 : 320;
+            $maxH = $isSmall ? 128 : 240;
         }
+
+        $img->scaleDown(width: $maxW, height: $maxH);
+        $binary = (string) $img->toWebp(quality: $isSmall ? 35 : 45);
+        $mime = 'image/webp';
+    } catch (\Exception $e) {
+        // Fall through with original $binary
     }
 
     try {
