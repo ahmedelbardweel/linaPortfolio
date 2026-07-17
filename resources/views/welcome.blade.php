@@ -566,44 +566,18 @@
         <section id="portfolio"
             class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28 content-vis-auto"
             style="scroll-snap-align:start;min-height:80dvh">
-            <div class="mb-10">
-                <h2 data-translate-key="Portfolio"
-                    class="text-2xl lg:text-3xl font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
-                    {{ __("Portfolio") }}</h2>
-                <p data-translate-key="Makeover projects and interior designs by Lina"
-                    class="text-[#706f6c] dark:text-[#A1A09A] text-sm mt-1.5">
-                    {{ __("Makeover projects and interior designs by Lina") }}</p>
-            </div>
+            <x-section-header title="Portfolio" subtitle="Makeover projects and interior designs by Lina" />
             <div class="grid gap-3" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
                 @forelse ($portfolios as $portfolio)
-                    <div class="rounded-[3px] overflow-hidden transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] {{ $loop->iteration > 4 ? 'hidden md:block' : '' }}">
-                        <div class="relative flex items-center justify-center overflow-hidden"
-                            style="aspect-ratio:4/3;background:linear-gradient(135deg,#fdf6f0,#f5e6d3)">
-                            @if ($portfolio->image_path)
-                                <picture>
-                                    <source media="(max-width: 640px)" srcset="{{ $portfolio->image_url_sm }}">
-                                    <img src="{{ $portfolio->image_url_sm }}" srcset="{{ $portfolio->image_url_sm }} 180w, {{ $portfolio->image_url }} 320w" sizes="(max-width: 640px) 50vw, 320px" alt="{{ $portfolio->title }}" loading="lazy" decoding="async" width="320" height="240" class="w-full h-full object-cover">
-                                </picture>
-                            @else
-                                <svg class="w-12 h-12 text-[#1b1b18]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
-                                </svg>
-                            @endif
-                        </div>
-                        <div class="p-3 max-w-full overflow-hidden">
-                            <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC] break-words">{{ $portfolio->title }}</h3>
-                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5 leading-relaxed break-words overflow-hidden max-h-[3.3em]">{{ $portfolio->description }}</p>
-                        </div>
+                    <div class="{{ $loop->iteration > 4 ? 'hidden md:block' : '' }}">
+                        <x-portfolio-card :portfolio="$portfolio" />
                     </div>
                 @empty
-                    <p class="text-[#706f6c] text-sm">{{ __('No portfolio items yet.') }}</p>
+                    <p class="text-muted text-sm">{{ __('No portfolio items yet.') }}</p>
                 @endforelse
             </div>
             @if (count($portfolios) > 4)
-                <a href="{{ route('portfolios') }}"
-                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-[3px] text-xs font-medium text-white transition-all duration-300 block text-center"
-                    style="background:#c42802"
-                    data-translate-key="View All" onclick="window.location.href='{{ route('portfolios') }}'">{{ __("View All") }}</a>
+                <x-view-all-button route="{{ route('portfolios') }}" />
             @endif
         </section>
 
@@ -611,62 +585,17 @@
         <section id="stories"
             class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28 content-vis-auto"
             style="scroll-snap-align:start;min-height:80dvh">
-            <div class="mb-10">
-                <h2 data-translate-key="Stories"
-                    class="text-2xl lg:text-3xl font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
-                    {{ __("Stories") }}</h2>
-                <p data-translate-key="Behind the scenes & daily design moments"
-                    class="text-[#706f6c] dark:text-[#A1A09A] text-sm mt-1.5">
-                    {{ __("Behind the scenes & daily design moments") }}</p>
-            </div>
+            <x-section-header title="Stories" subtitle="Behind the scenes & daily design moments" />
             <div class="story-card-row flex gap-4 overflow-x-auto pb-4 md:pb-4" style="scrollbar-width:none;-ms-overflow-style:none">
-
-        <style>
-                    .story-card-row::-webkit-scrollbar {
-                        display: none
-                    }
-                </style>
+                <style>.story-card-row::-webkit-scrollbar{display:none}</style>
                 @forelse ($stories->take(4) as $story)
-                    <div class="story-card shrink-0 w-48 rounded-[3px] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1 border border-[#e3e3e0] dark:border-[#3E3E3A] {{ $loop->iteration > 4 ? 'hidden md:block' : '' }}"
-                        onclick="openWelcomeStory(this)"
-                        data-title="{{ $story->title }}"
-                        data-content="{{ $story->content }}"
-                        data-bg="{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}"
-                        data-type="{{ $story->type }}"
-                        data-image="{{ $story->image_url }}">
-                        <div class="h-32 flex items-center justify-center"
-                            style="background:{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}">
-                            @if ($story->image_path)
-                                <picture>
-                                    <source media="(max-width: 640px)" srcset="{{ $story->image_url_sm }}">
-                                    <img src="{{ $story->image_url_sm }}" srcset="{{ $story->image_url_sm }} 160w, {{ $story->image_url }} 192w" sizes="(max-width: 640px) 160px, 192px" alt="{{ $story->title }}" loading="lazy" decoding="async" width="192" height="128" class="w-full h-full object-cover">
-                                </picture>
-                            @else
-                                <svg class="w-10 h-10 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    @if ($story->type === 'text')
-                                        <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                                    @elseif ($story->type === 'mixed')
-                                        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" /><circle cx="12" cy="13" r="3" />
-                                    @else
-                                        <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
-                                    @endif
-                                </svg>
-                            @endif
-                        </div>
-                        <div class="p-3 max-w-full overflow-hidden">
-                            <h3 class="font-medium text-xs text-[#1b1b18] dark:text-[#EDEDEC] break-words">{{ $story->title }}</h3>
-                            <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] mt-0.5 break-words">{{ Str::limit($story->content, 60) }}</p>
-                        </div>
-                    </div>
+                    <x-story-card :story="$story" />
                 @empty
-                    <p class="text-[#706f6c] text-sm">{{ __('No stories yet.') }}</p>
+                    <p class="text-muted text-sm">{{ __('No stories yet.') }}</p>
                 @endforelse
             </div>
             @if (count($stories) > 4)
-                <a href="{{ route('stories') }}"
-                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-[3px] text-xs font-medium text-white transition-all duration-300 block text-center"
-                    style="background:#c42802"
-                    data-translate-key="View All" onclick="window.location.href='{{ route('stories') }}'">{{ __("View All") }}</a>
+                <x-view-all-button route="{{ route('stories') }}" />
             @endif
         </section>
 
@@ -689,30 +618,16 @@
         <section id="tips"
             class="snap-section w-full max-w-6xl mx-auto px-6 lg:px-10 py-10 md:py-14 flex flex-col justify-start pt-20 lg:pt-28 content-vis-auto"
             style="scroll-snap-align:start;min-height:80dvh">
-            <div class="mb-10">
-                <h2 data-translate-key="Tips & Insights"
-                    class="text-2xl lg:text-3xl font-semibold tracking-tight text-[#1b1b18] dark:text-[#EDEDEC]">
-                    {{ __("Tips & Insights") }}</h2>
-                <p data-translate-key="Short design ideas and inspiration"
-                    class="text-[#706f6c] dark:text-[#A1A09A] text-sm mt-1.5">
-                    {{ __("Short design ideas and inspiration") }}</p>
-            </div>
+            <x-section-header title="Tips & Insights" subtitle="Short design ideas and inspiration" />
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
                 @forelse ($tips as $tip)
-                    <div class="rounded-[3px] p-3 transition-transform duration-300 hover:-translate-y-1 bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] overflow-hidden max-w-full {{ $loop->iteration > 4 ? 'hidden md:block' : '' }}">
-                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-[#fdf0ed] text-[#c42802] dark:bg-[#FF4433]/15 dark:text-[#FF4433] mb-2">{{ $tip->category }}</span>
-                        <h3 class="font-medium text-xs mb-1 text-[#1b1b18] dark:text-[#EDEDEC] break-words">{{ $tip->title }}</h3>
-                        <p class="text-[#706f6c] dark:text-[#A1A09A] text-[11px] leading-relaxed break-words max-h-[3.3em] overflow-hidden">{{ $tip->content }}</p>
-                    </div>
+                    <x-tip-card :tip="$tip" :hidden="$loop->iteration > 4" />
                 @empty
-                    <p class="text-[#706f6c] text-sm">{{ __('No tips yet.') }}</p>
+                    <p class="text-muted text-sm">{{ __('No tips yet.') }}</p>
                 @endforelse
             </div>
             @if (count($tips) > 4)
-                <a href="{{ route('tips') }}"
-                    class="md:hidden mt-4 mx-auto w-fit px-5 py-2 rounded-[3px] text-xs font-medium text-white transition-all duration-300 block text-center"
-                    style="background:#c42802"
-                    data-translate-key="View All" onclick="window.location.href='{{ route('tips') }}'">{{ __("View All") }}</a>
+                <x-view-all-button route="{{ route('tips') }}" />
             @endif
         </section>
 

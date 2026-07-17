@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title data-translate-key="Lina - Reels | Interior Design & Decoration">{{ __('Lina - Reels | Interior Design & Decoration') }}</title>
     <meta name="description" content="{{ __('Short design reels showcasing interior design inspiration, transformations, and daily creative moments.') }}">
-    <link rel="preconnect" href="/fonts" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-400.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-500.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-700.woff2">
-    <style>@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-400.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-500.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-600.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-700.woff2') format('woff2')}</style>
+    <x-font-preloads weights="400,500,700" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         *, :before, :after { box-sizing: border-box; margin: 0; padding: 0; }

@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .text-primary { @apply text-[#1b1b18] dark:text-[#EDEDEC]; }
+    .text-muted { @apply text-[#706f6c] dark:text-[#A1A09A]; }
+    .border-default { @apply border-[#e3e3e0] dark:border-[#3E3E3A]; }
+    .bg-card { @apply bg-white dark:bg-[#161615]; }
+    .bg-page { @apply bg-[#FDFDFC] dark:bg-[#0a0a0a]; }
+    .bg-hover { @apply hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28]; }
+    .card-hover { @apply transition-transform duration-300 hover:-translate-y-1; }
+    .btn-primary { @apply bg-[#c42802] hover:bg-[#f53003] dark:hover:bg-[#FF4433] text-white transition-colors; }
+    .btn-sm { @apply px-5 py-2 rounded-[3px] text-xs font-medium; }
+    .section-title { @apply text-2xl lg:text-3xl font-semibold tracking-tight text-primary; }
+    .section-subtitle { @apply text-muted text-sm mt-1.5; }
+    .card-container { @apply rounded-[3px] overflow-hidden border-default bg-card; }
+    .admin-btn-icon { @apply inline-flex items-center justify-center w-7 h-7 rounded text-[#c42802] hover:text-[#f53003] bg-hover transition-all; }
+}

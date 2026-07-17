@@ -8,12 +8,7 @@
 
     <title>@yield('title', __("Admin")) - {{ config('app.name', 'Lina') }}</title>
 
-    <link rel="preconnect" href="/fonts" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-400.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-500.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-600.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-700.woff2">
-    <style>@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-400.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-500.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-600.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-700.woff2') format('woff2')}</style>
+    <x-font-preloads weights="400,500,600,700" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

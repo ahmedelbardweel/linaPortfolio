@@ -14,7 +14,27 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Instrument Sans', 'Figtree', ...defaultTheme.fontFamily.sans],
+                display: ['Playfair Display', 'Georgia', 'serif'],
+            },
+            colors: {
+                lina: {
+                    primary: '#c42802',
+                    'primary-hover': '#f53003',
+                    'primary-dark': '#FF4433',
+                    text: '#1b1b18',
+                    'text-dark': '#EDEDEC',
+                    muted: '#706f6c',
+                    'muted-dark': '#A1A09A',
+                    border: '#e3e3e0',
+                    'border-dark': '#3E3E3A',
+                    card: '#ffffff',
+                    'card-dark': '#161615',
+                    page: '#FDFDFC',
+                    'page-dark': '#0a0a0a',
+                    hover: '#f0f0ef',
+                    'hover-dark': '#2a2a28',
+                },
             },
         },
     },
