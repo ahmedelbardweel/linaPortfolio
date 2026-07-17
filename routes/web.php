@@ -167,8 +167,8 @@ Route::get('img/{table}/{id}/{col}', function ($table, $id, $col) {
             $maxH = $isSmall ? 128 : 240;
         }
 
-        $img->scaleDown(width: $maxW, height: $maxH);
-        $binary = (string) $img->toWebp(quality: $isSmall ? 20 : 30);
+        $img->{$isSmall ? 'cover' : 'scaleDown'}($maxW, $maxH);
+        $binary = (string) $img->toWebp(quality: $isSmall ? 15 : 30);
         $mime = 'image/webp';
     } catch (\Exception $e) {
         // Fall through with original $binary

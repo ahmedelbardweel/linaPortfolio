@@ -90,9 +90,9 @@ trait HandlesImages
             default                             => [160, 128],
         };
 
-        $image->scaleDown(width: $maxW, height: $maxH);
+        $image->cover($maxW, $maxH);
 
-        return (string) $image->toWebp(quality: 20);
+        return (string) $image->toWebp(quality: 15);
     }
 
     protected function cacheImageData(string $table, $model): void

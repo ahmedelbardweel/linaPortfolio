@@ -9,7 +9,6 @@
     <title>{{ __("Lina - Interior Design & Decoration") }}</title>
     <meta name="description" content="{{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}">
 
-    {{-- Preconnect to image CDN (Vercel Blob, etc.) before preloading LCP --}}
     @php
         $lcpCdn = null;
         if ($h && $h->main_image_url && str_starts_with($h->main_image_url, 'https://')) {
@@ -18,16 +17,11 @@
         }
     @endphp
     @if ($lcpCdn)
-        <link rel="preconnect" href="{{ $lcpCdn }}" crossorigin>
+    <link rel="preconnect" href="{{ $lcpCdn }}" crossorigin>
     @endif
-
-    {{-- LCP hero image: FIRST preload after preconnect, so browser discovers it immediately --}}
     @if ($h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
-        <link rel="preload" as="image" href="{{ $h->main_image_url_sm }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ $h->main_image_url_sm }}" fetchpriority="high">
     @endif
-
-    {{-- Font preloads: Playfair Display for hero heading, Instrument Sans for body text.
-         Instrument Sans is used immediately (body font) so preload the critical weights. --}}
     <link rel="preconnect" href="/fonts">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/playfair-display-400.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/playfair-display-700.woff2">
@@ -467,7 +461,7 @@
                                 <source media="(max-width: 768px)" srcset="{{ $h->main_image_url_sm }}">
                                 {{-- Desktop: full-size --}}
                                 <source media="(min-width: 769px)" srcset="{{ $mainImageInline ?: $h->main_image_url }}">
-                                <img src="{{ $h->main_image_url_sm }}" srcset="{{ $h->main_image_url_sm }} 380w, {{ $h->main_image_url }} 800w" sizes="(max-width: 768px) 100vw, 380px" alt="Hero" width="760" height="440" fetchpriority="high"
+                                <img src="{{ $h->main_image_url_sm }}" srcset="{{ $h->main_image_url_sm }} 380w, {{ $h->main_image_url }} 800w" sizes="(max-width: 768px) 100vw, 380px" alt="Hero" width="760" height="440" fetchpriority="high" loading="eager"
                                     class="w-full h-full object-cover">
                             </picture>
                         @else
@@ -1070,7 +1064,7 @@
                             const img = document.createElement('img');
                             img.src = url;
                             img.alt = "";
-                            img.loading = "lazy";
+                            img.fetchpriority = "low";
                             img.className = "bg-img-anim";
                             
                             const x = Math.floor(Math.random() * 93);
