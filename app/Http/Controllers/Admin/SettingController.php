@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Traits\HandlesImages;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
+    use HandlesImages;
+
     public function index()
     {
         $settings = Setting::pluck('value', 'key')->toArray();
@@ -17,15 +19,27 @@ class SettingController extends Controller
 
     public function update(Request $request)
     {
+        $fileKeys = [];
         foreach ($request->except('_token', '_method') as $key => $value) {
             if ($request->hasFile($key)) {
-                $request->validate([
-                    $key => 'image|mimes:webp|max:5120',
-                ], ["$key.mimes" => __('Only WebP format is accepted.')]);
-                $file = $request->file($key);
-                $binary = file_get_contents($file->getRealPath());
-                $data = 'data:' . $file->getMimeType() . ';base64,' . base64_encode($binary);
-                Setting::set($key, $data);
+                $fileKeys[] = $key;
+            }
+        }
+
+        if ($fileKeys) {
+            $rules = [];
+            $msgs = [];
+            foreach ($fileKeys as $k) {
+                $rules[$k] = 'image|mimes:jpeg,png,gif,webp|max:5120';
+                $msgs["$k.mimes"] = __('Only JPG, PNG, GIF, or WebP formats are accepted.');
+            }
+            $request->validate($rules, $msgs);
+        }
+
+        foreach ($request->except('_token', '_method') as $key => $value) {
+            if ($request->hasFile($key)) {
+                $result = $this->storeImage($request->file($key), 'public');
+                Setting::set($key, $result['data']);
             } else {
                 Setting::set($key, $value);
             }

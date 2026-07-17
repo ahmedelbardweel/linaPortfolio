@@ -41,7 +41,7 @@
                         <img src="{{ $portfolio->image_url }}" alt="{{ __("Current image") }}" class="w-24 h-24 rounded-lg object-cover">
                     </div>
                 @endif
-                <input type="file" id="image" name="image" accept=".webp,image/webp" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
+                <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.gif,.webp,image/jpeg,image/png,image/gif,image/webp" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
                 <p class="mt-1 text-xs text-[#706f6c] dark:text-[#A1A09A]" data-translate-key="Only WebP format is accepted.">{{ __("Only WebP format is accepted.") }}</p>
                 @error('image')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

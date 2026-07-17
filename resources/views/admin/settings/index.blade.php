@@ -40,7 +40,7 @@
                         <img src="{{ asset('storage/' . $settings['logo']) }}" alt="{{ __("Site logo") }}" class="h-12 rounded-lg">
                     </div>
                 @endisset
-                <input type="file" id="logo" name="logo" accept=".webp,image/webp" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
+                <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png,.gif,.webp,image/jpeg,image/png,image/gif,image/webp" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
                 <p class="mt-1 text-xs text-[#706f6c] dark:text-[#A1A09A]" data-translate-key="Only WebP format is accepted.">{{ __("Only WebP format is accepted.") }}</p>
                 @error('logo')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -75,7 +75,7 @@
                         <img src="{{ asset('storage/' . $settings['hero_image']) }}" alt="{{ __("Hero image") }}" class="h-24 rounded-lg object-cover">
                     </div>
                 @endisset
-                <input type="file" id="hero_image" name="hero_image" accept=".webp,image/webp" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
+                <input type="file" id="hero_image" name="hero_image" accept=".jpg,.jpeg,.png,.gif,.webp,image/jpeg,image/png,image/gif,image/webp" class="w-full text-sm text-[#706f6c] dark:text-[#A1A09A] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#fdf0ed] dark:file:bg-[#3E3E3A] file:text-[#c42802] hover:file:bg-[#fdf0ed] dark:hover:file:bg-[#2a2a28]">
                 <p class="mt-1 text-xs text-[#706f6c] dark:text-[#A1A09A]" data-translate-key="Only WebP format is accepted.">{{ __("Only WebP format is accepted.") }}</p>
                 @error('hero_image')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

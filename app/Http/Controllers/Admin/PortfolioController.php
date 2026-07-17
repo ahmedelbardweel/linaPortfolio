@@ -27,9 +27,9 @@ class PortfolioController extends Controller
         $data = $request->validate([
             'title'       => 'required',
             'description' => 'nullable',
-            'image'       => 'required|image|mimes:webp|max:5120',
+            'image'       => 'required|image|mimes:jpeg,png,gif,webp|max:5120',
             'gradient'    => 'nullable',
-        ], ['image.mimes' => __('Only WebP format is accepted.')]);
+        ], ['image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
         $result = $this->storeImage($request->file('image'), 'public');
         $data['image_path'] = $result['path'];
@@ -52,9 +52,9 @@ class PortfolioController extends Controller
         $data = $request->validate([
             'title'       => 'required',
             'description' => 'nullable',
-            'image'       => 'nullable|image|mimes:webp|max:5120',
+            'image'       => 'nullable|image|mimes:jpeg,png,gif,webp|max:5120',
             'gradient'    => 'nullable',
-        ], ['image.mimes' => __('Only WebP format is accepted.')]);
+        ], ['image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
         if ($request->hasFile('image')) {
             try {

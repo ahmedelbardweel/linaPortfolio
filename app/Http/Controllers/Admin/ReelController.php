@@ -27,7 +27,7 @@ class ReelController extends Controller
         $rules = [
             'title'       => 'required',
             'description' => 'nullable',
-            'thumbnail'   => 'nullable|image|mimes:webp|max:5120',
+            'thumbnail'   => 'nullable|image|mimes:jpeg,png,gif,webp|max:5120',
         ];
 
         if ($request->input('_direct_upload')) {
@@ -36,7 +36,7 @@ class ReelController extends Controller
             $rules['video'] = 'required|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3500';
         }
 
-        $data = $request->validate($rules, ['thumbnail.mimes' => __('Only WebP format is accepted.')]);
+        $data = $request->validate($rules, ['thumbnail.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
         if ($request->input('_direct_upload')) {
             $data['video_path'] = $request->input('video_path');
@@ -81,7 +81,7 @@ class ReelController extends Controller
         $rules = [
             'title'       => 'required',
             'description' => 'nullable',
-            'thumbnail'   => 'nullable|image|mimes:webp|max:5120',
+            'thumbnail'   => 'nullable|image|mimes:jpeg,png,gif,webp|max:5120',
         ];
 
         if ($request->input('_direct_upload')) {
@@ -90,7 +90,7 @@ class ReelController extends Controller
             $rules['video'] = 'nullable|mimes:mp4,mov,avi,webm,mkv,3gp,ogg,mpg,m4v,wmv,flv|max:3500';
         }
 
-        $data = $request->validate($rules, ['thumbnail.mimes' => __('Only WebP format is accepted.')]);
+        $data = $request->validate($rules, ['thumbnail.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
         if ($request->input('_direct_upload')) {
             if ($request->input('video_path')) {

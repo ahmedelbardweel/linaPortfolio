@@ -29,8 +29,8 @@ class StoryController extends Controller
             'content'  => 'required',
             'type'     => 'required|in:visual,text,mixed',
             'bg_color' => 'nullable',
-            'image'    => 'nullable|image|mimes:webp|max:5120',
-        ], ['image.mimes' => __('Only WebP format is accepted.')]);
+            'image'    => 'nullable|image|mimes:jpeg,png,gif,webp|max:5120',
+        ], ['image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
         if ($request->hasFile('image')) {
             $result = $this->storeImage($request->file('image'), 'public');
@@ -59,8 +59,8 @@ class StoryController extends Controller
             'content'  => 'required',
             'type'     => 'required|in:visual,text,mixed',
             'bg_color' => 'nullable',
-            'image'    => 'nullable|image|mimes:webp|max:5120',
-        ], ['image.mimes' => __('Only WebP format is accepted.')]);
+            'image'    => 'nullable|image|mimes:jpeg,png,gif,webp|max:5120',
+        ], ['image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
         if ($request->hasFile('image')) {
             try {

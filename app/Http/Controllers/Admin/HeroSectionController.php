@@ -26,9 +26,9 @@ class HeroSectionController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'main_image'  => 'nullable|mimes:webp|max:5120',
-            'right_image' => 'nullable|mimes:webp|max:5120',
-        ], ['main_image.mimes' => __('Only WebP format is accepted.'), 'right_image.mimes' => __('Only WebP format is accepted.')]);
+            'main_image'  => 'nullable|image|mimes:jpeg,png,gif,webp|max:5120',
+            'right_image' => 'nullable|image|mimes:jpeg,png,gif,webp|max:5120',
+        ], ['main_image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.'), 'right_image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
         if ($request->hasFile('main_image')) {
             $result = $this->storeImage($request->file('main_image'), 'public');
@@ -68,9 +68,9 @@ class HeroSectionController extends Controller
     public function update(Request $request, HeroSection $hero)
     {
         $data = $request->validate([
-            'main_image'  => 'nullable|mimes:webp|max:5120',
-            'right_image' => 'nullable|mimes:webp|max:5120',
-        ], ['main_image.mimes' => __('Only WebP format is accepted.'), 'right_image.mimes' => __('Only WebP format is accepted.')]);
+            'main_image'  => 'nullable|image|mimes:jpeg,png,gif,webp|max:5120',
+            'right_image' => 'nullable|image|mimes:jpeg,png,gif,webp|max:5120',
+        ], ['main_image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.'), 'right_image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
         if ($request->hasFile('main_image')) {
             if ($hero->main_image) Storage::disk('public')->delete($hero->main_image);
