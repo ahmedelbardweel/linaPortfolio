@@ -24,7 +24,7 @@ trait HandlesImages
         try {
             $image = $this->manager()->read($binary);
             $image->scaleDown(width: $maxW, height: $maxH);
-            $webp = (string) $image->toWebp(quality: 50);
+            $webp = (string) $image->toWebp(quality: 30);
         } catch (\Exception $e) {
             $path = $file->store('images', $disk);
             $data = 'data:' . $file->getMimeType() . ';base64,' . \base64_encode($binary);
@@ -92,7 +92,7 @@ trait HandlesImages
 
         $image->scaleDown(width: $maxW, height: $maxH);
 
-        return (string) $image->toWebp(quality: 35);
+        return (string) $image->toWebp(quality: 20);
     }
 
     protected function cacheImageData(string $table, $model): void

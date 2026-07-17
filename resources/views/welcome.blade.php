@@ -9,8 +9,20 @@
     <title>{{ __("Lina - Interior Design & Decoration") }}</title>
     <meta name="description" content="{{ __("Innovative interior designs blending luxury with functionality. Explore our behind-the-scenes, daily design reels, and start your home transformation journey today.") }}">
 
-    {{-- LCP hero image: FIRST link in <head> so browser discovers it immediately --}}
-    @if (!$mainImageInline && $h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
+    {{-- Preconnect to image CDN (Vercel Blob, etc.) before preloading LCP --}}
+    @php
+        $lcpCdn = null;
+        if ($h && $h->main_image_url && str_starts_with($h->main_image_url, 'https://')) {
+            $parsed = parse_url($h->main_image_url);
+            $lcpCdn = ($parsed['scheme'] ?? 'https') . '://' . ($parsed['host'] ?? '');
+        }
+    @endphp
+    @if ($lcpCdn)
+        <link rel="preconnect" href="{{ $lcpCdn }}" crossorigin>
+    @endif
+
+    {{-- LCP hero image: FIRST preload after preconnect, so browser discovers it immediately --}}
+    @if ($h && $h->main_image_url && !str_contains($h->main_image_url, 'data:'))
         <link rel="preload" as="image" href="{{ $h->main_image_url_sm }}" fetchpriority="high">
     @endif
 
@@ -97,6 +109,8 @@
         .dark\\:hover\\:bg-\[\#EDEDEC\]:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(237 237 236/var(--tw-bg-opacity,1))}
         .dark\\:hover\\:text-\[\#EDEDEC\]:hover:is(.dark *){--tw-text-opacity:1;color:rgb(237 237 236/var(--tw-text-opacity,1))}
         .dark\\:hover\\:text-\[\#1b1b18\]:hover:is(.dark *){--tw-text-opacity:1;color:rgb(27 27 24/var(--tw-text-opacity,1))}
+        #hero-section .max-w-6xl{min-height:calc(80vh - 4rem)}
+        @media(min-width:768px){#hero-section .max-w-6xl{min-height:calc(100vh - 10rem)}}
         @media(min-width:640px){.sm\\:text-6xl{font-size:3.75rem;line-height:1}.sm\\:text-2xl{font-size:1.5rem;line-height:2rem}}
         @media(min-width:768px){.md\\:flex{display:flex}.md\\:hidden{display:none}.md\\:text-sm{font-size:.875rem;line-height:1.25rem}}
         @media(min-width:1024px){
@@ -432,8 +446,8 @@
             <div
                 class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 py-6 lg:py-20 relative">
                 <!-- Center Image (Mobile order 1, Desktop order 2) -->
-                <div class="anim-center relative max-w-full shrink-0 z-[1] order-1 lg:order-2 w-full lg:w-[380px] h-[200px] lg:h-[320px]"
-                    style="aspect-ratio:760/440">
+                <div class="anim-center relative max-w-full shrink-0 z-[1] order-1 lg:order-2 w-full lg:w-[380px]"
+                    style="aspect-ratio:760/440;width:100%">
                     <div class="w-full h-full rounded-sm overflow-hidden"
                         style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
@@ -486,7 +500,7 @@
                         class="lg:hidden inline-block px-6 py-2.5 border border-[#333] dark:border-[#62605b] text-[10px] font-semibold text-[#333] dark:text-[#EDEDEC] no-underline uppercase tracking-[1.5px] transition-all duration-300 bg-transparent hover:bg-[#333] dark:hover:bg-[#EDEDEC] hover:text-white dark:hover:text-[#1b1b18] mt-3 mb-3">
                         {{ __("View Project") }}
                     </a>
-                    <div class="w-full max-w-full h-[180px] lg:h-[240px]" style="aspect-ratio:640/360">
+                    <div class="w-full max-w-full" style="aspect-ratio:640/360">
                         <div class="w-full h-full rounded-sm overflow-hidden"
                             style="background:{{ $h && $h->right_image ? 'none' : 'linear-gradient(135deg,#e8f0fe,#d4e4f7)' }}">
                             @if ($h && $h->right_image)

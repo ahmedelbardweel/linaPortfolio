@@ -8,4 +8,13 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        cssMinify: 'esbuild',
+        minify: 'esbuild',
+        rollupOptions: {
+            output: {
+                manualChunks: undefined,
+            },
+        },
+    },
 });
