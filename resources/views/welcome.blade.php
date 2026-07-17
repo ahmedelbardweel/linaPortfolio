@@ -87,6 +87,7 @@
         .bg-transparent{background-color:transparent}
         .border-\[\#333\]{--tw-border-opacity:1;border-color:rgb(51 51 51/var(--tw-border-opacity,1))}
         .object-cover{object-fit:cover}
+        .h-\\[200px\\]{height:200px}.h-\\[180px\\]{height:180px}
         .transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}
         .transition-colors{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}
         .transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}
@@ -119,7 +120,8 @@
             .lg\\:order-1{order:1}.lg\\:order-2{order:2}
             .lg\\:px-8{padding-left:2rem;padding-right:2rem}.lg\\:px-10{padding-left:2.5rem;padding-right:2.5rem}
             .lg\\:py-20{padding-top:5rem;padding-bottom:5rem}.lg\\:gap-10{gap:2.5rem}
-            .lg\\:w-\[380px\]{width:380px}.lg\\:max-w-\[280px\]{max-width:280px}.lg\\:max-w-\[320px\]{max-width:320px}.lg\\:max-w-\[220px\]{max-width:220px}
+            .lg\\:w-\\[380px\\]{width:380px}.lg\\:h-\\[320px\\]{height:320px}.lg\\:h-\\[240px\\]{height:240px}
+            .lg\\:max-w-\\[280px\\]{max-width:280px}.lg\\:max-w-\\[320px\\]{max-width:320px}.lg\\:max-w-\\[220px\\]{max-width:220px}
             .lg\\:mt-10{margin-top:2.5rem}.lg\\:mt-5{margin-top:1.25rem}
             .lg\\:mb-0{margin-bottom:0}.lg\\:mb-3{margin-bottom:.75rem}.lg\\:mb-5{margin-bottom:1.25rem}.lg\\:mb-8{margin-bottom:2rem}
             .lg\\:text-7xl{font-size:4.5rem;line-height:1}
@@ -446,8 +448,8 @@
             <div
                 class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 py-6 lg:py-20 relative">
                 <!-- Center Image (Mobile order 1, Desktop order 2) -->
-                <div class="anim-center relative max-w-full shrink-0 z-[1] order-1 lg:order-2 w-full lg:w-[380px]"
-                    style="aspect-ratio:760/440;width:100%">
+                <div class="anim-center relative max-w-full shrink-0 z-[1] order-1 lg:order-2 w-full lg:w-[380px] h-[200px] lg:h-[320px]"
+                    style="aspect-ratio:760/440">
                     <div class="w-full h-full rounded-sm overflow-hidden"
                         style="background:{{ $h && $h->main_image ? 'none' : 'linear-gradient(135deg,#f5e6d3,#e8d5c0)' }}">
                         @if ($h && $h->main_image)
@@ -500,7 +502,7 @@
                         class="lg:hidden inline-block px-6 py-2.5 border border-[#333] dark:border-[#62605b] text-[10px] font-semibold text-[#333] dark:text-[#EDEDEC] no-underline uppercase tracking-[1.5px] transition-all duration-300 bg-transparent hover:bg-[#333] dark:hover:bg-[#EDEDEC] hover:text-white dark:hover:text-[#1b1b18] mt-3 mb-3">
                         {{ __("View Project") }}
                     </a>
-                    <div class="w-full max-w-full" style="aspect-ratio:640/360">
+                    <div class="w-full max-w-full h-[180px] lg:h-[240px]" style="aspect-ratio:640/360">
                         <div class="w-full h-full rounded-sm overflow-hidden"
                             style="background:{{ $h && $h->right_image ? 'none' : 'linear-gradient(135deg,#e8f0fe,#d4e4f7)' }}">
                             @if ($h && $h->right_image)
