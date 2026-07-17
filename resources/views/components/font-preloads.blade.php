@@ -1,6 +1,8 @@
 @props(['weights' => '400,500,600', 'withPlayfair' => false])
 @php $wList = explode(',', $weights); @endphp
 <link rel="preconnect" href="/fonts">
+<link rel="preconnect" href="{{ url('/') }}" crossorigin>
+<link rel="dns-prefetch" href="{{ url('/') }}">
 @foreach($wList as $w)
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-{{ $w }}.woff2">
 @endforeach

@@ -51,26 +51,28 @@
     window.translations = {!! file_exists(lang_path('ar.json')) ? file_get_contents(lang_path('ar.json')) : '{}' !!};
 
     function switchLanguage(lang) {
-        document.documentElement.lang = lang;
-        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-        if (lang === 'ar') { document.documentElement.classList.add('rtl'); }
-        else { document.documentElement.classList.remove('rtl'); }
+        requestAnimationFrame(function () {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            if (lang === 'ar') { document.documentElement.classList.add('rtl'); }
+            else { document.documentElement.classList.remove('rtl'); }
 
-        document.querySelectorAll('[data-translate-key]').forEach(el => {
-            const key = el.getAttribute('data-translate-key');
-            el.textContent = (lang === 'ar' && window.translations && window.translations[key]) ? window.translations[key] : key;
-        });
+            document.querySelectorAll('[data-translate-key]').forEach(function (el) {
+                var key = el.getAttribute('data-translate-key');
+                el.textContent = (lang === 'ar' && window.translations && window.translations[key]) ? window.translations[key] : key;
+            });
 
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.textContent = lang === 'ar' ? 'AR' : 'EN';
+            document.querySelectorAll('.lang-btn').forEach(function (btn) {
+                btn.textContent = lang === 'ar' ? 'AR' : 'EN';
+            });
         });
 
         localStorage.setItem('lang', lang);
-        fetch(`/lang/${lang}`).catch(() => {});
+        fetch('/lang/' + lang).catch(function () {});
     }
 
     function toggleLang() {
-        const current = document.documentElement.lang || 'en';
+        var current = document.documentElement.lang || 'en';
         switchLanguage(current === 'ar' ? 'en' : 'ar');
     }
 
@@ -83,17 +85,5 @@
             localStorage.setItem('dark', '1');
         }
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('lang');
-        const serverLang = document.documentElement.getAttribute('lang') || 'en';
-        if (saved && saved !== serverLang) switchLanguage(saved);
-
-        if (localStorage.getItem('dark') === '1') {
-            document.documentElement.classList.add('dark');
-        } else if (localStorage.getItem('dark') === '0') {
-            document.documentElement.classList.remove('dark');
-        }
-    });
     </script>
 </html>

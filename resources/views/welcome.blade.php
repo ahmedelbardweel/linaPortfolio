@@ -23,11 +23,14 @@
     <link rel="preload" as="image" href="{{ $h->main_image_url_sm }}" fetchpriority="high">
     @endif
     <link rel="preconnect" href="/fonts">
+    <link rel="preconnect" href="{{ url('/') }}" crossorigin>
+    <link rel="dns-prefetch" href="{{ url('/') }}">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/playfair-display-400.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/playfair-display-700.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-400.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-500.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-600.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/instrument-sans-700.woff2">
     <style>
         @font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-400.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-500.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-600.woff2') format('woff2')}@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/instrument-sans-700.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-400.woff2') format('woff2')}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-stretch:100%;font-display:swap;src:url('/fonts/playfair-display-700.woff2') format('woff2')}
     </style>
@@ -987,16 +990,6 @@
         window.translations = {!! file_exists(lang_path('ar.json')) ? file_get_contents(lang_path('ar.json')) : '{}' !!};
 
         function switchLanguage(lang) {
-            // Update document dir and lang attributes
-            document.documentElement.lang = lang;
-            if (lang === 'ar') {
-                document.documentElement.dir = 'rtl';
-                document.documentElement.classList.add('rtl');
-            } else {
-                document.documentElement.dir = 'ltr';
-                document.documentElement.classList.remove('rtl');
-            }
-
             const dict = (lang === 'ar' && window.translations) ? window.translations : null;
 
             // Collect all DOM reads first (no writes yet)
@@ -1005,8 +998,17 @@
             const attrEls = document.querySelectorAll('[data-translate-attrs]');
             const langBtns = document.querySelectorAll('.lang-btn');
 
-            // Batch all writes in a single rAF
+            // Batch ALL writes (including dir/lang) in a single rAF to avoid forced reflow
             requestAnimationFrame(() => {
+                document.documentElement.lang = lang;
+                if (lang === 'ar') {
+                    document.documentElement.dir = 'rtl';
+                    document.documentElement.classList.add('rtl');
+                } else {
+                    document.documentElement.dir = 'ltr';
+                    document.documentElement.classList.remove('rtl');
+                }
+
                 keyEls.forEach(el => {
                     const k = el.getAttribute('data-translate-key');
                     let t = dict && dict[k] ? dict[k] : k;
@@ -1018,10 +1020,11 @@
                     el.innerHTML = dict && dict[k] ? dict[k] : k;
                 });
                 attrEls.forEach(el => {
-                    el.getAttribute('data-translate-attrs').split(',').forEach(pair => {
-                        const [a, k] = pair.split(':');
-                        el.setAttribute(a, dict && dict[k] ? dict[k] : k);
-                    });
+                    const pairs = el.getAttribute('data-translate-attrs').split(',');
+                    for (var pi = 0; pi < pairs.length; pi++) {
+                        var pair = pairs[pi].split(':');
+                        el.setAttribute(pair[0], dict && dict[pair[1]] ? dict[pair[1]] : pair[1]);
+                    }
                 });
                 langBtns.forEach(btn => { btn.textContent = lang === 'ar' ? 'AR' : 'EN'; });
             });
@@ -1030,15 +1033,6 @@
             localStorage.setItem('lang', lang);
             fetch(`/lang/${lang}`).catch(() => { });
         }
-
-        // Apply on DOMContentLoaded if localStorage has a different lang than server
-        document.addEventListener('DOMContentLoaded', () => {
-            const serverLang = document.documentElement.getAttribute('lang') || 'en';
-            const savedLang = localStorage.getItem('lang');
-            if (savedLang && savedLang !== serverLang) {
-                (window.requestIdleCallback || setTimeout)(() => switchLanguage(savedLang), 0);
-            }
-        });
 
     </script>
 </body>
