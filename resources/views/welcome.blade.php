@@ -311,7 +311,7 @@
 
                 {{-- Right side actions --}}
                 <div class="hidden md:flex items-center gap-3 ms-auto">
-                    <button onclick="toggleDark()"
+                    <button data-click="toggleDark"
                         class="w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all"
                         title="Toggle theme">
                         <svg class="dark:hidden block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -324,7 +324,7 @@
                         </svg>
                     </button>
                     <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
-                        onclick="event.preventDefault(); switchLanguage(document.documentElement.lang === 'ar' ? 'en' : 'ar');"
+                        data-click="switchLang"
                         class="lang-btn w-8 h-8 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all text-xs font-semibold">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</a>
                     @auth
                         @if (Auth::user()->is_admin)
@@ -343,7 +343,7 @@
                             class="px-3.5 py-1.5 rounded-sm text-xs font-medium text-white hover:opacity-90 transition-opacity shadow-[0_0_0_1px_rgba(26,26,0,0.08)] bg-[#c42802] dark:bg-[#FF4433]">{{ __("Register") }}</a>
                     @endauth
                 </div>
-                <button onclick="toggleMobileMenu()" class="md:hidden ms-auto flex items-center justify-center w-8 h-8 rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-all" aria-label="Toggle menu">
+                <button data-click="toggleMenu" class="md:hidden ms-auto flex items-center justify-center w-8 h-8 rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] transition-all" aria-label="Toggle menu">
                     <svg id="menuIconOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
@@ -359,7 +359,7 @@
             <div class="w-full h-px bg-[#e3e3e0] dark:bg-[#3E3E3A] mb-4"></div>
             <div class="flex items-center justify-between px-4">
                 <div class="flex items-center gap-3">
-                    <button onclick="toggleDark()"
+                    <button data-click="toggleDark"
                         class="w-9 h-9 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all"
                         title="Toggle theme">
                         <svg class="dark:hidden block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -370,71 +370,24 @@
                         </svg>
                     </button>
                     <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
-                        onclick="event.preventDefault(); switchLanguage(document.documentElement.lang === 'ar' ? 'en' : 'ar'); closeMobileMenu();"
+                        data-click="switchLang"
                         class="lang-btn w-9 h-9 flex items-center justify-center rounded-full text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-all text-xs font-semibold">{{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}</a>
                 </div>
                 <div class="flex items-center gap-2">
                     @auth
                         @if (Auth::user()->is_admin)
-                            <a href="/admin" data-translate-key="Admin Dashboard" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" onclick="closeMobileMenu()">{{ __("Admin Dashboard") }}</a>
+                            <a href="/admin" data-translate-key="Admin Dashboard" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" data-click="closeMenu">{{ __("Admin Dashboard") }}</a>
                         @else
-                            <a href="#contact" data-translate-key="Request Consultation" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" onclick="closeMobileMenu()">{{ __("Request Consultation") }}</a>
-                            <a href="#contact" data-translate-key="Contact Us" class="px-4 py-2 rounded-lg text-sm text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Contact Us") }}</a>
+                            <a href="#contact" data-translate-key="Request Consultation" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" data-click="closeMenu">{{ __("Request Consultation") }}</a>
+                            <a href="#contact" data-translate-key="Contact Us" class="px-4 py-2 rounded-lg text-sm text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" data-click="closeMenu">{{ __("Contact Us") }}</a>
                         @endif
                     @else
-                        <a href="/login" data-translate-key="Login" class="px-4 py-2 rounded-lg text-sm text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" onclick="closeMobileMenu()">{{ __("Login") }}</a>
-                        <a href="/register" data-translate-key="Register" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" onclick="closeMobileMenu()">{{ __("Register") }}</a>
+                        <a href="/login" data-translate-key="Login" class="px-4 py-2 rounded-lg text-sm text-[#555] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC] hover:bg-[#f0f0ef] dark:hover:bg-[#2a2a28] transition-colors" data-click="closeMenu">{{ __("Login") }}</a>
+                        <a href="/register" data-translate-key="Register" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#c42802] dark:bg-[#FF4433] hover:opacity-90 transition-opacity" data-click="closeMenu">{{ __("Register") }}</a>
                     @endauth
                 </div>
             </div>
         </div>
-
-        <script>
-            var menuOpen = false;
-            function toggleMobileMenu() {
-                menuOpen = !menuOpen;
-                requestAnimationFrame(function () {
-                    var menu = document.getElementById('mobileMenu');
-                    var openIcon = document.getElementById('menuIconOpen');
-                    var closeIcon = document.getElementById('menuIconClose');
-                    if (!menu || !openIcon || !closeIcon) return;
-                    if (menuOpen) {
-                        menu.classList.remove('hidden');
-                        requestAnimationFrame(function () {
-                            menu.style.transform = 'translateY(0%)';
-                        });
-                    } else {
-                        menu.style.transform = 'translateY(-100%)';
-                        setTimeout(function () { menu.classList.add('hidden'); }, 300);
-                    }
-                    openIcon.classList.toggle('hidden', menuOpen);
-                    closeIcon.classList.toggle('hidden', !menuOpen);
-                });
-            }
-            function closeMobileMenu() {
-                menuOpen = false;
-                requestAnimationFrame(function () {
-                    var menu = document.getElementById('mobileMenu');
-                    var openIcon = document.getElementById('menuIconOpen');
-                    var closeIcon = document.getElementById('menuIconClose');
-                    if (!menu || !openIcon || !closeIcon) return;
-                    menu.style.transform = 'translateY(-100%)';
-                    setTimeout(function () { menu.classList.add('hidden'); }, 300);
-                    openIcon.classList.remove('hidden');
-                    closeIcon.classList.add('hidden');
-                });
-            }
-            function toggleDark() {
-                var html = document.documentElement;
-                if (html.classList.contains('dark')) {
-                    html.classList.remove('dark');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    html.classList.add('dark');
-                    localStorage.setItem('theme', 'dark');
-                }
-            }
-        </script>
 
         <main>
         <!-- ===== HERO SECTION ===== -->
@@ -613,13 +566,13 @@
         <!-- ===== STORY MODAL ===== -->
         <div id="storyModal" class="fixed inset-0 z-[1000] flex items-center justify-center"
             style="opacity:0;pointer-events:none;transition:opacity .35s ease;background:rgba(0,0,0,.92)"
-            onclick="closeWelcomeStory(event)">
-            <div class="w-full max-w-lg mx-4 rounded-xl overflow-hidden relative" onclick="event.stopPropagation()"
+            data-click="closeStory">
+            <div class="w-full max-w-lg mx-4 rounded-xl overflow-hidden relative" data-click="stopPropagation"
                 style="aspect-ratio:9/16;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)">
                 <button
                     class="absolute top-4 end-4 z-10 w-10 h-10 rounded-full border-none flex items-center justify-center text-white text-xl cursor-pointer"
                     style="background:rgba(255,255,255,.15);backdrop-filter:blur(8px)"
-                    onclick="closeWelcomeStory()">&times;</button>
+                    data-click="closeStory">&times;</button>
                 <div id="storyModalContent"
                     class="w-full h-full flex flex-col items-center justify-center p-8 text-center"></div>
             </div>
@@ -837,204 +790,14 @@
         }
     </style>
 
-    <script>
-        function openWelcomeStory(el) {
-            const title = el.getAttribute('data-title');
-            const content = el.getAttribute('data-content');
-            const bg = el.getAttribute('data-bg');
-            const type = el.getAttribute('data-type');
-            const image = el.getAttribute('data-image');
-            const modal = document.getElementById('storyModal');
-            const inner = document.getElementById('storyModalContent');
-            if (type === 'text') {
-                inner.innerHTML = `
-            <svg class="w-10 h-10 mx-auto mb-4 opacity-60" style="color:#f53003" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-            <p class="text-2xl font-medium text-white leading-relaxed">${content}</p>
-        `;
-            } else if (image) {
-                inner.innerHTML = `<img src="${image}" alt="${title}" class="w-full h-full object-cover">`;
-            } else {
-                inner.innerHTML = `
-            <svg class="w-16 h-16 mx-auto mb-4 opacity-50 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-            <p class="text-lg text-white/80">${content}</p>
-        `;
-            }
-            inner.style.background = bg;
-            modal.style.opacity = '1';
-            modal.style.pointerEvents = 'auto';
-            document.body.style.overflow = 'hidden';
-        }
-        function closeWelcomeStory(e) {
-            if (e && e.target !== e.currentTarget) return;
-            const modal = document.getElementById('storyModal');
-            modal.style.opacity = '0';
-            modal.style.pointerEvents = 'none';
-            document.body.style.overflow = '';
-        }
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') closeWelcomeStory();
-        });
+    <script>(function(){var k='theme',d=document.documentElement;function a(t){t==='dark'?d.classList.add('dark'):d.classList.remove('dark')}var s=localStorage.getItem(k);if(s==='dark'||(!s&&window.matchMedia('(prefers-color-scheme:dark)').matches))a('dark');window.toggleDark=function(){a(d.classList.contains('dark')?'light':'dark');localStorage.setItem(k,d.classList.contains('dark')?'dark':'light')}})();</script>
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Mobile: skip ALL desktop page-turn JS — zero DOM queries, no forced layout
-            if (window.innerWidth <= 768) return;
-
-            // Desktop-only: smooth scroll for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-
-            // Nav island + anchor: book-style horizontal page turn on desktop
-            const sectionIds = ['hero-section', 'about', 'portfolio', 'stories', 'tips', 'contact'];
-            let currentIndex = 0;
-            let isAnimating = false;
-            const items = {};
-
-            sectionIds.forEach((id, i) => {
-                items[id] = document.querySelector(`.island-item[data-target="${id}"]`);
-            });
-
-            const PAGE_CLASSES = ['page-active','page-enter-right','page-enter-left','page-exit-left','page-exit-right'];
-            function clearPageClasses(el) { if (el) el.classList.remove(...PAGE_CLASSES); }
-
-            function goToSection(index) {
-                if (index < 0 || index >= sectionIds.length) return;
-                if (index === currentIndex || isAnimating) return;
-
-                isAnimating = true;
-                const prevIndex = currentIndex;
-                currentIndex = index;
-
-                const prev = document.getElementById(sectionIds[prevIndex]);
-                const next = document.getElementById(sectionIds[currentIndex]);
-                const isRtl = document.documentElement.dir === 'rtl';
-
-                requestAnimationFrame(() => {
-                    sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
-                    if (index > prevIndex) {
-                        prev && prev.classList.add(isRtl ? 'page-exit-right' : 'page-exit-left');
-                        next && next.classList.add(isRtl ? 'page-enter-left' : 'page-enter-right');
-                    } else {
-                        prev && prev.classList.add(isRtl ? 'page-exit-left' : 'page-exit-right');
-                        next && next.classList.add(isRtl ? 'page-enter-right' : 'page-enter-left');
-                    }
-                });
-
-                setTimeout(() => {
-                    requestAnimationFrame(() => {
-                        sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
-                        if (next) next.classList.add('page-active');
-                        Object.values(items).forEach(i => i && i.classList.remove('active'));
-                        if (items[sectionIds[index]]) items[sectionIds[index]].classList.add('active');
-                        isAnimating = false;
-                    });
-                }, 650);
-            }
-
-            document.querySelectorAll('.island-item').forEach(item => {
-                item.addEventListener('click', function () {
-                    const id = this.getAttribute('data-target');
-                    const idx = sectionIds.indexOf(id);
-                    if (idx >= 0) goToSection(idx);
-                });
-            });
-
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const href = this.getAttribute('href');
-                    const id = href.substring(1);
-                    const idx = sectionIds.indexOf(id);
-                    if (idx >= 0) {
-                        e.preventDefault();
-                        goToSection(idx);
-                    } else if (id) {
-                        e.preventDefault();
-                        const el = document.getElementById(id);
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-
-            requestAnimationFrame(() => {
-                sectionIds.forEach(id => clearPageClasses(document.getElementById(id)));
-                const first = document.getElementById(sectionIds[0]);
-                if (first) first.classList.add('page-active');
-                if (items[sectionIds[0]]) items[sectionIds[0]].classList.add('active');
-            });
-            document.body.style.overflow = 'hidden';
-        });
-    </script>
-
-    <script>
-        // Dark mode (replaces app.js dependency)
-        (function () {
-            var key = 'theme', html = document.documentElement;
-            function apply(t) {
-                if (t === 'dark') html.classList.add('dark'); else html.classList.remove('dark');
-            }
-            var saved = localStorage.getItem(key);
-            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) apply('dark');
-            window.toggleDark = function () {
-                apply(html.classList.contains('dark') ? 'light' : 'dark');
-                localStorage.setItem(key, html.classList.contains('dark') ? 'dark' : 'light');
-            };
-        })();
-
-        // Embed Arabic translations dictionary
-        window.translations = {!! file_exists(lang_path('ar.json')) ? file_get_contents(lang_path('ar.json')) : '{}' !!};
-
-        function switchLanguage(lang) {
-            const dict = (lang === 'ar' && window.translations) ? window.translations : null;
-
-            // Collect all DOM reads first (no writes yet)
-            const keyEls = document.querySelectorAll('[data-translate-key]');
-            const htmlEls = document.querySelectorAll('[data-translate-html]');
-            const attrEls = document.querySelectorAll('[data-translate-attrs]');
-            const langBtns = document.querySelectorAll('.lang-btn');
-
-            // Batch ALL writes (including dir/lang) in a single rAF to avoid forced reflow
-            requestAnimationFrame(() => {
-                document.documentElement.lang = lang;
-                if (lang === 'ar') {
-                    document.documentElement.dir = 'rtl';
-                    document.documentElement.classList.add('rtl');
-                } else {
-                    document.documentElement.dir = 'ltr';
-                    document.documentElement.classList.remove('rtl');
-                }
-
-                keyEls.forEach(el => {
-                    const k = el.getAttribute('data-translate-key');
-                    let t = dict && dict[k] ? dict[k] : k;
-                    if (t.includes(':year')) t = t.replace(':year', new Date().getFullYear());
-                    el.textContent = t;
-                });
-                htmlEls.forEach(el => {
-                    const k = el.getAttribute('data-translate-html');
-                    el.innerHTML = dict && dict[k] ? dict[k] : k;
-                });
-                attrEls.forEach(el => {
-                    const pairs = el.getAttribute('data-translate-attrs').split(',');
-                    for (var pi = 0; pi < pairs.length; pi++) {
-                        var pair = pairs[pi].split(':');
-                        el.setAttribute(pair[0], dict && dict[pair[1]] ? dict[pair[1]] : pair[1]);
-                    }
-                });
-                langBtns.forEach(btn => { btn.textContent = lang === 'ar' ? 'AR' : 'EN'; });
-            });
-
-            // Persist to localStorage and sync to session
-            localStorage.setItem('lang', lang);
-            fetch(`/lang/${lang}`).catch(() => { });
-        }
-
-    </script>
+    @php $welcomeJsUrl = null; if ($manifestRaw) { $m = json_decode($manifestRaw, true); if ($m && isset($m['resources/js/welcome.js']['file'])) $welcomeJsUrl = asset('build/' . $m['resources/js/welcome.js']['file']); } @endphp
+    @if ($welcomeJsUrl)
+    <script defer src="{{ $welcomeJsUrl }}"></script>
+    @else
+    @vite('resources/js/welcome.js')
+    @endif
 </body>
 
 </html>

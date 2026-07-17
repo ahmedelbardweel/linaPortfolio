@@ -1,6 +1,6 @@
 @props(['story'])
 <div class="story-card shrink-0 w-48 card-container cursor-pointer"
-    onclick="openWelcomeStory(this)"
+    data-click="openStory"
     data-title="{{ $story->title }}"
     data-content="{{ $story->content }}"
     data-bg="{{ $story->bg_color ?: ($story->type === 'text' ? 'linear-gradient(135deg, #161615, #3E3E3A)' : 'linear-gradient(135deg, #f53003, #ff8a66)') }}"
