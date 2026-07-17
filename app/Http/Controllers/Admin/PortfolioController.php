@@ -31,7 +31,7 @@ class PortfolioController extends Controller
             'gradient'    => 'nullable',
         ], ['image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
-        $result = $this->storeImage($request->file('image'), 'public');
+        $result = $this->storeImage($request->file('image'), 'public', 320, 240, true);
         $data['image_path'] = $result['path'];
         $data['image_data'] = $result['data'];
 
@@ -62,7 +62,7 @@ class PortfolioController extends Controller
                     Storage::disk('public')->delete($portfolio->image_path);
                 }
             } catch (\Exception $e) {}
-            $result = $this->storeImage($request->file('image'), 'public');
+            $result = $this->storeImage($request->file('image'), 'public', 320, 240, true);
             $data['image_path'] = $result['path'];
             $data['image_data'] = $result['data'];
         }

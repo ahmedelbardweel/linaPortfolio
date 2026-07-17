@@ -31,12 +31,12 @@ class HeroSectionController extends Controller
         ], ['main_image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.'), 'right_image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
         if ($request->hasFile('main_image')) {
-            $result = $this->storeImage($request->file('main_image'), 'public');
+            $result = $this->storeImage($request->file('main_image'), 'public', 760, 440, true);
             $data['main_image'] = $result['path'];
             $data['main_image_data'] = $result['data'];
         }
         if ($request->hasFile('right_image')) {
-            $result = $this->storeImage($request->file('right_image'), 'public');
+            $result = $this->storeImage($request->file('right_image'), 'public', 640, 360, true);
             $data['right_image'] = $result['path'];
             $data['right_image_data'] = $result['data'];
         }
@@ -74,14 +74,14 @@ class HeroSectionController extends Controller
 
         if ($request->hasFile('main_image')) {
             if ($hero->main_image) Storage::disk('public')->delete($hero->main_image);
-            $result = $this->storeImage($request->file('main_image'), 'public');
+            $result = $this->storeImage($request->file('main_image'), 'public', 760, 440, true);
             $data['main_image'] = $result['path'];
             $data['main_image_data'] = $result['data'];
         }
 
         if ($request->hasFile('right_image')) {
             if ($hero->right_image) Storage::disk('public')->delete($hero->right_image);
-            $result = $this->storeImage($request->file('right_image'), 'public');
+            $result = $this->storeImage($request->file('right_image'), 'public', 640, 360, true);
             $data['right_image'] = $result['path'];
             $data['right_image_data'] = $result['data'];
         }

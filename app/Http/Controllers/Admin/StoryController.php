@@ -33,7 +33,7 @@ class StoryController extends Controller
         ], ['image.mimes' => __('Only JPG, PNG, GIF, or WebP formats are accepted.')]);
 
         if ($request->hasFile('image')) {
-            $result = $this->storeImage($request->file('image'), 'public');
+            $result = $this->storeImage($request->file('image'), 'public', 192, 128, true);
             $data['image_path'] = $result['path'];
             $data['image_data'] = $result['data'];
         }
@@ -68,7 +68,7 @@ class StoryController extends Controller
                     Storage::disk('public')->delete($story->image_path);
                 }
             } catch (\Exception $e) {}
-            $result = $this->storeImage($request->file('image'), 'public');
+            $result = $this->storeImage($request->file('image'), 'public', 192, 128, true);
             $data['image_path'] = $result['path'];
             $data['image_data'] = $result['data'];
         }

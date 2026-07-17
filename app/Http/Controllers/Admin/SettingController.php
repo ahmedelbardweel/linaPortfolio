@@ -38,7 +38,7 @@ class SettingController extends Controller
 
         foreach ($request->except('_token', '_method') as $key => $value) {
             if ($request->hasFile($key)) {
-                $result = $this->storeImage($request->file($key), 'public');
+                $result = $this->storeImage($request->file($key), 'public', 300, 300, true);
                 Setting::set($key, $result['data']);
             } else {
                 Setting::set($key, $value);

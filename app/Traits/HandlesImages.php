@@ -13,7 +13,7 @@ trait HandlesImages
         return new ImageManager(new Driver());
     }
 
-    protected function storeImage(UploadedFile $file, string $disk = 'public', int $maxW = 640, int $maxH = 640): array
+    protected function storeImage(UploadedFile $file, string $disk = 'public', int $maxW = 640, int $maxH = 640, bool $cover = false): array
     {
         $binary = \file_get_contents($file->getRealPath());
         if (!$binary) {
@@ -23,7 +23,11 @@ trait HandlesImages
 
         try {
             $image = $this->manager()->read($binary);
-            $image->scaleDown(width: $maxW, height: $maxH);
+            if ($cover) {
+                $image->cover($maxW, $maxH);
+            } else {
+                $image->scaleDown(width: $maxW, height: $maxH);
+            }
             $webp = (string) $image->toWebp(quality: 30);
         } catch (\Exception $e) {
             $path = $file->store('images', $disk);

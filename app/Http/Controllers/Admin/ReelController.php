@@ -54,7 +54,7 @@ class ReelController extends Controller
         }
 
         if ($request->hasFile('thumbnail')) {
-            $result = $this->storeImage($request->file('thumbnail'), 'public');
+            $result = $this->storeImage($request->file('thumbnail'), 'public', 320, 240, true);
             $data['thumbnail'] = $result['path'];
             $data['thumbnail_data'] = $result['data'];
         }
@@ -120,7 +120,7 @@ class ReelController extends Controller
                     Storage::disk('public')->delete($reel->thumbnail);
                 }
             } catch (\Exception $e) {}
-            $result = $this->storeImage($request->file('thumbnail'), 'public');
+            $result = $this->storeImage($request->file('thumbnail'), 'public', 320, 240, true);
             $data['thumbnail'] = $result['path'];
             $data['thumbnail_data'] = $result['data'];
         }
