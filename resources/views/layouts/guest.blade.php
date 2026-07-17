@@ -13,52 +13,11 @@
         <x-vite />
 
         <style>
-            .auth-bg-img {
-                opacity: 0;
-                animation: dropIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-                           bgFloat 6s ease-in-out infinite;
-                animation-delay: var(--anim-delay, 0s), calc(var(--anim-delay, 0s) + 0.8s);
-            }
-            @keyframes dropIn {
-                0% { transform: translateY(-120px) rotate(var(--rot,0deg)); opacity: 0; filter: blur(8px); }
-                100% { transform: translateY(0) rotate(var(--rot,0deg)); opacity: var(--bg-op,0.08); filter: blur(0); }
-            }
-            @keyframes bgFloat {
-                0%, 100% { transform: translateY(0) rotate(var(--rot,0deg)); }
-                50% { transform: translateY(-6px) rotate(var(--rot,0deg)); }
-            }
             html { scrollbar-width: none; -ms-overflow-style: none; }
             html::-webkit-scrollbar { display: none; }
         </style>
     </head>
-    <body class="font-sans text-[#1b1b18] dark:text-[#EDEDEC] antialiased bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen flex items-center justify-center relative overflow-hidden">
-
-        @php
-            use App\Models\Portfolio;
-            use App\Models\Story;
-            $authBgImages = [];
-            foreach (Portfolio::where('is_active', true)->take(8)->get() as $p) { if ($p->image_url) $authBgImages[] = $p->image_url; }
-            foreach (Story::where('is_active', true)->take(6)->get() as $s) { if ($s->image_url) $authBgImages[] = $s->image_url; }
-        @endphp
-
-        @if (count($authBgImages))
-        <div class="absolute inset-0 pointer-events-none overflow-hidden">
-            @for ($i = 0; $i < 20; $i++)
-            @php
-                $img = $authBgImages[array_rand($authBgImages)];
-                $x = rand(0, 92);
-                $y = rand(0, 92);
-                $w = rand(60, 120);
-                $imgH = round($w * rand(65, 80) / 100);
-                $rot = rand(-15, 15);
-                $op = rand(5, 12) / 100;
-            @endphp
-            <img src="{{ $img }}" alt="" loading="lazy"
-                style="position:absolute;left:{{ $x }}%;top:{{ $y }}%;width:{{ $w }}px;height:{{ $imgH }}px;object-fit:cover;border-radius:2px;--bg-op:{{ $op }};--rot:{{ $rot }}deg;--anim-delay:{{ $i * 0.04 }}s"
-                class="auth-bg-img">
-            @endfor
-        </div>
-        @endif
+    <body class="font-sans text-[#1b1b18] dark:text-[#EDEDEC] antialiased bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen flex items-center justify-center">
 
         {{-- Nav --}}
         <nav class="fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-center px-5 bg-[#fdfdfc] dark:bg-[#0a0a0a]">

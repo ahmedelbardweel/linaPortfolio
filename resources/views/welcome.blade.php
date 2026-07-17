@@ -437,17 +437,6 @@
         <!-- ===== HERO SECTION ===== -->
         <section id="hero-section" class="snap-section page-active flex items-center bg-[#FFFFFF] dark:bg-[#0a0a0a] relative overflow-hidden"
             style="scroll-snap-align:start">
-            <!-- Background image collage (desktop only) -->
-            @php
-                $bgImages = [];
-                if ($h && $h->main_image_url) $bgImages[] = $h->main_image_url;
-                if ($h && $h->right_image_url) $bgImages[] = $h->right_image_url;
-                foreach ($portfolios->take(4) as $p) { if ($p->image_url) $bgImages[] = $p->image_url; }
-                foreach ($stories->take(4) as $s) { if ($s->image_url) $bgImages[] = $s->image_url; }
-            @endphp
-            @if (count($bgImages))
-            <div id="desktopCollage" class="hidden lg:block absolute inset-0 pointer-events-none overflow-hidden" data-images="{{ json_encode($bgImages) }}"></div>
-            @endif
             <div
                 class="max-w-6xl mx-auto px-6 lg:px-10 w-full flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-10 py-6 lg:py-20 relative">
                 <!-- Center Image (Mobile order 1, Desktop order 2) -->
@@ -1051,48 +1040,6 @@
             }
         });
 
-        // Load desktop background collage dynamically after page load to save bandwidth & optimize LCP/FCP
-        window.addEventListener('load', () => {
-            if (window.innerWidth >= 1024) {
-                const container = document.getElementById('desktopCollage');
-                if (container) {
-                    const urls = JSON.parse(container.getAttribute('data-images') || '[]');
-                    if (urls.length > 0) {
-                        const fragment = document.createDocumentFragment();
-                        for (let i = 0; i < 20; i++) {
-                            const url = urls[Math.floor(Math.random() * urls.length)];
-                            const img = document.createElement('img');
-                            img.src = url;
-                            img.alt = "";
-                            img.fetchpriority = "low";
-                            img.className = "bg-img-anim";
-                            
-                            const x = Math.floor(Math.random() * 93);
-                            const y = Math.floor(Math.random() * 93);
-                            const w = Math.floor(Math.random() * 61) + 60;
-                            const imgH = Math.round(w * (Math.floor(Math.random() * 16) + 65) / 100);
-                            const rot = Math.floor(Math.random() * 31) - 15;
-                            const op = (Math.floor(Math.random() * 8) + 5) / 100;
-                            const delay = (i * 0.04).toFixed(2);
-                            
-                            img.style.position = "absolute";
-                            img.style.left = `${x}%`;
-                            img.style.top = `${y}%`;
-                            img.style.width = `${w}px`;
-                            img.style.height = `${imgH}px`;
-                            img.style.objectFit = "cover";
-                            img.style.borderRadius = "2px";
-                            img.style.setProperty('--bg-op', op);
-                            img.style.setProperty('--rot', `${rot}deg`);
-                            img.style.setProperty('--anim-delay', `${delay}s`);
-                            
-                            fragment.appendChild(img);
-                        }
-                        container.appendChild(fragment);
-                    }
-                }
-            }
-        });
     </script>
 </body>
 
