@@ -41,9 +41,21 @@ try {
     $_ENV['LOG_CHANNEL'] = 'stderr';
     putenv('LOG_CHANNEL=stderr');
 
-    // ─── Override cached config paths for Vercel /tmp ─────────────────────────
+    // ─── Override all cached paths to /tmp (read-only /var/task) ───────────────
+    $cacheDir = "$tmpStorage/framework/cache";
+    if (!is_dir($cacheDir)) {
+        mkdir($cacheDir, 0777, true);
+    }
     $_ENV['VIEW_COMPILED_PATH'] = "$tmpStorage/framework/views";
     putenv("VIEW_COMPILED_PATH=$tmpStorage/framework/views");
+    $_ENV['APP_SERVICES_CACHE'] = "$cacheDir/services.php";
+    putenv("APP_SERVICES_CACHE=$cacheDir/services.php");
+    $_ENV['APP_PACKAGES_CACHE'] = "$cacheDir/packages.php";
+    putenv("APP_PACKAGES_CACHE=$cacheDir/packages.php");
+    $_ENV['APP_CONFIG_CACHE'] = "$cacheDir/config.php";
+    putenv("APP_CONFIG_CACHE=$cacheDir/config.php");
+    $_ENV['APP_ROUTES_CACHE'] = "$cacheDir/routes-v7.php";
+    putenv("APP_ROUTES_CACHE=$cacheDir/routes-v7.php");
 
     // ─── Boot the application ─────────────────────────────────────────────────────
     require __DIR__ . '/../public/index.php';
